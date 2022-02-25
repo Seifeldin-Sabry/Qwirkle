@@ -1,7 +1,129 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="a6f79777-e167-414f-8de0-ae67ee6fa2d9" name="Changes" comment="Added Java module" />
+    <list default="true" id="fdd80d70-d918-4a56-b8aa-7e348c030f8e" name="Changes" comment="deleted modules">
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/JavaCodeIncompleteGUI.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/ScreenReader.iml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/blue_circle.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/blue_clover.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/blue_diamond.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/blue_eight_points_star.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/blue_four_points_star.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/blue_square.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/green_circle.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/green_clover.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/green_diamond.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/green_eight_points_star.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/green_four_points_star.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/green_square.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/logo375x104.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/logo375x104.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/logoMAX.jpg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/logoMAX.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/orange_circle.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/orange_clover.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/orange_diamond.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/orange_eight_points_star.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/orange_four_points_star.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/orange_square.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/purple_circle.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/purple_clover.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/purple_diamond.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/purple_eight_points_star.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/purple_four_points_star.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/purple_square.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/quirkle.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/quirkle_min.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/qwirkleLOGO.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/qwirkle_monogram.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/red_circle.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/red_clover.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/red_diamond.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/red_eight_points_star.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/red_four_points_stars.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/red_square.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/yellow_circle.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/yellow_clover.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/yellow_diamond.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/yellow_eight_points_star.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/yellow_four_points_star.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/resources/images/yellow_square.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/src/qwirkle/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/src/qwirkle/model/Bag.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/src/qwirkle/model/Computer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/src/qwirkle/model/Grid.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/src/qwirkle/model/GridSquare.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/src/qwirkle/model/Move.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/src/qwirkle/model/Player.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/src/qwirkle/model/PlayerColor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/src/qwirkle/model/Score.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/src/qwirkle/model/Tile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/src/qwirkle/model/TileColor.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/src/qwirkle/model/TileIcon.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/src/qwirkle/model/TileShape.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/src/qwirkle/view/QwirkleGameScreenPresenter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/src/qwirkle/view/QwirkleGameScreenView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/resources/icons/blue_circle.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/resources/icons/blue_clover.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/resources/icons/blue_diamond.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/resources/icons/blue_eight_points_star.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/resources/icons/blue_four_points_star.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/resources/icons/blue_square.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/resources/icons/green_circle.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/resources/icons/green_clover.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/resources/icons/green_diamond.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/resources/icons/green_eight_points_star.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/resources/icons/green_four_points_star.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/resources/icons/green_square.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/resources/icons/orange_circle.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/resources/icons/orange_clover.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/resources/icons/orange_diamond.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/resources/icons/orange_eight_points_star.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/resources/icons/orange_four_points_star.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/resources/icons/orange_square.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/resources/icons/purple_circle.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/resources/icons/purple_clover.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/resources/icons/purple_diamond.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/resources/icons/purple_eight_points_star.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/resources/icons/purple_four_points_star.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/resources/icons/purple_square.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/resources/icons/red_circle.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/resources/icons/red_clover.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/resources/icons/red_diamond.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/resources/icons/red_eight_points_star.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/resources/icons/red_four_points_stars.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/resources/icons/red_square.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/resources/icons/yellow_circle.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/resources/icons/yellow_clover.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/resources/icons/yellow_diamond.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/resources/icons/yellow_eight_points_star.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/resources/icons/yellow_four_points_star.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/resources/icons/yellow_square.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/resources/images/logoMAX.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/resources/images/qwirkle_monogram.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/src/appName/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/src/appName/model/Tester.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/src/appName/model/TextInputView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/src/appName/model/game/Bag.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/src/appName/model/game/Board.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/src/appName/model/game/DBListener.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/src/appName/model/game/Player.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/src/appName/model/game/Score.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/src/appName/model/game/Session.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/src/appName/model/game/Test.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/src/appName/model/game/Tile.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/src/appName/model/game/Turn.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/src/appName/view/AppNamePresenter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/JavaFunctionalCode/src/appName/view/AppNameView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Java/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Java/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/.idea/vcs.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Java/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/JavaCodeIncompleteGUI/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Java/Java.iml" beforeDir="false" afterPath="$PROJECT_DIR$/JavaFunctionalCode/JavaFunctionalCode.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Java/src/Plpayer.java" beforeDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -22,18 +144,217 @@
   <component name="PropertiesComponent">
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="jdk.selected.JAVA_MODULE" value="17" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/JavaFunctionalCode" />
+    <property name="project.structure.last.edited" value="Project" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.2" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/JavaFunctionalCode" />
+      <recent name="$PROJECT_DIR$/javacode/resources" />
+      <recent name="$PROJECT_DIR$/javacode/src/qwirkle" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/JavaFunctionalCode" />
+      <recent name="$PROJECT_DIR$/JavaFunctionalCode/src" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.Tester">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="qwirkle.Main" />
+      <module name="JavaCodeIncompleteGUI" />
+      <option name="VM_PARAMETERS" value=" --module-path &quot;$USER_HOME$/Documents/lib/javafx-sdk-17.0.2/lib&quot; --add-modules javafx.controls,javafx.fxml" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="qwirkle.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Runner" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="appName.Runner" />
+      <module name="JavaFunctionalCode" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;$USER_HOME$/Documents/lib/javafx-sdk-17.0.2&quot; --add-modules=javafx.controls,javafx.media" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="appName.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="Tester" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="appName.model.Tester" />
+      <module name="JavaFunctionalCode" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="appName.model.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="DjangoTestsConfigurationType">
+      <module name="JavaCodeIncompleteGUI" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="TARGET" value="" />
+      <option name="SETTINGS_FILE" value="" />
+      <option name="CUSTOM_SETTINGS" value="false" />
+      <option name="USE_OPTIONS" value="false" />
+      <option name="OPTIONS" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="JetRunConfigurationType">
+      <module name="JavaCodeIncompleteGUI" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
+      <module name="JavaCodeIncompleteGUI" />
+      <option name="filePath" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration default="true" type="PyBehaveRunConfigurationType" factoryName="Behave">
+      <module name="JavaCodeIncompleteGUI" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="true" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="ADDITIONAL_ARGS" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="PythonConfigurationType" factoryName="Python">
+      <module name="JavaCodeIncompleteGUI" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <envs>
+        <env name="PYTHONUNBUFFERED" value="1" />
+      </envs>
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="PARAMETERS" value="" />
+      <option name="SHOW_COMMAND_LINE" value="false" />
+      <option name="EMULATE_TERMINAL" value="false" />
+      <option name="MODULE_MODE" value="false" />
+      <option name="REDIRECT_INPUT" value="false" />
+      <option name="INPUT_FILE" value="" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="Python.FlaskServer">
+      <module name="JavaCodeIncompleteGUI" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="launchJavascriptDebuger" value="false" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="Tox" factoryName="Tox">
+      <module name="JavaCodeIncompleteGUI" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Autodetect">
+      <module name="JavaCodeIncompleteGUI" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="_new_additionalArguments" value="&quot;&quot;" />
+      <option name="_new_target" value="&quot;&quot;" />
+      <option name="_new_targetType" value="&quot;PATH&quot;" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="tests" factoryName="Doctests">
+      <module name="JavaCodeIncompleteGUI" />
+      <option name="INTERPRETER_OPTIONS" value="" />
+      <option name="PARENT_ENVS" value="true" />
+      <option name="SDK_HOME" value="" />
+      <option name="WORKING_DIRECTORY" value="" />
+      <option name="IS_MODULE_SDK" value="false" />
+      <option name="ADD_CONTENT_ROOTS" value="true" />
+      <option name="ADD_SOURCE_ROOTS" value="true" />
+      <EXTENSION ID="PythonCoverageRunConfigurationExtension" runner="coverage.py" />
+      <option name="SCRIPT_NAME" value="" />
+      <option name="CLASS_NAME" value="" />
+      <option name="METHOD_NAME" value="" />
+      <option name="FOLDER_NAME" value="" />
+      <option name="TEST_TYPE" value="TEST_SCRIPT" />
+      <option name="PATTERN" value="" />
+      <option name="USE_PATTERN" value="false" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Application.Runner" />
+      <item itemvalue="Application.Tester" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.Tester" />
+        <item itemvalue="Application.Runner" />
+        <item itemvalue="Application.Main" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
     <task active="true" id="Default" summary="Default task">
-      <changelist id="a6f79777-e167-414f-8de0-ae67ee6fa2d9" name="Changes" comment="" />
+      <changelist id="fdd80d70-d918-4a56-b8aa-7e348c030f8e" name="Changes" comment="deleted modules" />
       <created>1644572355802</created>
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1644572355802</updated>
       <workItem from="1644572357897" duration="2481000" />
+      <workItem from="1644687086793" duration="14000" />
+      <workItem from="1645800943671" duration="2399000" />
     </task>
     <task id="LOCAL-00001" summary="Added Java module">
       <created>1644572434802</created>
@@ -49,7 +370,14 @@
       <option name="project" value="LOCAL" />
       <updated>1644575000669</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="deleted modules">
+      <created>1644611929010</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1644611929010</updated>
+    </task>
+    <option name="localTasksCounter" value="4" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -80,6 +408,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added Java module" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Java module" />
+    <MESSAGE value="deleted modules" />
+    <option name="LAST_COMMIT_MESSAGE" value="deleted modules" />
   </component>
 </project>
