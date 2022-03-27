@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fdd80d70-d918-4a56-b8aa-7e348c030f8e" name="Changes" comment="Added Two Projects, GUI and Functional">
-      <change afterPath="$PROJECT_DIR$/QirkleGameLogic/QirkleGameLogic.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
+    <list default="true" id="fdd80d70-d918-4a56-b8aa-7e348c030f8e" name="Changes" comment="Added Game logic Module. Has tile validation logic and computer can make one random move (first move)">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -29,7 +27,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="jdk.selected.JAVA_MODULE" value="17" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/QirkleGameLogic/src" />
+    <property name="last_opened_file_path" value="$USER_HOME$/Programming/QwirkleProper" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
@@ -131,7 +129,11 @@
       <workItem from="1644687086793" duration="14000" />
       <workItem from="1645800943671" duration="3468000" />
       <workItem from="1645818445674" duration="1318000" />
-      <workItem from="1646644359829" duration="312000" />
+      <workItem from="1646644359829" duration="804000" />
+      <workItem from="1647589784657" duration="7625000" />
+      <workItem from="1647700133258" duration="599000" />
+      <workItem from="1647760200266" duration="583000" />
+      <workItem from="1648380745024" duration="357000" />
     </task>
     <task id="LOCAL-00001" summary="Added Java module">
       <created>1644572434802</created>
@@ -161,7 +163,14 @@
       <option name="project" value="LOCAL" />
       <updated>1645803840973</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="Added Game logic Module. Has tile validation logic and computer can make one random move (first move)">
+      <created>1646644846253</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1646644846253</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -178,6 +187,7 @@
                   <entry key="branch">
                     <value>
                       <list>
+                        <option value="GUI_Code" />
                         <option value="main" />
                       </list>
                     </value>
@@ -189,11 +199,33 @@
         </entry>
       </map>
     </option>
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="GUI_Code" />
+                  <option value="main" />
+                </option>
+              </RecentGroup>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="GUI_Code" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Added Java module" />
     <MESSAGE value="deleted modules" />
     <MESSAGE value="Added Two Projects, GUI and Functional" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Two Projects, GUI and Functional" />
+    <MESSAGE value="Added Game logic Module. Has tile validation logic and computer can make one random move (first move)" />
+    <option name="LAST_COMMIT_MESSAGE" value="Added Game logic Module. Has tile validation logic and computer can make one random move (first move)" />
   </component>
 </project>

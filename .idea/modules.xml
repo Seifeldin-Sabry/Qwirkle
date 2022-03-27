@@ -3,9 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Integration 1.2 - Qwirkle.iml" filepath="$PROJECT_DIR$/.idea/Integration 1.2 - Qwirkle.iml" />
-      <module fileurl="file://$PROJECT_DIR$/JavaCodeIncompleteGUI/JavaCodeIncompleteGUI.iml" filepath="$PROJECT_DIR$/JavaCodeIncompleteGUI/JavaCodeIncompleteGUI.iml" />
-      <module fileurl="file://$PROJECT_DIR$/JavaFunctionalCode/JavaFunctionalCode.iml" filepath="$PROJECT_DIR$/JavaFunctionalCode/JavaFunctionalCode.iml" />
-      <module fileurl="file://$PROJECT_DIR$/QirkleGameLogic/QirkleGameLogic.iml" filepath="$PROJECT_DIR$/QirkleGameLogic/QirkleGameLogic.iml" />
+      <module fileurl="file://$PROJECT_DIR$/Qwirkle/Qwirkle.iml" filepath="$PROJECT_DIR$/Qwirkle/Qwirkle.iml" />
       <module fileurl="file://$PROJECT_DIR$/Qwirkle Website/Qwirkle Website.iml" filepath="$PROJECT_DIR$/Qwirkle Website/Qwirkle Website.iml" />
     </modules>
   </component>
