@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fdd80d70-d918-4a56-b8aa-7e348c030f8e" name="Changes" comment="Added Game logic Module. Has tile validation logic and computer can make one random move (first move)">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="fdd80d70-d918-4a56-b8aa-7e348c030f8e" name="Changes" comment="minor adjustment to score method">
+      <change beforePath="$PROJECT_DIR$/Qwirkle/src/qwirkle/model/Turn.java" beforeDir="false" afterPath="$PROJECT_DIR$/Qwirkle/src/qwirkle/model/Turn.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -27,7 +27,7 @@
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="jdk.selected.JAVA_MODULE" value="17" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../QwirkleProper" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/Qwirkle/src/qwirkle" />
     <property name="nodejs_package_manager_path" value="npm" />
     <property name="project.structure.last.edited" value="Project" />
     <property name="project.structure.proportion" value="0.15" />
@@ -35,13 +35,14 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Qwirkle/src/qwirkle" />
       <recent name="$PROJECT_DIR$/QirkleGameLogic/src" />
       <recent name="$PROJECT_DIR$/QirkleGameLogic" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/JavaFunctionalCode" />
-      <recent name="$PROJECT_DIR$/javacode/resources" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/Qwirkle" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/JavaFunctionalCode" />
       <recent name="$PROJECT_DIR$/JavaFunctionalCode/src" />
@@ -134,6 +135,7 @@
       <workItem from="1647700133258" duration="599000" />
       <workItem from="1647760200266" duration="583000" />
       <workItem from="1648380745024" duration="357000" />
+      <workItem from="1649510925901" duration="446000" />
     </task>
     <task id="LOCAL-00001" summary="Added Java module">
       <created>1644572434802</created>
@@ -170,7 +172,14 @@
       <option name="project" value="LOCAL" />
       <updated>1646644846253</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Completed Game logic (score count), completed Database.">
+      <created>1649511158997</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1649511158997</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -226,6 +235,8 @@
     <MESSAGE value="deleted modules" />
     <MESSAGE value="Added Two Projects, GUI and Functional" />
     <MESSAGE value="Added Game logic Module. Has tile validation logic and computer can make one random move (first move)" />
-    <option name="LAST_COMMIT_MESSAGE" value="Added Game logic Module. Has tile validation logic and computer can make one random move (first move)" />
+    <MESSAGE value="Completed Game logic (score count), completed Database." />
+    <MESSAGE value="minor adjustment to score method" />
+    <option name="LAST_COMMIT_MESSAGE" value="minor adjustment to score method" />
   </component>
 </project>

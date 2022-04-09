@@ -1,4 +1,4 @@
-package src.qwirkle;
+package qwirkle;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -8,11 +8,13 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
-import qwirkle.view.introFrame.GameInitializationPresenter;
-import qwirkle.view.introFrame.GameInitializationView;
-import qwirkle.view.loginFrame.DBLLoginPresenter;
-import qwirkle.view.loginFrame.DBLoginView;
-import qwirkle.view.welcomeFrame.*;
+import qwirkle.data.Database;
+import view.introFrame.GameInitializationPresenter;
+import view.introFrame.GameInitializationView;
+import view.loginFrame.DBLLoginPresenter;
+import view.loginFrame.DBLoginView;
+import view.welcomeFrame.WelcomePresenter;
+import view.welcomeFrame.WelcomeView;
 
 public class Main extends Application {
     //    --module-path "/Users/sakis/Documents/javafx-sdk-17.0.2/lib" --add-modules=javafx.controls,javafx.media
@@ -27,9 +29,10 @@ public class Main extends Application {
         intro.setScene(introScene);
         intro.show();
         DBLoginView dbLoginView = new DBLoginView();
-        DBLLoginPresenter dblLoginPresenter = new DBLLoginPresenter(dbLoginView);
+        new DBLLoginPresenter(dbLoginView);
         Stage loginStage = new Stage();
         Scene loginScene = new Scene(dbLoginView);
+        loginScene.getStylesheets().add("/style/style.css");
         loginStage.setScene(loginScene);
         WelcomeView welcomeView = new WelcomeView();
         primaryStage.setMaximized(true);
@@ -40,11 +43,12 @@ public class Main extends Application {
         primaryStage.setHeight(1080);
         WelcomePresenter welcomePresenter = new WelcomePresenter(primaryStage, welcomeView);
         Scene main = new Scene(welcomeView);
+        main.getStylesheets().add("/style/style.css");
         primaryStage.setScene(main);
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(3),
                 event -> {
                     try {
-                        if ((gameInitializationPresenter.getError()) && (!dblLoginPresenter.getLoggedInSuccessful())) {
+                        if (Database.getInstance().setConnection() == null) {
                             loginStage.show();
                             intro.close();
                         } else {
