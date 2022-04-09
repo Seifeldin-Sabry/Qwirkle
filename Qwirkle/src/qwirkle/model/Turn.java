@@ -86,9 +86,17 @@ public class Turn {
                     if (sizeVertical == 5)score.addAndGet(12);
                     else score.set(sizeHorizontal+sizeVertical+2);
                 }
-                else if (sizeVertical >= 1 || sizeHorizontal >= 1){ // tile connected to either direction
-                    if (sizeHorizontal == 5)score.addAndGet(12); //checking for five because we are not including the tile we're placing
-                    if (sizeVertical == 5)score.addAndGet(12);
+                else if (sizeVertical >= 1 || sizeHorizontal >= 1){
+                    boolean qwirkle = false;// tile connected to either direction
+                    if (sizeHorizontal == 5){
+                        score.addAndGet(12); //checking for five because we are not including the tile we're placing
+                        qwirkle = true;
+                    }
+                    if (sizeVertical == 5){
+                        score.addAndGet(12);
+                        qwirkle = true;
+                    }
+                    if(!qwirkle)score.set(sizeHorizontal+sizeVertical+1);
                 }
                 // tile is not connected to any direction (+1 is the to include the tile itself)
                 else score.set(sizeHorizontal + sizeVertical + 1);
