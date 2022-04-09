@@ -1,4 +1,4 @@
-package src.qwirkle.model;
+package qwirkle.model;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -16,14 +16,11 @@ public class Computer extends Player {
         EASY, AI
     }
 
-    private int points;
-
     private LevelOfDifficulty levelOfDifficulty;
 
     public Computer(Bag bag, Grid grid, LevelOfDifficulty levelOfDifficulty) {
         super("Computer", bag, grid);
         this.levelOfDifficulty = levelOfDifficulty;
-        points = 0;
     }
 
 
@@ -42,9 +39,7 @@ public class Computer extends Player {
             }
         }
     }
-    public int getPoints(){
-        return points;
-    }
+
 
 
 }

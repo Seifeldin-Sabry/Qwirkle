@@ -1,10 +1,12 @@
-package src.qwirkle.model;
+package qwirkle.model;
 
 
 import javafx.scene.image.Image;
 import javafx.scene.paint.ImagePattern;
+import qwirkle.data.Database;
 
-import java.util.Objects;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 
 
 /**
@@ -78,18 +80,6 @@ public class Tile {
         return shape == otherTile.getShape();
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        Tile tile = (Tile) o;
-        return getColor() == tile.getColor() && getShape() == tile.getShape();
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(getColor(), getShape());
-    }
 
     @Override
     public String toString() {
@@ -173,6 +163,30 @@ public class Tile {
         public String toString() {
             return this.name().toLowerCase();
         }
+    }
+
+
+
+
+    public void save(){
+        Database db = Database.getInstance();
+        try {
+            Connection conn = db.getConnection();
+            String sql = """
+                         INSERT INTO int_tile(tile_id,shape,color)
+                         VALUES (?,?,?);
+                         """;
+            PreparedStatement ptsmt = conn.prepareStatement(sql);
+            ptsmt.setInt(1,getTile_id());
+            ptsmt.setString(2,getShape().toString());
+            ptsmt.setString(3,getColor().toString());
+            ptsmt.executeUpdate();
+            ptsmt.close();
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("Error while saving to int_tile");
+        }
+        System.out.printf("Saved tile no: %d\n",getTile_id());
     }
 }
 

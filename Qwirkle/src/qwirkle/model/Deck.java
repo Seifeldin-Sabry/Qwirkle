@@ -1,4 +1,4 @@
-package src.qwirkle.model;
+package qwirkle.model;
 
 import java.util.ArrayList;
 
@@ -41,7 +41,7 @@ public class Deck {
     }
 
 
-    public void iniFill(Bag bag) {
+    public void refill(Bag bag) {
         for (int i = 0; i < HAND_SIZE; i++) {
             deck.add(bag.drawTileFromBag());
         }
