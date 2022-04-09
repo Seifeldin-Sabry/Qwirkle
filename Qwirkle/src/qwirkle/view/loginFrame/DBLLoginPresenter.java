@@ -1,4 +1,4 @@
-package src.qwirkle.view.loginFrame;
+package qwirkle.view.loginFrame;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.application.Platform;
@@ -17,7 +17,7 @@ public class DBLLoginPresenter {
 
     public DBLLoginPresenter(DBLoginView view) {
         this.view = view;
-        model = new Database();
+        model = Database.getInstance();
         addEventHandler();
     }
 
@@ -33,12 +33,12 @@ public class DBLLoginPresenter {
     private void loginAttempt() {
         model.setUsername(username);
         model.setPassword(password);
-        model.createDatabase();
-        if (!model.getError()) {
+        model.setConnection();
+        if (model.getConnection() != null) {
             view.getErrorMessage().setStyle("-fx-text-fill: #30323a; -fx-font-size: 18;");
             view.getErrorMessage().setPadding(new Insets(4,10,10,10));
             view.getErrorMessage().setText("Please wait...");
-            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1),
+            Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(2),
                     event -> {
                         try {
                             view.getErrorMessage().setStyle("-fx-text-fill: #48db1c; -fx-font-size: 18;");

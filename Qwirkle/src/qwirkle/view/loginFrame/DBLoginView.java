@@ -1,10 +1,11 @@
-package src.qwirkle.view.loginFrame;
+package qwirkle.view.loginFrame;
 
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -15,7 +16,7 @@ public class DBLoginView extends BorderPane {
 
     private Label msg;
     private TextField usernameField;
-    private TextField passwordField;
+    private PasswordField passwordField;
     private Label username;
     private Label password;
     private VBox vbox;
@@ -40,13 +41,15 @@ public class DBLoginView extends BorderPane {
                 of the current application.
                 Please insert your postgres username and password.""");
         usernameField = new TextField();
-        usernameField.setText("your username");
-        usernameField.setStyle("-fx-font-style: italic;");
-        passwordField = new TextField();
-        passwordField.setText("your password");
-        passwordField.setStyle("-fx-font-style: italic;");
+        usernameField.setPromptText("your username");
+        usernameField.getStyleClass().add("input-field");
+        passwordField = new PasswordField();
+        passwordField.getStyleClass().add("input-field");
+        passwordField.setPromptText("your password");
         username = new Label("Username:");
+        username.getStyleClass().add("label");
         password = new Label("Password:");
+        password.getStyleClass().add("label");
         login = new Button("Login");
         cancel = new Button("Cancel");
         pgAdminLogo = new ImageView(new Image("/images/postgresql.png"));
@@ -56,6 +59,7 @@ public class DBLoginView extends BorderPane {
         hBox3 = new HBox(50);
         hBox4 = new HBox(10);
         errorMessage = new Label();
+        errorMessage.getStyleClass().add("error-message");
     }
 
     private void layoutNodes() {
@@ -65,11 +69,7 @@ public class DBLoginView extends BorderPane {
         msg.setPadding(new Insets(20, 10, 30, 10));
         pgAdminLogo.setFitWidth(300);;
         pgAdminLogo.setPreserveRatio(true);
-        usernameField.setStyle("-fx-text-fill: rgba(65,68,80,0.5); -fx-font-style: italic; -fx-font-size: 16;");
-        username.setStyle("-fx-font-size: 16;");
-        passwordField.setStyle("-fx-text-fill: rgba(65,68,80,0.5); -fx-font-style: italic; -fx-font-size: 16;");
-        password.setStyle("-fx-font-size: 16;");
-        errorMessage.setStyle("-fx-font-style: italic; -fx-text-fill: #ff0000; -fx-font-size: 16; -fx-alignment: center;");
+        errorMessage.setStyle("");
         hbox1.getChildren().addAll(username, usernameField);
         hbox1.setAlignment(Pos.CENTER);
         hBox2.getChildren().addAll(password, passwordField);
