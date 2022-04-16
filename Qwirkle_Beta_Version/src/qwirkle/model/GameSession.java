@@ -66,9 +66,10 @@ public class GameSession {
     }
 
 
-    //must have in updateView
+
     public boolean isGameOver(){
-        return getBag().getAmountOfTilesLeft() == 0 && (playerHumanSession.getPlayer().getDeck().getTilesInDeck().size()
+        return getBag().getAmountOfTilesLeft() == 0
+                && (playerHumanSession.getPlayer().getDeck().getTilesInDeck().size()
                 == 0 || playerComputerSession.getPlayer().getDeck().getTilesInDeck().size() == 0);
     }
 

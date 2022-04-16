@@ -104,7 +104,7 @@ public class StatisticsView extends BorderPane {
         seriesDurationLastGameSessionComputer = new XYChart.Series<>();
         seriesDurationLastGameSessionComputer.setName("Computer");
 
-        yAxisTime = new NumberAxis(0,1,0.01);
+        yAxisTime = new NumberAxis();
         yAxisTime.setLabel("Time (s)");
         xAxisTurnNo = new NumberAxis();
         xAxisTurnNo.setLabel("Turn No.");

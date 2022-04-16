@@ -226,9 +226,8 @@ public class Grid {
 
         if (tiles.size() > 5) return false;
         if (!tiles.isEmpty()) {
-            boolean shapeRelation = (tileToCompare.isSameShape(tiles.get(0))); //checking if the same color is used
-            boolean colorRelation = (tileToCompare.isSameColor(tiles.get(0))); //checking if the same color is used
-            if (shapeRelation == colorRelation) {
+            if (tileToCompare.isSameShape(tiles.get(0))
+                    && tileToCompare.isSameColor(tiles.get(0))) {
                 return false;
             }
             //if either color or shape is used then
@@ -238,14 +237,8 @@ public class Grid {
                         && tileToCompare.isSameShape(tile)) {
                     return false;
                 }
-
                 //if not same color and not the same shape
-                if (!tileToCompare.isSameColor(tile) && !shapeRelation) {
-                    return false;
-                }
-
-                //if not same shape and not same color
-                if (!tileToCompare.isSameShape(tile) && !colorRelation) {
+                if (!tileToCompare.isSameColor(tile) && !tileToCompare.isSameShape(tile)) {
                     return false;
                 }
             }
@@ -270,7 +263,8 @@ public class Grid {
         Move move2 = turn.get(1);
         if (move1.getCoordinate().getRow() == move2.getCoordinate().getRow()) return 0;
         if (move1.getCoordinate().getColumn() == move2.getCoordinate().getColumn()) return 1;
-        System.out.println("determineDirection: " + turn.size());
+//        System.out.println("determineDirection: " + turn.size());
+        //completely invalid move
         return -100;
     }
 
@@ -282,21 +276,22 @@ public class Grid {
 
         if (tiles.size() > 5) return false;
         if (!tiles.isEmpty()) {
-            boolean shapeRelation = (tileToCompare.isSameShape(tiles.get(0))); //checking if the same color is used
-            boolean colorRelation = (tileToCompare.isSameColor(tiles.get(0)));
-            if (shapeRelation == colorRelation) {//if true both is invalid as game rules state, if both false then definitely invalid too
+            if (tileToCompare.isSameShape(tiles.get(0))
+                    && tileToCompare.isSameColor(tiles.get(0))) {
                 return false;
             }
-            for (Tile tile : tiles) {
-                if (tile.equals(tileToCompare)) {
+            //if either color or shape is used then
+            for (Tile tile : tiles) { //comparing every color or shape for matching condition
+                //if same color and same shape
+                if (tileToCompare.isSameColor(tile)
+                        && tileToCompare.isSameShape(tile)) {
                     return false;
                 }
-                if (!tileToCompare.isSameColor(tile) && !shapeRelation) {
+                //if not same color and not the same shape
+                if (!tileToCompare.isSameColor(tile) && !tileToCompare.isSameShape(tile)) {
                     return false;
                 }
-                if (!tileToCompare.isSameShape(tile) && !colorRelation) {
-                    return false;
-                }
+
             }
         }
         return true;

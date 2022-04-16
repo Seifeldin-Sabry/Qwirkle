@@ -107,7 +107,8 @@ public class Database {
     public Connection setConnection() {
         try  {
             connection = DriverManager.getConnection(jdbc, username, password);
-        } catch (SQLException ignored) {
+        } catch (SQLException e) {
+            e.printStackTrace();
             return null;
         }
 //        System.out.println("Connected");

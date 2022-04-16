@@ -18,6 +18,8 @@ import qwirkle.view.welcomeFrame.WelcomeView;
 
 public class Main extends Application {
     //    --module-path "/Users/sakis/Documents/javafx-sdk-17.0.2/lib" --add-modules=javafx.controls,javafx.media
+
+    //--module-path "/home/seif/Documents/lib/javafx-sdk-17.0.2/lib" --add-modules javafx.controls,javafx.fxml
     private Timeline timeline;
 
     @Override

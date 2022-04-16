@@ -80,8 +80,8 @@ public class GamePlayPresenter {
         if (currentModel.getPlayerSession().getPlayer().getDeck().trade(currentModel.getBag(), tiles)) {
             exchangedTiles.clear();
             ////////////////////////// for testing
-            System.out.println("new tiles:" + deckTiles);
-            System.out.println("Tiles left: " + currentModel.getBag().getAmountOfTilesLeft());
+//            System.out.println("new tiles:" + deckTiles);
+//            System.out.println("Tiles left: " + currentModel.getBag().getAmountOfTilesLeft());
             //////////////////////////
             ArrayList<Node> nodes = new ArrayList<>(currentView.getGrid().getChildren());
             for (Node node : nodes) {
@@ -175,27 +175,15 @@ public class GamePlayPresenter {
         exchangedTiles.clear();
         currentModel.getPlayerSession().getLastTurn().endTurn(currentModel.getGrid());
         currentModel.setNextPlayerSession();
-        System.out.println("No turns (Player): " + currentModel.getActivePlayerSession().getTurnsPlayed().size());
+//        System.out.println("No turns (Player): " + currentModel.getActivePlayerSession().getTurnsPlayed().size());
         updateView(stage);
         playComputerMove(stage);
     }
 
     private void playComputerMove(Stage stage) {
-        System.out.println("No turns (Computer): " + currentModel.getActivePlayerSession().getTurnsPlayed().size());
+//        System.out.println("No turns (Computer): " + currentModel.getActivePlayerSession().getTurnsPlayed().size());
         Computer computer = (Computer) currentModel.getComputerSession().getPlayer();
 
-        //Multiple tiles to be implemented
-//        List<Move> moves = computer.makeMoves();
-//        System.out.println("Number of moves (Computer): " + moves.size());
-//        for (Move move : moves) {
-//            if (currentModel.getGrid().isValidMove(currentModel.getComputerSession().getLastTurn())) {
-//                currentModel.getComputerSession().getPlayer().makeMove(move);
-//                TileNode tileNode = new TileNode(move.getTile());
-//                tileNode.savePosition(move.getCoordinate().getColumn(), move.getCoordinate().getRow());
-//                playedTiles.add(tileNode);
-//                System.out.println(tileNode + " added to Grid");
-//            }
-//        }
 
         //1 Tile only
         Move move = computer.makeMove();
@@ -204,7 +192,7 @@ public class GamePlayPresenter {
         tileNode.savePosition(move.getCoordinate().getColumn(), move.getCoordinate().getRow());
         currentModel.getComputerSession().getLastTurn().add(move);
         playedTiles.add(tileNode);
-        System.out.println(tileNode + " added to Grid");
+//        System.out.println(tileNode + " added to Grid");
 
 
         placeTiles(playedTiles);
@@ -303,7 +291,12 @@ public class GamePlayPresenter {
 
     private void setGameOver(Stage stage) {
         currentView.getVb2().getChildren().remove(currentView.getGrid());
-        currentView.getVb2().getChildren().add(currentView.getVBox());
+        try {
+            currentView.getVb2().getChildren().add(currentView.getVBox());
+        }catch (IllegalArgumentException ignored){
+            //this works but it prints a lot of errors
+            //this is to set the gameover screen instead of the grid
+        }
         if (currentModel.getComputerSession().getTotalScore() > currentModel.getPlayerSession().getTotalScore()) {
             currentView.getLabel().setText("Computer won!");
 
@@ -389,7 +382,7 @@ public class GamePlayPresenter {
                         currentView.getActiveDeck().getChildren().remove(tile);
                         draggableTile.setStyle("");
                         e.setDropCompleted(true);
-                        System.out.println(exchangedTiles);
+//                        System.out.println(exchangedTiles);
                     }
                 }
             }
@@ -443,7 +436,7 @@ public class GamePlayPresenter {
     private void welcomeMessage(Stage stage) {
         Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
             popupWhoPlaysFirst(stage, whoPlaysFirst(), 2);
-            System.out.println("Computer tiles: " + currentModel.getComputerSession().getPlayer().getDeck().getTilesInDeck());
+//            System.out.println("Computer tiles: " + currentModel.getComputerSession().getPlayer().getDeck().getTilesInDeck());
         }));
         timeline.play();
     }
@@ -520,7 +513,7 @@ public class GamePlayPresenter {
                         }
                         if (!success) {
                             currentModel.getPlayerSession().getLastTurn().removeLast();
-                            System.out.println("Not valid move");
+//                            System.out.println("Not valid move");
                         }
                     }
                     e.setDropCompleted(success);
