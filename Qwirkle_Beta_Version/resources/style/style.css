@@ -1,0 +1,187 @@
+/***************LOGO********************/
+.logo{
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.7) , 10,0,10,10 );
+}
+
+
+/***********************************************/
+/**********************Welcome VIEW*************************/
+/***********************************************/
+.welcome-button{
+    -fx-background-color: #FF5733;
+    -fx-font-size: 28;
+    -fx-text-fill: #fff;
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.7) , 10,0,10,10 );
+    -fx-cursor: hand;
+    -fx-background-radius: 5;
+}
+
+.welcome-credits{
+    -fx-font-family: 'American Typewriter';
+    -fx-font-size: 16;
+}
+
+
+/***********************************************/
+/**********************NEWGAME VIEW*************************/
+/***********************************************/
+.NG-button{
+    -fx-background-color: #FF5733;
+    -fx-font-size: 28;
+    -fx-text-fill: #fff;
+    -fx-effect:
+        dropshadow( gaussian , rgba(0,0,0,0.7) , 10,0,10,10);
+    -fx-cursor: hand;
+    -fx-background-radius: 5;
+}
+
+.NG-radio{
+    -fx-text-fill: #fff;
+}
+
+.NG-text{
+    -fx-background-color: rgba(255,255,255,0);
+    -fx-text-fill: #fff;
+    -fx-padding: 20;
+     -fx-font-size: 25;
+}
+
+.NG-vbox{
+    -fx-background-color: rgb(24,24,24);
+    -fx-text-fill: #fff;
+    -fx-background-radius: 25;
+    -fx-font-family: 'Comic Sans MS';
+}
+
+
+/***********************************************/
+/**********************DATABASE VIEW*************************/
+/***********************************************/
+
+/**********************TEXT FIELDS*************************/
+.input-field{
+    -fx-font-style: italic;
+    -fx-text-fill: rgba(65,68,80,0.5);
+    -fx-font-size: 16;
+}
+
+/**********************LABELS*************************/
+.label{
+    -fx-font-size: 16;
+}
+
+.error-message{
+    -fx-font-style: italic;
+    -fx-text-fill: #ff0000;
+    -fx-font-size: 16;
+    -fx-alignment: center;
+}
+
+.message{
+    -fx-font-size: 18;
+    -fx-text-alignment: center;
+    -fx-alignment: center;
+}
+
+.db-button{
+    -fx-text-fill: #30323a;
+    -fx-border-radius: 4;
+    -fx-border-width: 1;
+    -fx-border-color: #30323a;
+    -fx-font-size: 18;
+}
+
+
+/***********************************************/
+/**********************Statistics View*************************/
+/***********************************************/
+.tab-pane{
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.7) , 10,0,10,10 );
+    -fx-opacity: 0;
+}
+.tab-pane > .tab {
+    -fx-padding: 10px;
+}
+.tab-pane > .tab-header-area > .headers-region > .tab {
+    -fx-pref-width: 160.0;
+    -fx-pref-height: 50.0;
+    -fx-border-color: rgba(255, 87, 51, 0.55);
+    -fx-background-color: transparent;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab > .tab-container > .tab-label {
+    -fx-font-size: 20px;
+
+}
+.tab-pane:focused > .tab-header-area > .headers-region > .tab:selected  {
+    -fx-background-color: #FF5733;
+}
+.tab-pane:focused > .tab-header-area > .headers-region > .tab:selected  .focus-indicator {
+    -fx-border-color: rgba(255, 87, 51, 0.55);
+}
+.tab-pane:focused > .tab-header-area > .headers-region > .tab:selected .tab-label {
+    -fx-text-fill: rgb(255, 255, 255);
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab:hover {
+    -fx-cursor: hand;
+    -fx-background-color: #FF5733;
+}
+
+.tab-pane > .tab-header-area > .headers-region > .tab:hover .tab-label {
+    -fx-text-fill: #fff;
+}
+
+.stat-backBtn{
+    -fx-background-color: #FF5733;
+    -fx-font-size: 28; -fx-text-fill: #fff;
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.7) , 10,0,10,10 );
+    -fx-cursor: hand;
+    -fx-background-radius: 5;
+}
+/***********************************************/
+/**********************RULES VIEW*************************/
+/***********************************************/
+.vb1_2_IMGCaption{
+    -fx-font-size: 15;
+    -fx-text-fill: #ab3636;
+    -fx-font-weight: bold;
+}
+
+.vbox-title{
+    -fx-font-size: 40;
+    -fx-text-fill: #b80f34;
+    -fx-font-weight: bold;
+    -fx-text-alignment: center
+}
+
+.vbox-Titles{
+    -fx-font-size: 20;
+    -fx-text-fill: #0f81b8;
+    -fx-font-weight: bold;
+}
+
+.vbox-Normal-Paragraphs{
+    -fx-font-size: 16;
+}
+
+.vbox-Colored-Paragraphs{
+    -fx-font-size: 16;
+    -fx-text-fill: #0f81b8;
+}
+
+
+.back-button{
+    -fx-background-color: #FF5733;
+    -fx-font-size: 28;
+    -fx-text-fill: #fff;
+    -fx-effect: dropshadow( gaussian , rgba(0,0,0,0.7) , 10,0,10,10 );
+    -fx-cursor: hand;
+    -fx-background-radius: 5;
+}
+
+.img-Caption{
+    -fx-font-size: 15;
+    -fx-text-fill: #ab3636;
+    -fx-font-weight: bold;
+}
