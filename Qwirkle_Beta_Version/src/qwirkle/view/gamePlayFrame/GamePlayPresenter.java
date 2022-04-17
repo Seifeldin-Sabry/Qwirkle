@@ -180,6 +180,9 @@ public class GamePlayPresenter {
         exchangedTiles.clear();
         currentModel.setNextPlayerSession();
         updateView(stage);
+        if (!currentModel.isGameOver()) {
+            playComputerMove(stage);
+        }
     }
 
     private void playComputerMove(Stage stage) {
