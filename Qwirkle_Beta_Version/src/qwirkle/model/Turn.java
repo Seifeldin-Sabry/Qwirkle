@@ -236,7 +236,7 @@ public class Turn implements List<Move>{
                     }
                     // +1 is to include the tile itself along with the rest of the tiles
                     int size = grid.getConnectedVerticalArray(move.getCoordinate()).size() + 1;
-                    if(size == 5) score.addAndGet(12);
+                    if(size == 6) score.addAndGet(12);
                     else {
                         if (size > 1) score.addAndGet(size);
                     }
@@ -254,7 +254,7 @@ public class Turn implements List<Move>{
                         firstMoveFlag = true;
                     }
                     int size = grid.getConnectedHorizontalArray(move.getCoordinate()).size() + 1;
-                    if(size == 5) score.addAndGet(12);
+                    if(size == 6) score.addAndGet(12);
                     else {
                         if (size > 1) score.addAndGet(size);
                     }
