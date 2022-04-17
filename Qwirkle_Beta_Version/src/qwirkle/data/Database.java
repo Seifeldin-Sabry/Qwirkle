@@ -105,7 +105,6 @@ public class Database {
      @return <code>Connection</code>
      */
     public Connection setConnection() {
-
         try  {
             connection = DriverManager.getConnection(jdbc, username, password);
         } catch (SQLException e) {
@@ -432,18 +431,17 @@ public class Database {
                          """;
             rs = stmt.executeQuery(sql);
             if (rs.next()) {
-                int gameId = rs.getInt("game_id");
                 sql = """
                           SELECT turn_no, time_spent, player_name
                           FROM int_turn
                           JOIN int_playersession ip on int_turn.playersession_id = ip.playersession_id
                           JOIN int_player i on i.player_id = ip.player_id
                           WHERE player_name in ('Computer')
-                          AND game_id = ?
+                          AND game_id = (SELECT max(game_id) from int_gamesession)
                           ORDER BY turn_no
                           """;
                 ptsmt = connection.prepareStatement(sql);
-                ptsmt.setInt(1, gameId);
+//                ptsmt.setInt(1, gameId);
                 rs = ptsmt.executeQuery();
                 while(rs.next()){
                     data.add(new XYChart.Data<>(rs.getInt("turn_no"), rs.getInt("time_spent")));
@@ -487,18 +485,17 @@ public class Database {
                          """;
             rs = stmt.executeQuery(sql);
             if (rs.next()) {
-                int gameId = rs.getInt("game_id");
                 sql = """
                           SELECT turn_no, time_spent, player_name
                           FROM int_turn
                           JOIN int_playersession ip on int_turn.playersession_id = ip.playersession_id
                           JOIN int_player i on i.player_id = ip.player_id
                           WHERE player_name not in ('Computer')
-                          AND game_id = ?
+                          AND game_id = (SELECT max(game_id) from int_gamesession)
                           ORDER BY turn_no
                           """;
                 ptsmt = connection.prepareStatement(sql);
-                ptsmt.setInt(1, gameId);
+//                ptsmt.setInt(1, gameId);
                 rs = ptsmt.executeQuery();
                 while(rs.next()){
                     data.add(new XYChart.Data<>(rs.getInt("turn_no"), rs.getInt("time_spent")));
@@ -540,18 +537,18 @@ public class Database {
                          """;
             rs = stmt.executeQuery(sql);
             if (rs.next()) {
-                int gameId = rs.getInt("game_id");
+//                int gameId = rs.getInt("game_id");
                 sql = """
                           SELECT turn_no, points, player_name
                           FROM int_turn
                           JOIN int_playersession ip on int_turn.playersession_id = ip.playersession_id
                           JOIN int_player i on i.player_id = ip.player_id
                           WHERE player_name in ('Computer')
-                          AND game_id = ?
+                          AND game_id = (SELECT max(game_id) from int_gamesession)
                           ORDER BY turn_no
                           """;
                 ptsmt = connection.prepareStatement(sql);
-                ptsmt.setInt(1, gameId);
+//                ptsmt.setInt(1, gameId);
                 rs = ptsmt.executeQuery();
                 while(rs.next()){
                     data.add(new XYChart.Data<>(rs.getInt("turn_no"), rs.getInt("points")));
@@ -592,18 +589,18 @@ public class Database {
                          """;
             rs = stmt.executeQuery(sql);
             if (rs.next()) {
-                int gameId = rs.getInt("game_id");
+//                int gameId = rs.getInt("game_id");
                 sql = """
                           SELECT turn_no, points, player_name
                           FROM int_turn
                           JOIN int_playersession ip on int_turn.playersession_id = ip.playersession_id
                           JOIN int_player i on i.player_id = ip.player_id
                           WHERE player_name not in ('Computer')
-                          AND game_id = ?
+                          AND game_id = (SELECT max(game_id) from int_gamesession)
                           ORDER BY turn_no
                           """;
                 ptsmt = connection.prepareStatement(sql);
-                ptsmt.setInt(1, gameId);
+//                ptsmt.setInt(1, gameId);
                 rs = ptsmt.executeQuery();
                 while(rs.next()){
                     data.add(new XYChart.Data<>(rs.getInt("turn_no"), rs.getInt("points")));
