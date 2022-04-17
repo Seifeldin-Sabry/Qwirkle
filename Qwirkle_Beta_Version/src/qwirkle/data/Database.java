@@ -105,7 +105,7 @@ public class Database {
      @return <code>Connection</code>
      */
     public Connection setConnection() {
-        if (connection != null) return connection;
+
         try  {
             connection = DriverManager.getConnection(jdbc, username, password);
         } catch (SQLException e) {
