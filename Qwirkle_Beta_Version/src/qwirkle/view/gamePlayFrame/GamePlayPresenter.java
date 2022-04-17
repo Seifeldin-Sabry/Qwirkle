@@ -45,7 +45,7 @@ public class GamePlayPresenter {
     private LinkedList<TileNode> playedTiles = new LinkedList<>();
     private TileNode draggableTile;
     private DataFormat tileFormat;
-    private int tileSize;
+    private double tileSize;
 
     public GamePlayPresenter(Stage stage, GamePlayView view, GameSession model) {
         currentModel = model;
@@ -208,7 +208,7 @@ public class GamePlayPresenter {
         } else {
             pointsLabel = " points";
         }
-        popupComputerPlayed(stage, "Computer Played: ", String.valueOf(points + pointsLabel), 3, true);
+        popupComputerPlayed(stage, "Computer Played: ", String.valueOf(points + pointsLabel), 2.2, true);
 
     }
 
@@ -216,15 +216,11 @@ public class GamePlayPresenter {
         for (TileNode tileNode : playedTiles) {
             computerMove = new Timeline(new KeyFrame(Duration.seconds(6), e -> {
                 fillEmptySpots();
-//                tileNode.setScaleX(1);
-//                tileNode.setScaleY(1);
                 removeTileEffect();
                 computerMove.stop();
             }));
             computerMove.setDelay(Duration.seconds(1));
             currentView.getGrid().add(tileNode, tileNode.getCol(), tileNode.getRow());
-//            tileNode.setScaleX(1.2);
-//            tileNode.setScaleY(1.2);
             tileNode.setStyle("-fx-effect: dropshadow( gaussian , rgb(190,0,0) , 2,1,0,0 );");
             computerMove.play();
         }
@@ -409,7 +405,7 @@ public class GamePlayPresenter {
         new PopupPresenter(stage, view, text, 660, 220, duration);
     }
 
-    void popupComputerPlayed(Stage stage, String text, String score, int duration, boolean computerPlayed) {
+    void popupComputerPlayed(Stage stage, String text, String score, double duration, boolean computerPlayed) {
         StringBuilder newText = new StringBuilder(text + score);
         PopupView view = new PopupView();
         new PopupPresenter(stage, view, newText.toString(), 660, 300, duration, computerPlayed);
@@ -611,14 +607,14 @@ public class GamePlayPresenter {
         return tile;
     }
 
-    private int gridTileSize() {
+    private double gridTileSize() {
         Set<Integer> columns = new HashSet<>();
         Set<Integer> rows = new HashSet<>();
-        int defaultTileSize = 50;
-        int defaultWidth = 950;
-        int defaultHeight = 650;
-        int defaultRows = defaultHeight / defaultTileSize + 1;
-        int defaultColumns = defaultWidth / defaultTileSize + 1;
+        double defaultTileSize = 50;
+        double defaultWidth = 950;
+        double defaultHeight = 650;
+        double defaultRows = defaultHeight / defaultTileSize + 1;
+        double defaultColumns = defaultWidth / defaultTileSize + 1;
         for (Node node : currentView.getGrid().getChildren()) {
             if (((TileNode) node).hasTile()) {
                 columns.add(((TileNode) node).getCol());
@@ -628,7 +624,7 @@ public class GamePlayPresenter {
         Node tileNode = currentView.getGrid().getChildren().get(rows.size());
         double rowsCounter = rows.size() + 2;
         double columnsCounter = columns.size() + 2;
-
+        System.out.println("rows: " + rowsCounter);
         if (columnsCounter < defaultColumns && rowsCounter < defaultRows) {
             tileSize = defaultTileSize;
             return tileSize;
@@ -637,16 +633,16 @@ public class GamePlayPresenter {
             double numberOfCellsVertically = 650 / rowsCounter;
             String cellsVertically = "" + numberOfCellsVertically;
             String truncated = cellsVertically.substring(0, 2);
-
+            System.out.println(Integer.parseInt(truncated));
             tileSize = Integer.parseInt(truncated);
             return tileSize;
         }
-
+        System.out.println("columns: " + columnsCounter);
         if ((columnsCounter * ((TileNode) tileNode).getWidth() > 950) && !(rowsCounter * ((TileNode) tileNode).getHeight() > 650)) {
             double numberOfCellsHorizontally = 950 / columnsCounter;
             String cellsHorizontally = "" + numberOfCellsHorizontally;
             String truncated = cellsHorizontally.substring(0, 2);
-
+            System.out.println(Integer.parseInt(truncated));
             tileSize = Integer.parseInt(truncated);
             return tileSize;
         }
@@ -654,19 +650,19 @@ public class GamePlayPresenter {
             double numberOfCellsHorizontally = 950 / columnsCounter;
             String cellsHorizontally = "" + numberOfCellsHorizontally;
             String truncated = cellsHorizontally.substring(0, 2);
-
+            System.out.println(Integer.parseInt(truncated));
             int columnsSize = Integer.parseInt(truncated);
             double numberOfCellsVertically = 650 / rowsCounter;
             String cellsVertically = "" + numberOfCellsVertically;
             String truncated1 = cellsVertically.substring(0, 2);
-
+            System.out.println(Integer.parseInt(truncated1));
             int rowsSize = Integer.parseInt(truncated1);
             tileSize = Math.min(columnsSize, rowsSize);
         }
         return tileSize;
     }
 
-    private void resizeGridContent(int size) {
+    private void resizeGridContent(double size) {
         for (Node node : currentView.getGrid().getChildren()) {
             ((TileNode) node).setWidth(size);
             ((TileNode) node).setHeight(size);

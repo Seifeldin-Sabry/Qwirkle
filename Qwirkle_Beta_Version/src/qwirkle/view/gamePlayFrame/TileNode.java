@@ -22,7 +22,7 @@ public final class TileNode extends Rectangle {
         name = String.valueOf(hashCode());
     }
     //Computer Tile
-    public TileNode(Tile tile, int size) {
+    public TileNode(Tile tile, double size) {
         this.tile = tile;
         setWidth(size);
         setHeight(size);
