@@ -21,6 +21,7 @@ public class Player {
         this.deck = new Deck();
         deck.refill(bag);
         this.grid = grid;
+        this.bag = bag;
     }
 
     public boolean makeMove(Tile tile, Move.Coordinate coord){
@@ -34,9 +35,7 @@ public class Player {
         return false;
     }
 
-    public Turn startTurn(){
-        return new Turn();
-    }
+
 
     public Deck getDeck() {
         return deck;
