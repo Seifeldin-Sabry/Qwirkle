@@ -105,6 +105,7 @@ public class Database {
      @return <code>Connection</code>
      */
     public Connection setConnection() {
+        if (connection != null) return connection;
         try  {
             connection = DriverManager.getConnection(jdbc, username, password);
         } catch (SQLException e) {
@@ -277,7 +278,7 @@ public class Database {
                                                                             ON DELETE CASCADE,
                                                            turn_no INT NOT NULL ,
                                                            points INT NOT NULL,
-                                                           time_spent float4 NOT NULL,
+                                                           time_spent INT NOT NULL,
                                                            time_of_play TIMESTAMP DEFAULT now(),
                                                            CONSTRAINT turn_pkey PRIMARY KEY (playersession_id,turn_no)
                     );

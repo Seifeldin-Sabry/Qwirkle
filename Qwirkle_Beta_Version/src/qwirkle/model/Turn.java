@@ -18,7 +18,7 @@ public class Turn implements List<Move>{
     private final LinkedList<Move> moveList;
     private int points;
     private final long startTimer;
-    private double turnDuration;
+    private long turnDuration;
 
 
     public Turn() {
@@ -49,7 +49,7 @@ public class Turn implements List<Move>{
 
     public void endTurn(Grid grid){
         long end = System.currentTimeMillis();
-        this.turnDuration = (double) TimeUnit.MILLISECONDS.toSeconds(end - startTimer);
+        this.turnDuration = TimeUnit.MILLISECONDS.toSeconds(end - startTimer);
         calcScore(grid);
     }
 
@@ -276,7 +276,7 @@ public class Turn implements List<Move>{
             PreparedStatement ptsmt = conn.prepareStatement(sql);
             ptsmt.setInt(1,turn_no);
             ptsmt.setInt(2,getPoints());
-            ptsmt.setDouble(3, Double.parseDouble("%.3f".formatted(turnDuration)));
+            ptsmt.setLong(3, turnDuration);
             ptsmt.executeUpdate();
             ptsmt.close();
 

@@ -192,18 +192,49 @@ public class GamePlayPresenter {
         tileNode.savePosition(move.getCoordinate().getColumn(), move.getCoordinate().getRow());
         currentModel.getComputerSession().getLastTurn().add(move);
         playedTiles.add(tileNode);
-
+//        System.out.println(tileNode + " added to Grid");
 
 
         placeTiles(playedTiles);
         currentModel.getComputerSession().getPlayer().getDeck().refill(currentModel.getBag());
+//        currentModel.getActivePlayerSession().getLastTurn().addAll(moves);
         currentModel.getActivePlayerSession().getLastTurn().endTurn(currentModel.getGrid());
         currentModel.setNextPlayerSession();
         positioningHandler(validPositionList);
         updateView(stage);
         popupComputerPlayed(stage, "Computer Played: ", String.valueOf(currentModel.getComputerSession().getLastTurn().getPoints() + " points"), 3);
         resizeGrid(gridCellSize());
-
+//        Computer computer = (Computer) currentModel.getComputerSession().getPlayer();
+//        boolean hasMove = true;
+//        while (hasMove) {
+//            for (Move move : computer.makeMove()) {
+//                if (move == null) {
+//                    hasMove = false;
+//                    System.out.println("No possible move found");
+//                } else {
+//                    if (currentModel.getGrid().isValidMove(move)) {
+//                        currentModel.getComputerSession().getLastTurn().add(move);
+//                        if (currentModel.getGrid().isValidMove(currentModel.getComputerSession().getLastTurn())) {
+//                            currentModel.getComputerSession().getPlayer().makeMove(move);
+//                            TileNode tileNode = new TileNode(move.getTile());
+//                            tileNode.savePosition(move.getCoordinate().getColumn(), move.getCoordinate().getRow());
+//                            playedTiles.add(tileNode);
+//                            currentView.getGrid().add(tileNode, tileNode.getCol(), tileNode.getRow());
+//                            fillEmptySpots();
+//                        } else {
+//                            currentModel.getComputerSession().getLastTurn().getMoves().removeLast();
+//                        }
+//                    }
+//                }
+//            }
+//        }
+//        currentModel.getComputerSession().getPlayer().getDeck().refill(currentModel.getBag());
+//        System.out.println("No turns (Computer): " + currentModel.getActivePlayerSession().getTurnsPlayed().size());
+////        placeTiles(playedTiles);
+//        currentModel.getComputerSession().getLastTurn().endTurn(currentModel.getGrid());
+//        currentModel.setNextPlayerSession();
+//        positioningHandler(validPositionList);
+//        updateView(stage);
     }
 
     private void placeTiles(LinkedList<TileNode> playedTiles) {
@@ -471,7 +502,7 @@ public class GamePlayPresenter {
                         Move currentMove = new Move(draggableTile.getTile(), new Move.Coordinate(row, col));
                         currentModel.getPlayerSession().getLastTurn().add(currentMove);
                         if (currentModel.getGrid().isValidMove(currentModel.getPlayerSession().getLastTurn())) {
-
+//                            currentView.getGrid().getChildren().remove(draggableTile);
                             currentModel.getPlayerSession().getPlayer().makeMove(currentMove);
                             playedTiles.add(draggableTile);
                             draggableTile.savePosition(col, row);

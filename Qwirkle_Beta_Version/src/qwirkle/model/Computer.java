@@ -8,15 +8,19 @@ import static qwirkle.model.Grid.MID;
  * @author Seifeldin Ismail
  */
 public class Computer extends Player {
+
+    private Random randomTileChooser;
+    private LevelOfDifficulty levelOfDifficulty;
+
     public enum LevelOfDifficulty {
         EASY, AI
-    }
 
-    private LevelOfDifficulty levelOfDifficulty;
+    }
 
     public Computer(Bag bag, Grid grid, LevelOfDifficulty levelOfDifficulty) {
         super("Computer", bag, grid);
         this.levelOfDifficulty = levelOfDifficulty;
+        randomTileChooser = new Random();
     }
 
 
@@ -26,7 +30,6 @@ public class Computer extends Player {
         switch (levelOfDifficulty) {
             case EASY -> {
                 if (allMovesPossible.isEmpty()) {
-                    Random randomTileChooser = new Random();
                     int randomTileInHandIndex = randomTileChooser.nextInt(getDeck().getTilesInDeck().size());
                     Move firstMove = new Move(getDeck().getTilesInDeck().get(randomTileInHandIndex), new Move.Coordinate(MID, MID));
                     return firstMove;
@@ -86,6 +89,81 @@ public class Computer extends Player {
         } while (hasMoves);
         return moves;
     }
+
+    public LevelOfDifficulty getLevelOfDifficulty() {
+        return levelOfDifficulty;
+    }
+
+
+    /**
+     *
+     * @return a Set of tiles with the lowest occurence in the deck to trade
+     */
+    public void trade() {
+        switch (levelOfDifficulty) {
+            case EASY -> {//trade a random number of tiles
+                tradeRandomNumTiles();
+            }
+            case AI ->{
+                //find the tile that has no color occurence, nor shape occurence
+                //if there are multiple tiles with no correlation to others, then trade them all
+                ArrayList<Tile> tilesWithSameShape= new ArrayList<>();
+                ArrayList<Tile> tilesWithSameColor= new ArrayList<>();
+                ArrayList<Tile> tilesWithNoCorr= new ArrayList<>();
+
+                for (Tile t: getDeck().getTilesInDeck()) {
+                    for (int i = 0; i < getDeck().getTilesInDeck().size(); i++) {
+                        Tile otherTile = getDeck().getTilesInDeck().get(i);
+                        if(!t.isSameColor(otherTile) && !t.isSameShape(otherTile)){
+                            tilesWithNoCorr.add(t);
+                            continue;
+                        }
+                        if (t.isSameShape(otherTile) && !t.isSameColor(otherTile)) {
+                            tilesWithSameShape.add(otherTile);
+                            continue;
+                        }
+                        if (t.isSameColor(otherTile) && !t.isSameShape(otherTile)) {
+                            tilesWithSameColor.add(otherTile);
+                        }
+
+                    }
+                }
+                if(tilesWithNoCorr.size() >= tilesWithSameShape.size() || tilesWithNoCorr.size() >= tilesWithSameColor.size()){
+                    getDeck().trade(getBag(),tilesWithNoCorr);
+                    return;
+                }
+                else if(tilesWithSameShape.size() > tilesWithSameColor.size()){
+                    getDeck().trade(getBag(),tilesWithSameColor);
+                    return;
+                }
+                else if(tilesWithSameShape.size() < tilesWithSameColor.size()){
+                    getDeck().trade(getBag(),tilesWithSameShape);
+                    return;
+                }
+                else {//if all tiles have no correlation, then trade a random number of tiles
+                    tradeRandomNumTiles();
+                }
+
+            }
+        }
+    }
+
+    private void tradeRandomNumTiles() {
+        ArrayList<Tile> tilesToTrade = new ArrayList<>(getDeck().getTilesInDeck());
+        int randomTileNumToTrade = randomTileChooser.nextInt(getDeck().getTilesInDeck().size());
+        for (int i = 0; i < randomTileNumToTrade; i++) {
+            int randomTileIndex = randomTileChooser.nextInt(tilesToTrade.size());
+            getDeck().getTilesInDeck().remove(tilesToTrade.get(randomTileIndex));
+        }
+        getDeck().trade(getBag(),tilesToTrade);
+    }
+
+    public HashMap<Move, Set<Set<Move>>> getAllValidMoves() {
+
+        HashMap<Move, Set<Set<Move>>> validMoves = new HashMap<>();
+        return validMoves;
+    }
+
 
 
     //this works perfectly
@@ -154,8 +232,6 @@ public class Computer extends Player {
         return toReturn;
     }
 
-    public LevelOfDifficulty getLevelOfDifficulty() {
-        return levelOfDifficulty;
-    }
+
 }
 

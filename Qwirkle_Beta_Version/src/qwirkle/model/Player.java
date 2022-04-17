@@ -12,6 +12,7 @@ public class Player {
     private String name;
     private Deck deck;
     private Grid grid;
+    private Bag bag;
 
 
 
@@ -41,6 +42,10 @@ public class Player {
         return deck;
     }
 
+    public Bag getBag() {
+        return bag;
+    }
+
     public void makeMove(Move move) {
         makeMove(move.getTile(), move.getCoordinate());
     }
@@ -64,7 +69,7 @@ public class Player {
             e.printStackTrace();
             System.out.println("Error while saving to int_player");
         }
-        System.out.printf("Saved player %s\n",name);
+//        System.out.printf("Saved player %s\n",name);
     }
 
     public String getName(){

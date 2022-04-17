@@ -267,7 +267,7 @@ public class PlayerSession implements List<Turn>{
             e.printStackTrace();
             System.out.println("Error while saving to int_score");
         }
-        System.out.println("Saved score");
+//        System.out.println("Saved score");
     }
 
     private void saveTurns(){

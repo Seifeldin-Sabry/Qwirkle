@@ -6,13 +6,13 @@ import java.util.List;
 import java.util.Set;
 
 /**
- * @author: Seifeldin Ismail
+ * @author Seifeldin Ismail
  */
 public class Grid {
     public static final int BOARD_SIZE = 91;
     public static final int MID = 45;
     private static final int QWIRKLE = 6;
-    private Tile[][] grid;
+    private final Tile[][] grid;
 
     public Grid() {
         this.grid = new Tile[BOARD_SIZE][BOARD_SIZE];
@@ -108,7 +108,6 @@ public class Grid {
 
     public boolean isValidMove(Turn moveList) {
         int direction = this.determineDirection(moveList);
-
         switch (direction) {
             case 0 -> {
                 //make sure the move is on the same row
@@ -138,6 +137,9 @@ public class Grid {
             }
         }
 //        direction = this.determineDirection(moveList);
+        for (Move move:moveList) {
+            if(isNotConnected(move,moveList))return false;
+        }
         Grid grid = getDeepCopy();
         for (Move move:moveList) {
             int row = move.getCoordinate().getRow();
@@ -155,6 +157,15 @@ public class Grid {
         }
 
         return true;
+    }
+
+    private boolean isNotConnected(Move move, Turn moveList) {
+        Move.Coordinate[] adjacents = move.getCoordinate().getAdjacentCoords();
+        for (Move.Coordinate adjacent:adjacents) {
+            Move move1 = new Move(getTile(adjacent.getRow(),adjacent.getColumn()),adjacent);
+            if(move1.getTile()!=null && moveList.contains(move1))return true;
+        }
+        return false;
     }
 
 
@@ -247,7 +258,7 @@ public class Grid {
     }
 
     /**
-     * @return 0 if horizontal, 1 if vertical, -1 if 1 tile, -2 if no tiles
+     * @return 0 if horizontal, 1 if vertical, -1 if 1 tile, -2 if no tiles, -100 if invalid(null)
      */
     public int determineDirection(Turn turn){
         switch (turn.size()){
@@ -365,9 +376,7 @@ public class Grid {
     }
 
 
-    private Tile[][] getGrid() {
-        return grid;
-    }
+
 
     /**
      * @param coordinate coordinates of the tile to check for
