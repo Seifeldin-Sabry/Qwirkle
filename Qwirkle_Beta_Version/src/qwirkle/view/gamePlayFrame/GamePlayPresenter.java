@@ -8,10 +8,7 @@ import javafx.scene.Node;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.image.Image;
-import javafx.scene.input.ClipboardContent;
-import javafx.scene.input.DataFormat;
-import javafx.scene.input.Dragboard;
-import javafx.scene.input.TransferMode;
+import javafx.scene.input.*;
 import javafx.scene.layout.GridPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -36,32 +33,37 @@ public class GamePlayPresenter {
     private GamePlayView currentView;
     private List<GamePlayView> views = new ArrayList<>();
     private GameSession currentModel;
-    private Timeline timeline;
+    private Timeline timer;
+    private Timeline computerMove;
+    private Timeline welcome;
     private LinkedList<TileNode> deckTiles = new LinkedList<>();
     private LinkedList<TileNode> exchangedTiles = new LinkedList<>();
     private LinkedList<TileNode> validPositionList = new LinkedList<>();
     private LinkedList<TileNode> playedTiles = new LinkedList<>();
     private TileNode draggableTile;
-    private DataFormat tileFormat = new DataFormat("MyTile");
+    private DataFormat tileFormat;
+    private int tileSize;
 
     public GamePlayPresenter(Stage stage, GamePlayView view, GameSession model) {
         currentModel = model;
         currentView = view;
+        tileFormat = new DataFormat("MyTile");
 
         try {
             updateView(stage);
-            if (currentModel.getActivePlayerSession().equals(currentModel.getComputerSession())) {
-                playComputerMove(stage);
-            } else {
-                welcomeMessage(stage);
-            }
+            welcomeMessage(stage);
         } catch (IllegalArgumentException ex) {
             System.out.println(ex.getMessage());
         }
         addEventHandler(stage);
         timerSet();
-        //Uncomment this line for a quick view of the GameOver Frame
-//        setGameOver(stage);
+        welcome = new Timeline(new KeyFrame(Duration.seconds(2), e -> {
+            if (currentModel.getActivePlayerSession().equals(currentModel.getComputerSession())) {
+                playComputerMove(stage);
+            }
+            welcome.stop();
+        }));
+        welcome.play();
     }
 
     private void addEventHandler(Stage stage) {
@@ -80,8 +82,8 @@ public class GamePlayPresenter {
         if (currentModel.getPlayerSession().getPlayer().getDeck().trade(currentModel.getBag(), tiles)) {
             exchangedTiles.clear();
             ////////////////////////// for testing
-//            System.out.println("new tiles:" + deckTiles);
-//            System.out.println("Tiles left: " + currentModel.getBag().getAmountOfTilesLeft());
+            System.out.println("new tiles:" + deckTiles);
+            System.out.println("Tiles left: " + currentModel.getBag().getAmountOfTilesLeft());
             //////////////////////////
             ArrayList<Node> nodes = new ArrayList<>(currentView.getGrid().getChildren());
             for (Node node : nodes) {
@@ -116,7 +118,10 @@ public class GamePlayPresenter {
         if (alert.getResult() == null || alert.getResult().equals(no)) {
             event.consume();
         } else {
-            timeline.stop();
+            timer.stop();
+            if (computerMove != null) {
+                computerMove.stop();
+            }
             tileFormat = null;
             setWelcomeFrame(stage);
         }
@@ -170,50 +175,99 @@ public class GamePlayPresenter {
         if (playedTiles.size() == 0) {
             submitExchange(stage);
         }
-        currentModel.getPlayerSession().getPlayer().getDeck().refill(currentModel.getBag());
+//        currentModel.getPlayerSession().getPlayer().getDeck().refill(currentModel.getBag());
         playedTiles.clear();
         exchangedTiles.clear();
-        currentModel.getPlayerSession().getLastTurn().endTurn(currentModel.getGrid());
+//        currentModel.getPlayerSession().getLastTurn().endTurn(currentModel.getGrid());
         currentModel.setNextPlayerSession();
-
+        System.out.println("No turns (Player): " + currentModel.getActivePlayerSession().getTurnsPlayed().size());
         updateView(stage);
         playComputerMove(stage);
     }
 
     private void playComputerMove(Stage stage) {
-
+        System.out.println("No turns (Computer): " + currentModel.getActivePlayerSession().getTurnsPlayed().size());
         Computer computer = (Computer) currentModel.getComputerSession().getPlayer();
 
+        //Multiple tiles to be implemented
+//        List<Move> moves = computer.makeMoves();
+//        System.out.println("Number of moves (Computer): " + moves.size());
+//        for (Move move : moves) {
+//            if (currentModel.getGrid().isValidMove(currentModel.getComputerSession().getLastTurn())) {
+//                currentModel.getComputerSession().getPlayer().makeMove(move);
+//                TileNode tileNode = new TileNode(move.getTile(), gridTileSize());
+//                tileNode.savePosition(move.getCoordinate().getColumn(), move.getCoordinate().getRow());
+//                playedTiles.add(tileNode);
+//                System.out.println(tileNode + " added to Grid");
+//            }
+//        }
 
         //1 Tile only
         Move move = computer.makeMove();
         currentModel.getComputerSession().getPlayer().makeMove(move);
-        TileNode tileNode = new TileNode(move.getTile());
+        TileNode tileNode = new TileNode(move.getTile(), gridTileSize());
         tileNode.savePosition(move.getCoordinate().getColumn(), move.getCoordinate().getRow());
         currentModel.getComputerSession().getLastTurn().add(move);
         playedTiles.add(tileNode);
-
+        System.out.println(tileNode + " added to Grid");
 
 
         placeTiles(playedTiles);
-        currentModel.getComputerSession().getPlayer().getDeck().refill(currentModel.getBag());
-
-        currentModel.getActivePlayerSession().getLastTurn().endTurn(currentModel.getGrid());
         currentModel.setNextPlayerSession();
         positioningHandler(validPositionList);
         updateView(stage);
-        popupComputerPlayed(stage, "Computer Played: ", String.valueOf(currentModel.getComputerSession().getLastTurn().getPoints() + " points"), 3);
-        resizeGrid(gridCellSize());
+
+//        for (Move move : computer.makeMoves()) {
+//            if (move == null) {
+//                System.out.println("No possible move found");
+//            } else {
+//                currentModel.getComputerSession().getLastTurn().add(move);
+//                if (currentModel.getGrid().isValidMove(currentModel.getComputerSession().getLastTurn())) {
+//                    currentModel.getComputerSession().getPlayer().makeMove(move);
+//                    TileNode tileNode = new TileNode(move.getTile(), gridTileSize());
+//                    tileNode.savePosition(move.getCoordinate().getColumn(), move.getCoordinate().getRow());
+//                    playedTiles.add(tileNode);
+//                    currentView.getGrid().add(tileNode, tileNode.getCol(), tileNode.getRow());
+//                    fillEmptySpots();
+//                } else {
+//                    currentModel.getComputerSession().getLastTurn().getMoves().removeLast();
+//                }
+//            }
+//        }
+
+//        System.out.println("No turns (Computer): " + currentModel.getActivePlayerSession().getTurnsPlayed().size());
+//        placeTiles(playedTiles);
+//        currentModel.setNextPlayerSession();
+//        positioningHandler(validPositionList);
+//        updateView(stage);
+        int points = currentModel.getComputerSession().getLastTurn().getPoints();
+        String pointsLabel;
+        if (currentModel.getComputerSession().getLastTurn().getPoints() == 1) {
+            pointsLabel = " point";
+        } else {
+            pointsLabel = " points";
+        }
+        popupComputerPlayed(stage, "Computer Played: ", String.valueOf(points + pointsLabel), 3, true);
 
     }
 
     private void placeTiles(LinkedList<TileNode> playedTiles) {
         for (TileNode tileNode : playedTiles) {
-            tileNode.setHeight(tileNode.getHeight() - 2);
-            tileNode.setWidth(tileNode.getWidth() - 2);
+            computerMove = new Timeline(new KeyFrame(Duration.seconds(6), e -> {
+                fillEmptySpots();
+//                tileNode.setScaleX(1);
+//                tileNode.setScaleY(1);
+                removeTileEffect();
+                computerMove.stop();
+            }));
+            computerMove.setDelay(Duration.seconds(1));
             currentView.getGrid().add(tileNode, tileNode.getCol(), tileNode.getRow());
-            fillEmptySpots();
+//            tileNode.setScaleX(1.2);
+//            tileNode.setScaleY(1.2);
+            tileNode.setStyle("-fx-effect: dropshadow( gaussian , rgb(190,0,0) , 2,1,0,0 );");
+            computerMove.play();
         }
+
         playedTiles.clear();
     }
 
@@ -235,8 +289,8 @@ public class GamePlayPresenter {
         if (currentModel.getPlayerSession().size() > 0) {
             int playerPoints;
             try {
-                playerPoints =  currentModel.getPlayerSession().get(currentModel.getPlayerSession().indexOf(currentModel.getPlayerSession().getLastTurn()) - 1).getPoints();
-            }catch (IndexOutOfBoundsException e){
+                playerPoints = currentModel.getPlayerSession().get(currentModel.getPlayerSession().indexOf(currentModel.getPlayerSession().getLastTurn()) - 1).getPoints();
+            } catch (IndexOutOfBoundsException e) {
                 playerPoints = 0;
             }
             currentView.getPlayerScore().setText(String.format("Your score: %s (+%s)", currentModel.getPlayerSession()
@@ -250,7 +304,10 @@ public class GamePlayPresenter {
         } else {
             currentView.getComputerScore().setText("Computer Score:    " + currentModel.getComputerSession().getTotalScore());
         }
+        System.out.println("Player sessions: " + currentModel.getPlayerSession().size());
+        System.out.println("Computer sessions: " + currentModel.getComputerSession().size());
         positioningHandler(validPositionList);
+        resizeGridContent(gridTileSize());
 
     }
 
@@ -263,7 +320,7 @@ public class GamePlayPresenter {
         currentView.getVb2().getChildren().remove(currentView.getGrid());
         try {
             currentView.getVb2().getChildren().add(currentView.getVBox());
-        }catch (IllegalArgumentException ignored){
+        } catch (IllegalArgumentException ignored) {
             //this works but it prints a lot of errors
             //this is to set the gameover screen instead of the grid
         }
@@ -281,18 +338,24 @@ public class GamePlayPresenter {
             currentView.getScene().setRoot(view);
         });
         currentView.getNewGame().setOnAction(e -> {
-            timeline.stop();
+            timer.stop();
+            if (computerMove != null) {
+                computerMove.stop();
+            }
             tileFormat = null;
             NewGameView view = new NewGameView();
             new NewGamePresenter(stage, view);
             currentView.getScene().setRoot(view);
         });
         currentView.getQuit().setOnAction(e -> {
-            timeline.stop();
+            timer.stop();
+            if (computerMove != null) {
+                computerMove.stop();
+            }
             tileFormat = null;
             setWelcomeFrame(stage);
         });
-        timeline.stop();
+        timer.stop();
     }
 
     private void cancelButtons() {
@@ -352,7 +415,7 @@ public class GamePlayPresenter {
                         currentView.getActiveDeck().getChildren().remove(tile);
                         draggableTile.setStyle("");
                         e.setDropCompleted(true);
-//                        System.out.println(exchangedTiles);
+                        System.out.println(exchangedTiles);
                     }
                 }
             }
@@ -372,7 +435,7 @@ public class GamePlayPresenter {
         if (!(tileNode.getParent() instanceof GridPane)) {
             tileNode.setOnDragDetected(e -> {
                 Dragboard db = tileNode.startDragAndDrop(TransferMode.ANY);
-                Image img = new Image(tileNode.getTile().getIconImage().getImage().getUrl(), gridCellSize(), gridCellSize(), true, true);
+                Image img = new Image(tileNode.getTile().getIconImage().getImage().getUrl(), gridTileSize(), gridTileSize(), true, true);
                 db.setDragView(img);
                 ClipboardContent cc = new ClipboardContent();
                 cc.put(tileFormat, " ");
@@ -389,10 +452,10 @@ public class GamePlayPresenter {
         new PopupPresenter(stage, view, text, 660, 220, duration);
     }
 
-    void popupComputerPlayed(Stage stage, String text, String score, int duration) {
+    void popupComputerPlayed(Stage stage, String text, String score, int duration, boolean computerPlayed) {
         StringBuilder newText = new StringBuilder(text + score);
         PopupView view = new PopupView();
-        new PopupPresenter(stage, view, newText.toString(), 660, 220, duration);
+        new PopupPresenter(stage, view, newText.toString(), 660, 300, duration, computerPlayed);
     }
 
     private String whoPlaysFirst() {
@@ -404,11 +467,7 @@ public class GamePlayPresenter {
     }
 
     private void welcomeMessage(Stage stage) {
-        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), e -> {
-            popupWhoPlaysFirst(stage, whoPlaysFirst(), 2);
-//            System.out.println("Computer tiles: " + currentModel.getComputerSession().getPlayer().getDeck().getTilesInDeck());
-        }));
-        timeline.play();
+        popupWhoPlaysFirst(stage, whoPlaysFirst(), 2);
     }
 
     private void fillEmptySpots() {
@@ -421,19 +480,27 @@ public class GamePlayPresenter {
                 int row = coordinates[1];
                 //Place left
                 if (!containsTile(col - 1, row)) {
-                    currentView.getGrid().add(getEmptyTile(col - 1, row), col - 1, row);
+                    TileNode tileNode1 = getEmptyTile(col - 1, row);
+                    currentView.getGrid().add(tileNode1, col - 1, row);
+                    tileNode1.toBack();
                 }
                 //Place right
                 if (!containsTile(col + 1, row)) {
-                    currentView.getGrid().add(getEmptyTile(col + 1, row), col + 1, row);
+                    TileNode tileNode2 = getEmptyTile(col + 1, row);
+                    currentView.getGrid().add(tileNode2, col + 1, row);
+                    tileNode2.toBack();
                 }
                 //Place up
                 if (!containsTile(col, row - 1)) {
-                    currentView.getGrid().add(getEmptyTile(col, row - 1), col, row - 1);
+                    TileNode tileNode3 = getEmptyTile(col, row - 1);
+                    currentView.getGrid().add(tileNode3, col, row - 1);
+                    tileNode3.toBack();
                 }
                 //Place Down
                 if (!containsTile(col, row + 1)) {
-                    currentView.getGrid().add(getEmptyTile(col, row + 1), col, row + 1);
+                    TileNode tileNode4 = getEmptyTile(col, row + 1);
+                    currentView.getGrid().add(tileNode4, col, row + 1);
+                    tileNode4.toBack();
                 }
             }
         }
@@ -483,12 +550,15 @@ public class GamePlayPresenter {
                         }
                         if (!success) {
                             currentModel.getPlayerSession().getLastTurn().removeLast();
-//                            System.out.println("Not valid move");
+                            System.out.println("Not valid move");
                         }
                     }
                     e.setDropCompleted(success);
+                    removeTileEffect();
                     fillEmptySpots();
-                    resizeGrid(gridCellSize());
+                    System.out.println("Dragged size: " + gridTileSize());
+                    resizeGridContent(gridTileSize());
+                    System.out.println("Dragged size: " + gridTileSize());
                     e.consume();
                 });
             }
@@ -535,7 +605,7 @@ public class GamePlayPresenter {
 
     private void timerSet() {
         DateFormat timeFormat = new SimpleDateFormat("mm:ss");
-        timeline = new Timeline(
+        timer = new Timeline(
                 new KeyFrame(
                         Duration.millis(1000),
                         event -> {
@@ -544,8 +614,8 @@ public class GamePlayPresenter {
                         }
                 )
         );
-        timeline.setCycleCount(Animation.INDEFINITE);
-        timeline.play();
+        timer.setCycleCount(Animation.INDEFINITE);
+        timer.play();
     }
 
     private void cleanUpGrid() {
@@ -584,27 +654,62 @@ public class GamePlayPresenter {
         return tile;
     }
 
-    private int gridCellSize() {
+    private int gridTileSize() {
         Set<Integer> columns = new HashSet<>();
         Set<Integer> rows = new HashSet<>();
+        int defaultTileSize = 50;
+        int defaultWidth = 950;
+        int defaultHeight = 650;
+        int defaultRows = defaultHeight / defaultTileSize + 1;
+        int defaultColumns = defaultWidth / defaultTileSize + 1;
         for (Node node : currentView.getGrid().getChildren()) {
             if (((TileNode) node).hasTile()) {
                 columns.add(((TileNode) node).getCol());
                 rows.add(((TileNode) node).getRow());
             }
         }
-
-        if (rows.size() > 11 || columns.size() > 17) {
-            if (columns.size() < 19) {
-                return 45;
-            } else if (rows.size() > 12 || columns.size() > 20) {
-                return 40;
-            }
+        Node tileNode = currentView.getGrid().getChildren().get(rows.size());
+        double rowsCounter = rows.size() + 2;
+        double columnsCounter = columns.size() + 2;
+        System.out.println("rows: " + rowsCounter);
+        if (columnsCounter < defaultColumns && rowsCounter < defaultRows) {
+            tileSize = defaultTileSize;
+            return tileSize;
         }
-        return 50;
+        if ((rowsCounter * ((TileNode) tileNode).getHeight() > 650) && !(columnsCounter * ((TileNode) tileNode).getWidth() > 950)) {
+            double numberOfCellsVertically = 650 / rowsCounter;
+            String cellsVertically = "" + numberOfCellsVertically;
+            String truncated = cellsVertically.substring(0, 2);
+            System.out.println(Integer.parseInt(truncated));
+            tileSize = Integer.parseInt(truncated);
+            return tileSize;
+        }
+        System.out.println("columns: " + columnsCounter);
+        if ((columnsCounter * ((TileNode) tileNode).getWidth() > 950) && !(rowsCounter * ((TileNode) tileNode).getHeight() > 650)) {
+            double numberOfCellsHorizontally = 950 / columnsCounter;
+            String cellsHorizontally = "" + numberOfCellsHorizontally;
+            String truncated = cellsHorizontally.substring(0, 2);
+            System.out.println(Integer.parseInt(truncated));
+            tileSize = Integer.parseInt(truncated);
+            return tileSize;
+        }
+        if ((columnsCounter * ((TileNode) tileNode).getWidth() > 950) && (rowsCounter * ((TileNode) tileNode).getHeight() > 650)) {
+            double numberOfCellsHorizontally = 950 / columnsCounter;
+            String cellsHorizontally = "" + numberOfCellsHorizontally;
+            String truncated = cellsHorizontally.substring(0, 2);
+            System.out.println(Integer.parseInt(truncated));
+            int columnsSize = Integer.parseInt(truncated);
+            double numberOfCellsVertically = 650 / rowsCounter;
+            String cellsVertically = "" + numberOfCellsVertically;
+            String truncated1 = cellsVertically.substring(0, 2);
+            System.out.println(Integer.parseInt(truncated1));
+            int rowsSize = Integer.parseInt(truncated1);
+            tileSize = Math.min(columnsSize, rowsSize);
+        }
+        return tileSize;
     }
 
-    private void resizeGrid(int size) {
+    private void resizeGridContent(int size) {
         for (Node node : currentView.getGrid().getChildren()) {
             ((TileNode) node).setWidth(size);
             ((TileNode) node).setHeight(size);
@@ -612,8 +717,9 @@ public class GamePlayPresenter {
         }
     }
 
-    private void resizeTile(TileNode tileNode, int size) {
-        tileNode.setWidth(size);
-        tileNode.setHeight(size);
+    private void removeTileEffect() {
+        for (Node node : currentView.getGrid().getChildren()) {
+            node.setStyle(null);
+        }
     }
 }
