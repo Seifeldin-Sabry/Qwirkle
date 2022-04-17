@@ -146,6 +146,7 @@ public class Database {
                     
                     ALTER SEQUENCE player_id_seq RESTART;
                     ALTER SEQUENCE game_id_seq RESTART;
+                    ALTER SEQUENCE playersession_id_seq RESTART;
                     """;
 
             stmt.executeUpdate(truncSql);
