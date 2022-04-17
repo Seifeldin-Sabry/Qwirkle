@@ -3,12 +3,14 @@ package qwirkle.view.gamePlayFrame;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Label;
-import javafx.scene.layout.StackPane;
-import javafx.scene.layout.VBox;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.*;
 
 public class PopupView extends StackPane {
 
     private Label label;
+    private ImageView imageView;
     private VBox vBox;
 
     PopupView() {
@@ -18,6 +20,8 @@ public class PopupView extends StackPane {
 
     private void initialiseNodes() {
         label = new Label();
+        Image img =  new Image("/images/hourglass.png",205, 167.5, true,true );
+        imageView = new ImageView(img);
         vBox = new VBox(20);
     }
 
@@ -26,16 +30,20 @@ public class PopupView extends StackPane {
         label.setPrefWidth(450);
         label.setPrefHeight(200);
         label.setAlignment(Pos.CENTER);
-//        vBox.setAlignment(Pos.CENTER);
-//        vBox.getChildren().addAll(label);
-        getChildren().add(label);
+        vBox.setAlignment(Pos.CENTER);
+        vBox.getChildren().add(label);
+        vBox.setPadding(new Insets(20, 0, 20, 0));
+        getChildren().add(vBox);
         setStyle("-fx-background-radius: 45; -fx-background-color: rgba(255,255,255, 0.8); -fx-border-width: 3;");
         setPadding(new Insets(20, 50, 20, 50));
 
     }
 
-    public VBox getVBox() {
+     VBox getVBox() {
         return vBox;
+    }
+    ImageView getImageView() {
+        return imageView;
     }
 
     Label getLabel() {
