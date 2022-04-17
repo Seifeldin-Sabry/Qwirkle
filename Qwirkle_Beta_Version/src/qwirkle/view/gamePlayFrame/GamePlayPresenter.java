@@ -276,6 +276,7 @@ public class GamePlayPresenter {
 
     private void setGameOver(Stage stage) {
         Database.getInstance().save(currentModel);
+        currentModel.getActivePlayerSession().getLastTurn().setPoints(currentModel.getActivePlayerSession().getLastTurn().getPoints() + 6);
         currentView.getVb2().getChildren().remove(currentView.getGrid());
         try {
             currentView.getVb2().getChildren().add(currentView.getVBox());
