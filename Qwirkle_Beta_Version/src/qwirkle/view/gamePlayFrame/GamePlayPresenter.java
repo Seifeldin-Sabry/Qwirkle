@@ -172,17 +172,14 @@ public class GamePlayPresenter {
     }
 
     private void submit(Stage stage) {
-        if (playedTiles.size() == 0) {
+        if (exchangedTiles.size() > 0) {
+            undo(stage);
             submitExchange(stage);
         }
-
         playedTiles.clear();
         exchangedTiles.clear();
-
         currentModel.setNextPlayerSession();
-
         updateView(stage);
-        playComputerMove(stage);
     }
 
     private void playComputerMove(Stage stage) {
