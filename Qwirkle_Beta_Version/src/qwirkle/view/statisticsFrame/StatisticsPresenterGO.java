@@ -31,8 +31,8 @@ public class StatisticsPresenterGO {
     private void loadStatistics() {
         loadDurationPerTurnLastGame();
         loadPointsPerTurnLastGame();
-        loadTilesByShape();
-        loadTilesByColor();
+//        loadTilesByShape();
+//        loadTilesByColor();
         loadDurationPerSession();
         loadAvgPointsPerSession();
         loadBestPointsPerSession();
@@ -62,13 +62,7 @@ public class StatisticsPresenterGO {
         view.getDurationPerSession().getData().add(seriesDurationOverall);
     }
 
-    private void loadTilesByShape() {
-        view.getMostPlayedTilesByShape().getData().addAll(database.getTileByShapeChart());
-    }
 
-    private void loadTilesByColor() {
-        view.getMostPlayedTilesByColor().getData().addAll(database.getTileByColorChart());
-    }
 
     private void loadDurationPerTurnLastGame() {
         XYChart.Series seriesDurationLastGameSessionComputer = view.getSeriesDurationLastGameSessionComputer();
