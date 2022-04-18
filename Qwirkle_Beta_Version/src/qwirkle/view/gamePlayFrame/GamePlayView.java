@@ -268,10 +268,13 @@ public class GamePlayView extends BorderPane {
         setBackground(new Background(bgImage));
 
         //GameOver
-        label.setStyle("-fx-font-size: 30; -fx-font-family: 'Comic Sans MS'; -fx-font-style: italic;");
+        label.setTranslateY(gameOver.getY() - 90);
+        label.setStyle("-fx-font-family: 'American Typewriter'; -fx-font-size: 60; -fx-text-fill: #ffffff;" +
+                "-fx-font-weight: bold; -fx-effect: dropshadow( gaussian , rgb(0,0,0) , 5,0,10,10 );");
         label.setPrefWidth(450);
         label.setPrefHeight(200);
         label.setAlignment(Pos.CENTER);
+        gameOver.setStyle("-fx-effect: dropshadow( gaussian , rgb(0,0,0) , 5,0,10,10 );");
         statistics.setStyle("-fx-background-color: #FF5733; -fx-font-size: 28; -fx-text-fill: #fff; -fx-effect: " +
                 "dropshadow( gaussian , rgba(0,0,0,0.7) , 10,0,10,10); -fx-cursor: hand; -fx-background-radius: 5;");
         statistics.setPrefSize(220, 50);
@@ -316,7 +319,7 @@ public class GamePlayView extends BorderPane {
         return rules;
     }
 
-    public Label getGameStatus() {
+    Label getGameStatus() {
         return gameStatus;
     }
 
