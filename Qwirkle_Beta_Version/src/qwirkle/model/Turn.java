@@ -30,7 +30,7 @@ public class Turn implements List<Move>{
         return points;
     }
 
-    public double getTurnDuration() {
+    public long getTurnDuration() {
         return turnDuration;
     }
 

@@ -74,10 +74,10 @@ public class PlayerSession implements List<Turn>{
         }
     }
 
-    public double getTotalTimeSpent(){
-        OptionalDouble timeSpent = turnsPlayed.stream().mapToDouble(Turn::getTurnDuration).reduce(Double::sum);
+    public long getTotalTimeSpent(){
+        OptionalLong timeSpent = turnsPlayed.stream().mapToLong(Turn::getTurnDuration).reduce(Long::sum);
         try {
-            return timeSpent.getAsDouble();
+            return timeSpent.getAsLong();
         }catch (NoSuchElementException e){
             return 0;
         }
@@ -260,7 +260,7 @@ public class PlayerSession implements List<Turn>{
                          """;
             PreparedStatement ptsmt = conn.prepareStatement(sql);
             ptsmt.setInt(1,getTotalScore());
-            ptsmt.setDouble(2,getTotalTimeSpent());
+            ptsmt.setLong(2,getTotalTimeSpent());
             ptsmt.executeUpdate();
             ptsmt.close();
         }catch (Exception e){
