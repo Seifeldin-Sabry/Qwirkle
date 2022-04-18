@@ -1,9 +1,7 @@
 package qwirkle.model;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * @author Seifeldin Ismail
@@ -138,7 +136,7 @@ public class Grid {
         }
 //        direction = this.determineDirection(moveList);
         for (Move move:moveList) {
-            if(isNotConnected(move,moveList))return false;
+            if(isNotConnected(move,moveList)) return false;
         }
         Grid grid = getDeepCopy();
         for (Move move:moveList) {
@@ -160,12 +158,20 @@ public class Grid {
     }
 
     private boolean isNotConnected(Move move, Turn moveList) {
-        Move.Coordinate[] adjacents = move.getCoordinate().getAdjacentCoords();
-        for (Move.Coordinate adjacent:adjacents) {
-            Move move1 = new Move(getTile(adjacent.getRow(),adjacent.getColumn()),adjacent);
-            if(move1.getTile()!=null && moveList.contains(move1))return true;
+        boolean isConnected = false;
+        Move.Coordinate[] moveAdjacents = move.getCoordinate().getAdjacentCoords();
+        Move.Coordinate[] moveListCoordinates = moveList.stream().map(Move::getCoordinate).toArray(Move.Coordinate[]::new);
+        for (Move.Coordinate moveAdjacent:moveAdjacents) {
+            for (Move.Coordinate moveListCoordinate:moveListCoordinates) {
+                if (moveAdjacent.equals(moveListCoordinate)) {
+                    isConnected = true;
+                }
+                else {
+                    isConnected = false;
+                }
+            }
         }
-        return false;
+        return isConnected;
     }
 
 
@@ -201,6 +207,10 @@ public class Grid {
                 return false;
             }
         }
+//        direction = this.determineDirection(moveList);
+        for (Move move:moveList) {
+            if(isNotConnected(move,turn))return false;
+        }
         Grid grid = getDeepCopy();
         for (Move move:moveList) {
             int row = move.getCoordinate().getRow();
@@ -210,11 +220,13 @@ public class Grid {
             }
         }
         for (Move move:moveList) {
+
             if (!grid.isValidMove(move)) {
                 return false;
             }
             grid.boardAddMove(move);
         }
+
         return true;
     }
 
@@ -385,30 +397,33 @@ public class Grid {
      */
     ArrayList<Tile> getConnectedVerticalArray(Move.Coordinate coordinate) {
         ArrayList<Tile> tiles = new ArrayList<>();
-        int x = coordinate.getRow();
-        int y = coordinate.getColumn();
-
-        for (int i = 1; i < QWIRKLE; i++) {// testing for 5 NOT 6 because our tile might be the sixth
+        int row = coordinate.getRow();
+        int column = coordinate.getColumn();
+        int count = 1;
+        while(true) {
             Tile tile = null;
             try {
-                tile = getTile(x + i, y);
+                tile = getTile(row + count, column);
             }catch (ArrayIndexOutOfBoundsException ignored){
             }
             if (tile == null) {
                 break;
             }
             tiles.add(tile);
+            count++;
         }
-        for (int i = 1; i < QWIRKLE; i++) {
-            Tile tile = null;
+        count = 1;
+        while (true) {
+           Tile tile = null;
             try {
-                tile = getTile(x - i, y);
+                tile = getTile(row - count, column);
             }catch (ArrayIndexOutOfBoundsException ignored){
             }
             if (tile == null) {
                 break;
             }
             tiles.add(tile);
+            count++;
         }
         return tiles;
     }
@@ -422,28 +437,31 @@ public class Grid {
         ArrayList<Tile> tiles = new ArrayList<>();
         int x = coordinate.getRow();
         int y = coordinate.getColumn();
-
-        for (int i = 1; i < QWIRKLE; i++) {
+        int count = 1;
+        while (true) {
             Tile tile = null;
             try {
-                tile = getTile(x, y + i);
+                tile = getTile(x, y + count);
             }catch (ArrayIndexOutOfBoundsException ignored){
             }
             if (tile == null) {
                 break;
             }
-            else tiles.add(tile);
+            tiles.add(tile);
+            count++;
         }
-        for (int i = 1; i < QWIRKLE; i++) {
+        count = 1;
+        while (true) {
             Tile tile = null;
             try {
-                tile = getTile(x , y - i);
+                tile = getTile(x , y - count);
             }catch (ArrayIndexOutOfBoundsException ignored){
             }
             if (tile == null) {
                 break;
             }
-            else tiles.add(tile);
+            tiles.add(tile);
+            count++;
         }
         return tiles;
     }
