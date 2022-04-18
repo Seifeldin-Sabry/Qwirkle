@@ -244,7 +244,8 @@ public class Database {
                     
                     CREATE TABLE IF NOT EXISTS int_player(
                                                              player_id INT PRIMARY KEY,
-                                                             player_name VARCHAR(32) NOT NULL
+                                                             player_name VARCHAR(32) NOT NULL,
+                                                             difficulty VARCHAR DEFAULT NULL
                     );
                     
                     CREATE TABLE IF NOT EXISTS int_playersession(
