@@ -38,8 +38,8 @@ public class StatisticsView extends BorderPane {
     private NumberAxis xAxisTurnNo2;
 
     //Game Statistics
-    private PieChart mostPlayedTilesByColor;
-    private PieChart mostPlayedTilesByShape;
+//    private PieChart mostPlayedTilesByColor;
+//    private PieChart mostPlayedTilesByShape;
 
 
     private TabPane tabPane;
@@ -87,14 +87,14 @@ public class StatisticsView extends BorderPane {
         back = new Button("Back");
         back.getStyleClass().add("stat-backBtn");
 
-        //PIECHARTS
-        mostPlayedTilesByColor = new PieChart();
-        mostPlayedTilesByColor.setTitle("Your Most Played Tiles By Color");
-        mostPlayedTilesByColor.setLegendSide(Side.LEFT);
-
-        mostPlayedTilesByShape = new PieChart();
-        mostPlayedTilesByShape.setTitle("Your Most Played Tiles By Shape");
-        mostPlayedTilesByShape.setLegendSide(Side.LEFT);
+//        //PIECHARTS
+//        mostPlayedTilesByColor = new PieChart();
+//        mostPlayedTilesByColor.setTitle("Your Most Played Tiles By Color");
+//        mostPlayedTilesByColor.setLegendSide(Side.LEFT);
+//
+//        mostPlayedTilesByShape = new PieChart();
+//        mostPlayedTilesByShape.setTitle("Your Most Played Tiles By Shape");
+//        mostPlayedTilesByShape.setLegendSide(Side.LEFT);
 
 
 
@@ -196,13 +196,14 @@ public class StatisticsView extends BorderPane {
         bestScorePerSessionTab.setContent(bestScorePerSession);
 
 
-        tileByColorTab = new Tab("TilesByColor");
-        tileByColorTab.setContent(mostPlayedTilesByColor);
+//        tileByColorTab = new Tab("TilesByColor");
+//        tileByColorTab.setContent(mostPlayedTilesByColor);
+//
+//        tileByShapeTab = new Tab("TilesByShape");
+//        tileByShapeTab.setContent(mostPlayedTilesByShape);
 
-        tileByShapeTab = new Tab("TilesByShape");
-        tileByShapeTab.setContent(mostPlayedTilesByShape);
-
-        tabPane.getTabs().addAll(durationPerTurnTabLastGameSession, pointPerTurnTabLastGameSession, tileByColorTab, tileByShapeTab, durationPerSessionTab, averageScorePerSessionTab);
+//        tabPane.getTabs().addAll(durationPerTurnTabLastGameSession, pointPerTurnTabLastGameSession, tileByColorTab, tileByShapeTab, durationPerSessionTab, averageScorePerSessionTab);
+        tabPane.getTabs().addAll(durationPerTurnTabLastGameSession, pointPerTurnTabLastGameSession, bestScorePerSessionTab, durationPerSessionTab, averageScorePerSessionTab);
 
     }
 
@@ -312,14 +313,14 @@ public class StatisticsView extends BorderPane {
 
         return durationLastGameSession;
     }
-
-    PieChart getMostPlayedTilesByColor() {
-        return mostPlayedTilesByColor;
-    }
-
-    PieChart getMostPlayedTilesByShape() {
-        return mostPlayedTilesByShape;
-    }
+//
+//    PieChart getMostPlayedTilesByColor() {
+//        return mostPlayedTilesByColor;
+//    }
+//
+//    PieChart getMostPlayedTilesByShape() {
+//        return mostPlayedTilesByShape;
+//    }
 
     XYChart.Series getSeriesDurationLastGameSessionPlayer() {
         return seriesDurationLastGameSessionPlayer;
