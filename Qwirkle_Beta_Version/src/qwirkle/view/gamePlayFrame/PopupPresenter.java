@@ -47,10 +47,11 @@ public class PopupPresenter {
         stage.setAlwaysOnTop(true);
         stage.initOwner(primaryStage);
         stage.initModality(Modality.APPLICATION_MODAL);
-        Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
-        stage.setX((primScreenBounds.getWidth() - stage.getWidth()) / 2);
-        stage.setY((primScreenBounds.getHeight() - stage.getHeight()) / 2);
+//        Rectangle2D primScreenBounds = Screen.getPrimary().getVisualBounds();
+//        stage.setX((primaryStage.getWidth() - stage.getWidth()) / 2);
         stage.show();
+        double primaryStageHeight = primaryStage.getHeight();
+        stage.setY((primaryStageHeight - stage.getHeight())/2);
         timeline = new Timeline(new KeyFrame(Duration.seconds(duration),
                 event -> {
                     try {
