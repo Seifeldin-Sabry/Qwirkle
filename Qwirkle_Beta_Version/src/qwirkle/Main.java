@@ -55,6 +55,7 @@ public class Main extends Application {
                             loginStage.show();
                             intro.close();
                         } else {
+                            Database.getInstance().logIn();
                             primaryStage.show();
                             welcomePresenter.addWindowEventHandlers(primaryStage);
                             loginStage.close();
