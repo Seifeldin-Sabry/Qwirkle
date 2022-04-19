@@ -241,7 +241,7 @@ public class Grid {
      * @param move to validate
      * @return if the Move move is valid on the Y axis
      */
-    private boolean isValidInVerticalLine(Move move) {
+     private boolean isValidInVerticalLine(Move move) {
         Move.Coordinate coordinate = move.getCoordinate();
         Tile tileToCompare = move.getTile();
         //Gets the tiles connected on the Y axis (Vertically)
@@ -249,21 +249,30 @@ public class Grid {
 
         if (tiles.size() > 5) return false;
         if (!tiles.isEmpty()) {
-            if (tileToCompare.isSameShape(tiles.get(0))
-                    && tileToCompare.isSameColor(tiles.get(0))) {
-                return false;
-            }
+
+            //if the tile to compare is not the same whether it is shape or color as the first tile in the list
+            //then the move is invalid
+            boolean sameShape = tiles.get(0).isSameShape(tileToCompare);
+            boolean sameColor = tiles.get(0).isSameColor(tileToCompare);
+
+            if(sameShape && sameColor) return false;
+
             //if either color or shape is used then
             for (Tile tile : tiles) { //comparing every color or shape for matching condition
                 //if same color and same shape
-                if (tileToCompare.isSameColor(tile)
-                        && tileToCompare.isSameShape(tile)) {
-                    return false;
-                }
+                if (tileToCompare.isSameColor(tile) && sameShape) return false;
+
                 //if not same color and not the same shape
-                if (!tileToCompare.isSameColor(tile) && !tileToCompare.isSameShape(tile)) {
+                if (!tileToCompare.isSameColor(tile) && !sameShape) {
                     return false;
                 }
+
+                if (tileToCompare.isSameShape(tile) && sameColor) return false;
+
+                if (!tileToCompare.isSameShape(tile) && !sameColor) {
+                    return false;
+                }
+
             }
         }
         return true;
@@ -292,26 +301,33 @@ public class Grid {
     }
 
 
-    private boolean isValidInHorizontalLine(Move move) {
+     private boolean isValidInHorizontalLine(Move move) {
         Move.Coordinate coordinate = move.getCoordinate();
         Tile tileToCompare = move.getTile();
         ArrayList<Tile> tiles = getConnectedHorizontalArray(coordinate);
 
         if (tiles.size() > 5) return false;
         if (!tiles.isEmpty()) {
-            if (tileToCompare.isSameShape(tiles.get(0))
-                    && tileToCompare.isSameColor(tiles.get(0))) {
-                return false;
-            }
+
+            boolean sameShape = tiles.get(0).isSameShape(tileToCompare);
+            boolean sameColor = tiles.get(0).isSameColor(tileToCompare);
+
+            if(sameShape && sameColor) return false;
             //if either color or shape is used then
             for (Tile tile : tiles) { //comparing every color or shape for matching condition
                 //if same color and same shape
-                if (tileToCompare.isSameColor(tile)
-                        && tileToCompare.isSameShape(tile)) {
+
+
+                if (tileToCompare.isSameColor(tile) && sameShape) return false;
+
+                //if not same color and not the same shape
+                if (!tileToCompare.isSameColor(tile) && !sameShape) {
                     return false;
                 }
-                //if not same color and not the same shape
-                if (!tileToCompare.isSameColor(tile) && !tileToCompare.isSameShape(tile)) {
+
+                if (tileToCompare.isSameShape(tile) && sameColor) return false;
+
+                if (!tileToCompare.isSameShape(tile) && !sameColor) {
                     return false;
                 }
 
