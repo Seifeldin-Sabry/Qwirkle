@@ -81,7 +81,7 @@ public class Computer extends Player {
                     turn.add(move);
                 } else {
                     turn.add(move);
-                    if (getBoard().isValidMove(turn)) {
+                    if (getBoard().isValidMoves(turn)) {
                         moves.add(move);
                         getBoard().boardAddMove(move);
                         getDeck().getTilesInDeck().remove(move.getTile());
@@ -356,73 +356,86 @@ public class Computer extends Player {
     }
 
     public HashMap<Move, Set<Turn>> getAllValidMoves() {
+
         HashMap<Move, Set<Turn>> validMoves = new HashMap<>();
-        Set<Set<Tile>> combos = allDeckTileCombinations();
+        List<List<Tile>> allCombinations = getAllPossibleCombinationAndPermutations();
+        Grid grid;
         Set<Move> edges = getBoard().getAllOccupiedEdges();
+
+        ArrayList<Move> moves = new ArrayList<>();
+
         for(Move edge: edges){
+
             validMoves.computeIfAbsent(edge, k -> new HashSet<>());
             Move.Coordinate coordinate = edge.getCoordinate();
-            for(Set<Tile> combo: combos){
-                ArrayList<Tile> tiles = new ArrayList<>(combo);
+            for(List<Tile> combo: allCombinations){
                 boolean isEmptyUp = getBoard().isEmpty(coordinate.getRow()-1,coordinate.getColumn());
                 boolean isEmptyDown = getBoard().isEmpty(coordinate.getRow()+1,coordinate.getColumn());
                 boolean isEmptyLeft = getBoard().isEmpty(coordinate.getRow(),coordinate.getColumn()-1);
                 boolean isEmptyRight = getBoard().isEmpty(coordinate.getRow()-1,coordinate.getColumn()+1);
-
-                if (isEmptyUp) {
-                    Turn turn = new Turn();
-                    turn.add(edge);
-                    for (int i = 0; i < tiles.size(); i++) {
-                        turn.add(new Move(tiles.get(i),new Move.Coordinate(coordinate.getRow() - (1-i), coordinate.getColumn())));
-                        if(!getBoard().isValidMove(turn)){
-                            turn.removeLast();
+                
+                if(isEmptyUp){
+                    for (int i = 0; i < combo.size(); i++) {
+                        Move.Coordinate newCoordinate = new Move.Coordinate(coordinate.getRow()-(i+1),coordinate.getColumn());
+                        grid = getBoard().getDeepCopy();
+                        Move move = new Move(combo.get(i),newCoordinate);
+                        moves.add(move);
+                        if (!grid.isValidMoves(moves)) {
+                            moves.clear();
+                            break;
                         }
-                    }
-                    if(turn.size() > 1){
-                        validMoves.get(edge).add(turn);
                     }
                 }
-
-                if (isEmptyDown) {
-                    Turn turn = new Turn();
-                    turn.add(edge);
-                    for (int i = 0; i < tiles.size(); i++) {
-                        turn.add(new Move(tiles.get(i),new Move.Coordinate(coordinate.getRow() + (1+i), coordinate.getColumn())));
-                        if(!getBoard().isValidMove(turn)){
-                            turn.removeLast();
-                        }
-                    }
-                    if(turn.size() > 1){
-                        validMoves.get(edge).add(turn);
-                    }
+                if (moves.size() > 0) {
+                    validMoves.get(edge).add(new Turn(moves));
                 }
 
-                if (isEmptyLeft) {
-                    Turn turn = new Turn();
-                    turn.add(edge);
-                    for (int i = 0; i < tiles.size(); i++) {
-                        turn.add(new Move(tiles.get(i),new Move.Coordinate(coordinate.getRow() , coordinate.getColumn() - (1 - i))));
-                        if(!getBoard().isValidMove(turn)){
-                            turn.removeLast();
+                if(isEmptyDown){
+                    for (int i = 0; i < combo.size(); i++) {
+                        Move.Coordinate newCoordinate = new Move.Coordinate(coordinate.getRow()+(i+1),coordinate.getColumn());
+                        grid = getBoard().getDeepCopy();
+                        Move move = new Move(combo.get(i),newCoordinate);
+                        moves.add(move);
+                        if (!grid.isValidMoves(moves)) {
+                            moves.clear();
+                            break;
                         }
-                    }
-                    if(turn.size() > 1){
-                        validMoves.get(edge).add(turn);
                     }
                 }
+                if (moves.size() > 0) {
+                    validMoves.get(edge).add(new Turn(moves));
+                }
 
-                if (isEmptyRight) {
-                    Turn turn = new Turn();
-                    turn.add(edge);
-                    for (int i = 0; i < tiles.size(); i++) {
-                        turn.add(new Move(tiles.get(i),new Move.Coordinate(coordinate.getRow() , coordinate.getColumn() + (i+1))));
-                        if(!getBoard().isValidMove(turn)){
-                            turn.removeLast();
+                if(isEmptyLeft){
+                    for (int i = 0; i < combo.size(); i++) {
+                        Move.Coordinate newCoordinate = new Move.Coordinate(coordinate.getRow(),coordinate.getColumn()-(i+1));
+                        grid = getBoard().getDeepCopy();
+                        Move move = new Move(combo.get(i),newCoordinate);
+                        moves.add(move);
+                        if (!grid.isValidMoves(moves)) {
+                            moves.clear();
+                            break;
                         }
                     }
-                    if(turn.size() > 1){
-                        validMoves.get(edge).add(turn);
+                }
+                if (moves.size() > 0) {
+                    validMoves.get(edge).add(new Turn(moves));
+                }
+
+                if(isEmptyRight){
+                    for (int i = 0; i < combo.size(); i++) {
+                        Move.Coordinate newCoordinate = new Move.Coordinate(coordinate.getRow(),coordinate.getColumn()+(i+1));
+                        grid = getBoard().getDeepCopy();
+                        Move move = new Move(combo.get(i),newCoordinate);
+                        moves.add(move);
+                        if (!grid.isValidMoves(moves)) {
+                            moves.clear();
+                            break;
+                        }
                     }
+                }
+                if (moves.size() > 0) {
+                    validMoves.get(edge).add(new Turn(moves));
                 }
             }
         }
@@ -432,7 +445,15 @@ public class Computer extends Player {
         return toReturn;
     }
 
-
+    private List<List<Tile>> getAllPossibleCombinationAndPermutations() {
+        Set<Set<Tile>> setOfCombinations = allDeckTileCombinations();
+        List<List<Tile>> allCombinations = new ArrayList<>();
+        for (Set<Tile> combo : setOfCombinations) {
+            List<Tile> tileCombo = new ArrayList<>(combo);
+            allCombinations.addAll(getAllPermutations(tileCombo));
+        }
+        return allCombinations;
+    }
 
 
     //this works perfectly

@@ -12,7 +12,7 @@ import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 /**
- * @author: Seifeldin Ismail
+ * @author Seifeldin Ismail
  */
 public class Turn implements List<Move>{
     private final LinkedList<Move> moveList;
@@ -23,6 +23,11 @@ public class Turn implements List<Move>{
 
     public Turn() {
         this.moveList = new LinkedList<>();
+        startTimer = System.currentTimeMillis();
+    }
+
+    public Turn(List<Move> moveList) {
+        this.moveList = new LinkedList<>(moveList);
         startTimer = System.currentTimeMillis();
     }
 

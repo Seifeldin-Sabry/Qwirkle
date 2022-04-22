@@ -513,7 +513,7 @@ public class GamePlayPresenter {
                         int row = rIndex == null ? 0 : rIndex;
                         Move currentMove = new Move(draggableTile.getTile(), new Move.Coordinate(row, col));
                         currentModel.getPlayerSession().getLastTurn().add(currentMove);
-                        if (currentModel.getGrid().isValidMove(currentModel.getPlayerSession().getLastTurn())) {
+                        if (currentModel.getGrid().isValidMoves(currentModel.getPlayerSession().getLastTurn())) {
                             currentModel.getPlayerSession().getPlayer().makeMove(currentMove);
                             playedTiles.add(draggableTile);
                             draggableTile.savePosition(col, row);

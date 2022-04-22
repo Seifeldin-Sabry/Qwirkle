@@ -103,7 +103,7 @@ public class Grid {
         return true;
     }
 
-    public boolean isValidMove(Turn moveList) {
+    public boolean isValidMoves(Turn moveList) {
         int direction = this.determineDirection(moveList);
         switch (direction) {
             case 0 -> {
@@ -177,7 +177,7 @@ public class Grid {
     }
 
 
-    public boolean isValidMove(List<Move> moveList) {
+    public boolean isValidMoves(List<Move> moveList) {
         Turn turn = new Turn();
         turn.addAll(moveList);
         int direction = this.determineDirection(turn);
@@ -449,7 +449,6 @@ public class Grid {
      * @return all Tiles that are connected to the given coordinates c
      * horizontal
      */
-
     public ArrayList<Tile> getConnectedHorizontalArray(Move.Coordinate coordinate) {
         ArrayList<Tile> tiles = new ArrayList<>();
         int x = coordinate.getRow();
@@ -460,6 +459,7 @@ public class Grid {
             try {
                 tile = getTile(x, y + count);
             } catch (ArrayIndexOutOfBoundsException ignored) {
+                //we ignore this for the simple reason that we don't want to go out of bounds
             }
             if (tile == null) {
                 break;
@@ -473,6 +473,7 @@ public class Grid {
             try {
                 tile = getTile(x, y - count);
             } catch (ArrayIndexOutOfBoundsException ignored) {
+                //we ignore this for the simple reason that we don't want to go out of bounds
             }
             if (tile == null) {
                 break;
