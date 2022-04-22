@@ -102,6 +102,7 @@ public class DBLoginView extends BorderPane {
         setBottom(hBox4);
         setAlignment(hBox4, Pos.BOTTOM_CENTER);
         setPrefSize(520, 740);
+        login.setDefaultButton(true);
         setBackground(new Background(new BackgroundFill(Color.rgb(255, 255, 255, 1),
                 new CornerRadii(15.0), new Insets(0))));
     }

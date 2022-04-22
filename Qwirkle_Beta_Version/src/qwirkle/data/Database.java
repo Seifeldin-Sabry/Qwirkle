@@ -775,5 +775,44 @@ public class Database {
     }
 
 
-
+    public String getLastPlayerName(){
+        this.connection = setConnection();
+        PreparedStatement ptsmt = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        String data = null;
+        try {
+            stmt = connection.createStatement();
+            String sql = """
+                         SELECT player_name
+                         FROM int_gamesession
+                         JOIN int_playersession USING (game_id)
+                         JOIN int_player USING (player_id)
+                         WHERE player_name not in ('Computer')
+                         ORDER BY game_id DESC
+                         LIMIT 1
+                         """;
+            rs = stmt.executeQuery(sql);
+            if (rs.next()) {
+                return rs.getString("player_name");
+            }
+            return "Player";
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            if (connection != null) {
+                closeConnectionQuietly(connection);
+            }
+            if (stmt != null) {
+                closeStatementQuietly(stmt);
+            }
+            if (rs != null) {
+                closeResultSetQuietly(rs);
+            }
+            if (ptsmt != null) {
+                closePreparedStatementQuietly(ptsmt);
+            }
+        }
+        return data;
+    }
 }

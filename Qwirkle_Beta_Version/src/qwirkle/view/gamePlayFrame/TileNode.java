@@ -1,6 +1,5 @@
 package qwirkle.view.gamePlayFrame;
 
-import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import qwirkle.model.Tile;
@@ -21,23 +20,14 @@ public final class TileNode extends Rectangle {
         setStyle("-fx-border-radius: 2;");
         name = String.valueOf(hashCode());
     }
-    //Computer Tile
+    //Player Tile
     public TileNode(Tile tile, double size) {
         this.tile = tile;
         setWidth(size);
         setHeight(size);
         setFill(tile.getIconImage());
-        setStyle("-fx-cursor: CLOSED_HAND; -fx-border-radius: 2; -fx-background-color: RED;");
-        name = tile + " " + tile.getTile_id();
-    }
-    //Player Tile
-    public TileNode(Tile tile, double width, double height) {
-        this.tile = tile;
-        setFill(tile.getIconImage());
-        setWidth(width);
-        setHeight(height);
-        setStyle("-fx-cursor: CLOSED_HAND; -fx-border-radius: 2;");
-        name = tile + " " + tile.getTile_id();
+        setStyle("-fx-cursor: CLOSED_HAND;");
+        name = tile.toString();
     }
 
     public Tile getTile() {

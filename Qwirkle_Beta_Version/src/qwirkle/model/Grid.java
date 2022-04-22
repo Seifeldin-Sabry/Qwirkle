@@ -1,7 +1,6 @@
 package qwirkle.model;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 /**
  * @author Seifeldin Ismail
@@ -9,14 +8,13 @@ import java.util.stream.Collectors;
 public class Grid {
     public static final int BOARD_SIZE = 91;
     public static final int MID = 45;
-    private static final int QWIRKLE = 6;
     private final Tile[][] grid;
 
     public Grid() {
         this.grid = new Tile[BOARD_SIZE][BOARD_SIZE];
         for (int row = 0; row < getRowCount(); row++) {
             for (int col = 0; col < getColumnCount(); col++) {
-                setTile(row,col,null);
+                setTile(row, col, null);
             }
         }
 
@@ -26,7 +24,7 @@ public class Grid {
         this.grid = new Tile[BOARD_SIZE][BOARD_SIZE];
         for (int row = 0; row < getRowCount(); row++) {
             for (int col = 0; col < getColumnCount(); col++) {
-                setTile(row,col,grid.getTile(row,col));
+                setTile(row, col, grid.getTile(row, col));
             }
         }
     }
@@ -60,6 +58,7 @@ public class Grid {
 
     /**
      * Inverted version of isEmpty()
+     *
      * @param row to look for
      * @param col to look for
      * @return if a Tile is not empty
@@ -77,13 +76,13 @@ public class Grid {
         if (theMove != null && getUsedSpaces() != null) {
             Move.Coordinate moveCoordinate = theMove.getCoordinate();
 
-            if (isEmpty(MID,MID)){
-                return  moveCoordinate.getRow() == MID
+            if (isEmpty(MID, MID)) {
+                return moveCoordinate.getRow() == MID
                         && moveCoordinate.getColumn() == MID;
             }
 
             //Tile already taken
-            if (isNotEmpty(moveCoordinate.getRow(), moveCoordinate.getColumn())){
+            if (isNotEmpty(moveCoordinate.getRow(), moveCoordinate.getColumn())) {
                 return false;
             }
             int adjacent = 0;
@@ -110,8 +109,11 @@ public class Grid {
             case 0 -> {
                 //make sure the move is on the same row
                 int currentCoordRow = moveList.get(0).getCoordinate().getRow();
-                for (int coord:moveList.stream().map(Move::getCoordinate).map(Move.Coordinate::getRow).toList()) {
+                for (int coord : moveList.stream().map(Move::getCoordinate).map(Move.Coordinate::getRow).toList()) {
                     if (coord != currentCoordRow) {
+                        return false;
+                    }
+                    if (foundEmptyTiles(moveList)) {
                         return false;
                     }
                 }
@@ -120,40 +122,45 @@ public class Grid {
             case 1 -> {
                 //make sure the move is on the same column
                 int currentCoordColumn = moveList.get(0).getCoordinate().getColumn();
-                for (int coord:moveList.stream().map(Move::getCoordinate).map(Move.Coordinate::getColumn).toList()) {
+                for (int coord : moveList.stream().map(Move::getCoordinate).map(Move.Coordinate::getColumn).toList()) {
                     if (coord != currentCoordColumn) {
+                        return false;
+                    }
+                    if (foundEmptyTiles(moveList)) {
                         return false;
                     }
                 }
             }
             case -1 -> {
+                if (foundEmptyTiles(moveList)){
+                    return false;
+                }
                 return isValidMove(moveList.get(0));
             }
 
-            case -100,-2 -> {
+            case -100, -2 -> {
                 return false;
             }
         }
 //        direction = this.determineDirection(moveList);
-        for (Move move:moveList) {
-            if(isNotConnected(move,moveList)) return false;
+        for (Move move : moveList) {
+            if (isNotConnected(move, moveList)) return false;
         }
         Grid grid = getDeepCopy();
-        for (Move move:moveList) {
+        for (Move move : moveList) {
             int row = move.getCoordinate().getRow();
             int col = move.getCoordinate().getColumn();
-            if (grid.isNotEmpty(row,col)) {
+            if (grid.isNotEmpty(row, col)) {
                 grid.boardRemoveMove(move);
             }
         }
-        for (Move move:moveList) {
+        for (Move move : moveList) {
 
             if (!grid.isValidMove(move)) {
                 return false;
             }
             grid.boardAddMove(move);
         }
-
         return true;
     }
 
@@ -161,14 +168,9 @@ public class Grid {
         boolean isConnected = false;
         Move.Coordinate[] moveAdjacents = move.getCoordinate().getAdjacentCoords();
         Move.Coordinate[] moveListCoordinates = moveList.stream().map(Move::getCoordinate).toArray(Move.Coordinate[]::new);
-        for (Move.Coordinate moveAdjacent:moveAdjacents) {
-            for (Move.Coordinate moveListCoordinate:moveListCoordinates) {
-                if (moveAdjacent.equals(moveListCoordinate)) {
-                    isConnected = true;
-                }
-                else {
-                    isConnected = false;
-                }
+        for (Move.Coordinate moveAdjacent : moveAdjacents) {
+            for (Move.Coordinate moveListCoordinate : moveListCoordinates) {
+                isConnected = moveAdjacent.equals(moveListCoordinate);
             }
         }
         return isConnected;
@@ -183,7 +185,7 @@ public class Grid {
             case 0 -> {
                 //make sure the move is on the same row
                 int currentCoordRow = moveList.get(0).getCoordinate().getRow();
-                for (int coord:moveList.stream().map(Move::getCoordinate).map(Move.Coordinate::getRow).toList()) {
+                for (int coord : moveList.stream().map(Move::getCoordinate).map(Move.Coordinate::getRow).toList()) {
                     if (coord != currentCoordRow) {
                         return false;
                     }
@@ -193,7 +195,7 @@ public class Grid {
             case 1 -> {
                 //make sure the move is on the same column
                 int currentCoordColumn = moveList.get(0).getCoordinate().getColumn();
-                for (int coord:moveList.stream().map(Move::getCoordinate).map(Move.Coordinate::getColumn).toList()) {
+                for (int coord : moveList.stream().map(Move::getCoordinate).map(Move.Coordinate::getColumn).toList()) {
                     if (coord != currentCoordColumn) {
                         return false;
                     }
@@ -203,23 +205,23 @@ public class Grid {
                 return isValidMove(moveList.get(0));
             }
 
-            case -100,-2 -> {
+            case -100, -2 -> {
                 return false;
             }
         }
 //        direction = this.determineDirection(moveList);
-        for (Move move:moveList) {
-            if(isNotConnected(move,turn))return false;
+        for (Move move : moveList) {
+            if (isNotConnected(move, turn)) return false;
         }
         Grid grid = getDeepCopy();
-        for (Move move:moveList) {
+        for (Move move : moveList) {
             int row = move.getCoordinate().getRow();
             int col = move.getCoordinate().getColumn();
-            if (grid.isNotEmpty(row,col)) {
+            if (grid.isNotEmpty(row, col)) {
                 grid.boardRemoveMove(move);
             }
         }
-        for (Move move:moveList) {
+        for (Move move : moveList) {
 
             if (!grid.isValidMove(move)) {
                 return false;
@@ -231,7 +233,7 @@ public class Grid {
     }
 
     private void boardRemoveMove(Move move) {
-        setTile(move.getCoordinate().getRow(),move.getCoordinate().getColumn(),null);
+        setTile(move.getCoordinate().getRow(), move.getCoordinate().getColumn(), null);
     }
 
 
@@ -241,7 +243,7 @@ public class Grid {
      * @param move to validate
      * @return if the Move move is valid on the Y axis
      */
-     private boolean isValidInVerticalLine(Move move) {
+    private boolean isValidInVerticalLine(Move move) {
         Move.Coordinate coordinate = move.getCoordinate();
         Tile tileToCompare = move.getTile();
         //Gets the tiles connected on the Y axis (Vertically)
@@ -255,7 +257,7 @@ public class Grid {
             boolean sameShape = tiles.get(0).isSameShape(tileToCompare);
             boolean sameColor = tiles.get(0).isSameColor(tileToCompare);
 
-            if(sameShape && sameColor) return false;
+            if (sameShape && sameColor) return false;
 
             //if either color or shape is used then
             for (Tile tile : tiles) { //comparing every color or shape for matching condition
@@ -281,8 +283,8 @@ public class Grid {
     /**
      * @return 0 if horizontal, 1 if vertical, -1 if 1 tile, -2 if no tiles, -100 if invalid(null)
      */
-    public int determineDirection(Turn turn){
-        switch (turn.size()){
+    public int determineDirection(Turn turn) {
+        switch (turn.size()) {
             case 0 -> {
                 return -2;
             }
@@ -301,7 +303,7 @@ public class Grid {
     }
 
 
-     private boolean isValidInHorizontalLine(Move move) {
+    private boolean isValidInHorizontalLine(Move move) {
         Move.Coordinate coordinate = move.getCoordinate();
         Tile tileToCompare = move.getTile();
         ArrayList<Tile> tiles = getConnectedHorizontalArray(coordinate);
@@ -312,7 +314,7 @@ public class Grid {
             boolean sameShape = tiles.get(0).isSameShape(tileToCompare);
             boolean sameColor = tiles.get(0).isSameColor(tileToCompare);
 
-            if(sameShape && sameColor) return false;
+            if (sameShape && sameColor) return false;
             //if either color or shape is used then
             for (Tile tile : tiles) { //comparing every color or shape for matching condition
                 //if same color and same shape
@@ -337,16 +339,15 @@ public class Grid {
     }
 
 
-
     /**
      * Adds the Move to the board. The Tile in move will be placed on the
      * board at the Coordinate of move.
      *
      * @param move to add to grid
      */
-    public void boardAddMove(Move move)  {
+    public void boardAddMove(Move move) {
         if (move != null) {
-            setTile(move.getCoordinate().getRow(),move.getCoordinate().getColumn(),move.getTile());
+            setTile(move.getCoordinate().getRow(), move.getCoordinate().getColumn(), move.getTile());
         }
     }
 
@@ -368,34 +369,35 @@ public class Grid {
     /**
      * @return A set of edges (all empty adjacent of a @nonnull tile)
      */
-    public Set<Move> getAllEdges(){
+    public Set<Move> getAllEdges() {
         Set<Move> usedSpaces = getUsedSpaces();
         Set<Move> emptySpaces = new HashSet<>();
-        for (Move move:usedSpaces) {
+        for (Move move : usedSpaces) {
             for (int side = 0; side < 4; side++) {
                 Move.Coordinate coordinate = move.getCoordinate().getAdjacentCoords()[side];
                 int x = coordinate.getRow();
                 int y = coordinate.getColumn();
-                if (isEmpty(x, y)) emptySpaces.add(new Move(null,coordinate));
+                if (isEmpty(x, y)) emptySpaces.add(new Move(null, coordinate));
             }
         }
         return emptySpaces;
     }
+
     /**
      * @return A set of edges (all squares that have an empty spot next to them adjacent of a @nonnull tile)
      */
-    public Set<Move> getAllOccupiedEdges(){
+    public Set<Move> getAllOccupiedEdges() {
         Set<Move> usedSpaces = getUsedSpaces();
         Set<Move> edgeSpaces = new HashSet<>();
-        for (Move move: usedSpaces) {
-            if (isAnEdge(move.getCoordinate().getRow(),move.getCoordinate().getColumn())) edgeSpaces.add(move);
+        for (Move move : usedSpaces) {
+            if (isAnEdge(move.getCoordinate().getRow(), move.getCoordinate().getColumn())) edgeSpaces.add(move);
         }
         return edgeSpaces;
     }
 
     private boolean isAnEdge(int row, int column) {
         if (isEmpty(row, column)) return false;
-        Move move = new Move(getTile(row,column), new Move.Coordinate(row, column));
+        Move move = new Move(getTile(row, column), new Move.Coordinate(row, column));
         for (int side = 0; side < 4; side++) {
             Move.Coordinate coordinate = move.getCoordinate().getAdjacentCoords()[side];
             if (isEmpty(coordinate.getRow(), coordinate.getColumn())) return true;
@@ -404,23 +406,21 @@ public class Grid {
     }
 
 
-
-
     /**
      * @param coordinate coordinates of the tile to check for
      * @return all Tiles that are connected to the given coordinates coordinate
-     *         vertically
+     * vertically
      */
     ArrayList<Tile> getConnectedVerticalArray(Move.Coordinate coordinate) {
         ArrayList<Tile> tiles = new ArrayList<>();
         int row = coordinate.getRow();
         int column = coordinate.getColumn();
         int count = 1;
-        while(true) {
+        while (true) {
             Tile tile = null;
             try {
                 tile = getTile(row + count, column);
-            }catch (ArrayIndexOutOfBoundsException ignored){
+            } catch (ArrayIndexOutOfBoundsException ignored) {
             }
             if (tile == null) {
                 break;
@@ -430,10 +430,10 @@ public class Grid {
         }
         count = 1;
         while (true) {
-           Tile tile = null;
+            Tile tile = null;
             try {
                 tile = getTile(row - count, column);
-            }catch (ArrayIndexOutOfBoundsException ignored){
+            } catch (ArrayIndexOutOfBoundsException ignored) {
             }
             if (tile == null) {
                 break;
@@ -447,8 +447,9 @@ public class Grid {
     /**
      * @param coordinate coordinates of the Tile to check if connected
      * @return all Tiles that are connected to the given coordinates c
-     *         horizontal
+     * horizontal
      */
+
     public ArrayList<Tile> getConnectedHorizontalArray(Move.Coordinate coordinate) {
         ArrayList<Tile> tiles = new ArrayList<>();
         int x = coordinate.getRow();
@@ -458,7 +459,7 @@ public class Grid {
             Tile tile = null;
             try {
                 tile = getTile(x, y + count);
-            }catch (ArrayIndexOutOfBoundsException ignored){
+            } catch (ArrayIndexOutOfBoundsException ignored) {
             }
             if (tile == null) {
                 break;
@@ -470,8 +471,8 @@ public class Grid {
         while (true) {
             Tile tile = null;
             try {
-                tile = getTile(x , y - count);
-            }catch (ArrayIndexOutOfBoundsException ignored){
+                tile = getTile(x, y - count);
+            } catch (ArrayIndexOutOfBoundsException ignored) {
             }
             if (tile == null) {
                 break;
@@ -482,4 +483,54 @@ public class Grid {
         return tiles;
     }
 
+
+    //Checks for empty tiles if in between both vertically and horizontally in a moveList of a turn
+    private boolean foundEmptyTiles(Turn turn) {
+        ArrayList<Move> moves = new ArrayList<>();
+        for (Move move : turn.getMoves()) {
+            moves.add(move);
+        }
+        Collections.sort(moves);
+        int firstMoveRow = moves.get(0).getCoordinate().getRow();
+        int lastMoveRow = moves.get(moves.size() - 1).getCoordinate().getRow();
+        int rowLength = firstMoveRow - lastMoveRow;
+        rowLength = Math.abs(rowLength);
+        int firstMoveColumn = moves.get(0).getCoordinate().getColumn();
+        int lastMoveColumn = moves.get(moves.size() - 1).getCoordinate().getColumn();
+        int columnLength = firstMoveColumn - lastMoveColumn;
+        columnLength = Math.abs(columnLength);
+        Grid grid = getDeepCopy();
+        int col = firstMoveColumn;
+        int row = firstMoveRow;
+        for (Move move : moves) {
+            grid.boardAddMove(move);
+        }
+        //Horizontally per column
+        for (; col < firstMoveColumn + columnLength; col++) {
+            Tile tile = grid.getTile(firstMoveRow, col);
+            if (tile == null) {
+                return true;
+            }
+        }
+        for (; col > firstMoveColumn + columnLength; col--) {
+            Tile tile = grid.getTile(firstMoveRow, col);
+            if (tile == null) {
+                return true;
+            }
+        }
+        //Vertically per row
+        for (; row < firstMoveRow + rowLength; row++) {
+            Tile tile = grid.getTile(row, firstMoveColumn);
+            if (tile == null) {
+                return false;
+            }
+        }
+        for (; row > firstMoveRow + rowLength; row--) {
+            Tile tile = grid.getTile(row, firstMoveColumn);
+            if (tile == null) {
+                return true;
+            }
+        }
+        return false;
+    }
 }

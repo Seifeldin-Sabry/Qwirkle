@@ -1,5 +1,6 @@
 package qwirkle.view.welcomeFrame;
 
+import javafx.animation.KeyValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
@@ -88,7 +89,6 @@ public class WelcomeView extends BorderPane {
                         false), new BackgroundSize(100, 100, true,
                 true, false, true));
         setBackground(new Background(bgImage));
-
     }
 
     Button getStart() {

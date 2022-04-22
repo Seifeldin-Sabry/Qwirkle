@@ -35,8 +35,8 @@ public class GamePlayView extends BorderPane {
     private VBox vb1;
     private VBox vb2;
     private Button exchangeTiles;
-    ImageView firstFullBag;
-    ImageView fullBagPopup;
+    private ImageView firstFullBag;
+    private ImageView fullBagPopup;
     private Button submit;
     private VBox vb3;
     private Rectangle deckSpot1;
@@ -290,6 +290,7 @@ public class GamePlayView extends BorderPane {
         vBox.setStyle("-fx-border-radius: 5");
         vBox.setPadding(new Insets(50, 0, 0, 0));
 
+
     }
 
     void makeTransparent() {
@@ -319,7 +320,7 @@ public class GamePlayView extends BorderPane {
         return rules;
     }
 
-    Label getGameStatus() {
+    public Label getGameStatus() {
         return gameStatus;
     }
 
@@ -407,6 +408,10 @@ public class GamePlayView extends BorderPane {
         return vb2;
     }
 
+    HBox getHbScore() {
+        return hbScore;
+    }
+
     Button getStatistics() {
         return statistics;
     }
@@ -417,5 +422,9 @@ public class GamePlayView extends BorderPane {
 
     Label getLabel() {
         return label;
+    }
+
+    ImageView getGameOverImage() {
+        return gameOver;
     }
 }

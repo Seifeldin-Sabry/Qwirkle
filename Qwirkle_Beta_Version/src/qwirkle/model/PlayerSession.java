@@ -74,6 +74,7 @@ public class PlayerSession implements List<Turn>{
         }
     }
 
+
     public long getTotalTimeSpent(){
         OptionalLong timeSpent = turnsPlayed.stream().mapToLong(Turn::getTurnDuration).reduce(Long::sum);
         try {

@@ -5,7 +5,6 @@ import qwirkle.data.Database;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static qwirkle.model.Grid.MID;
 
@@ -429,7 +428,7 @@ public class Computer extends Player {
         }
         HashMap<Move, Set<Turn>> toReturn = new HashMap<>();
 
-        validMoves.entrySet().removeIf(entry -> entry.getValue().isEmpty());
+       validMoves.entrySet().removeIf(entry -> entry.getValue().isEmpty());
         return toReturn;
     }
 
@@ -527,7 +526,7 @@ public class Computer extends Player {
      * @param list
      * @return
      */
-    public List<List<Tile>> getAllPermutations(List<Tile> list ) {
+    public List<List<Tile>> getAllPermutations(List<Tile> list) {
         List<List<Tile>> toReturn = new ArrayList<>();
         if (list.size() == 1) {
             toReturn.add(list);

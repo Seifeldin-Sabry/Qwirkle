@@ -49,22 +49,22 @@ public class Main extends Application {
         main.getStylesheets().add("style/style.css");
         primaryStage.setScene(main);
         timeline = new Timeline(new KeyFrame(Duration.seconds(3),
-                event -> {
-                    try {
-                        if (!Database.getInstance().createDatabase()) {
-                            loginStage.show();
-                            intro.close();
-                        } else {
-                            Database.getInstance().logIn();
-                            primaryStage.show();
-                            welcomePresenter.addWindowEventHandlers(primaryStage);
-                            loginStage.close();
-                            intro.close();
-                            timeline.stop();
-                        }
-                    } catch (NullPointerException ignored) {
-                    }
-                }));
+                                             event -> {
+                                                 try {
+                                                     if (!Database.getInstance().createDatabase()) {
+                                                         loginStage.show();
+                                                         intro.close();
+                                                     } else {
+                                                         Database.getInstance().logIn();
+                                                         primaryStage.show();
+                                                         welcomePresenter.addWindowEventHandlers(primaryStage);
+                                                         loginStage.close();
+                                                         intro.close();
+                                                         timeline.stop();
+                                                     }
+                                                 } catch (NullPointerException ignored) {
+                                                 }
+                                             }));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
     }

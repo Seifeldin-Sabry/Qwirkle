@@ -78,7 +78,6 @@ public class RulesView extends BorderPane {
     private Label vbox4_2_1_IMGCaption;
     private Text vbox4_4_paragraph;
     private Label vbox4_1_title;
-    private Text vbox4_5_paragraph;
     private Label vbox4_2_title;
     private Text vbox4_6_paragraph;
     //"Footer"
@@ -118,15 +117,18 @@ public class RulesView extends BorderPane {
                 one shape. Points are scored for every tile played.
                 The player with the most points wins the game.""");
         vb1_4_title = new Label("Setup");
-        vb1_4_paragraph = new Text("Each game generates a random sequence of tiles.\n" +
-                "Qwirkle does not use any boards.");
+        vb1_4_paragraph = new Text("""
+                Each game generates a random sequence of tiles.
+                Qwirkle normally does not use any boards.
+                The grey squares added after each move indicate
+                valid positions to assist the player.""");
         vb1_5_title = new Label("Starting the Game");
         vb1_5_paragraph = new Text("""
-                Each player gets six tiles to create his or her hand.
+                Each player gets six tiles to create his or her deck.
                 The player sees his tiles on the bottom of his screen.
-                You may choose who starts first(You or the computer).
-                Start playing by placing tiles that match per color or
-                per shape. The tiles must be placed at one direction.""");
+                You may choose who starts first(you or the computer).
+                Start playing by placing tiles that match color or
+                shape. The tiles must be placed at one direction.""");
         vb1_2_image = new ImageView(new Image("/images/vb1_2.png"));
         vb1_2_IMGCaption = new Label("Example of opening move.");
 
@@ -138,29 +140,30 @@ public class RulesView extends BorderPane {
                 On your turn:
                 1. Place one or more tiles.
                 2. Press submit when done.
-                3. Random tiles will automatically fill
-                   your bag to bring your hand back up to six.
+                3. Random tiles will automatically fill your bag to bring
+                 your deck back up to six (after each "submit").
                 """);
         vbox2_1_paragraph = new Text("""
-                If you can’t or don’t want to place tiles, you may discard
-                may discard instead. This counts as your entire turn and
-                you do not score any points. Set aside all the tiles you
-                want to discard, then get the same number of random
-                tiles as replacement tiles. You cannot discard more tiles
-                than are in the bag.""");
+                If you can’t or don’t want to place tiles, you may exchange
+                tiles instead by dragging them to the bag. This counts
+                as your entire turn and you do not score any points.
+                Drag to the bag all the tiles you want to discard and press
+                "submit". You will get the same number of random tiles
+                as replacement tiles. You cannot discard more tiles
+                than the amount of tiles left in the bag.""");
         vbox2_2_title = new Label("Placing Tiles");
         vbox2_2_paragraph = new Text("""
                 You may play multiple tiles on your turn as long as all
-                tiles played are the same color or the same shape and are
-                placed in the same line. You cannot play two tiles that
+                played tiles are of the same color or shape, and placed
+                in the same line. You cannot play two tiles that
                 are exactly the same.
                 """);
         vbox2_3_paragraph = new Text("""
                 At least one of the tiles you play must touch (side to side)
                 a tile that has already been played and match the tile
                 in color or shape. Any tiles that touch each other are
-                part of a line. Lines are either all one all one color,
-                 without any duplicates.""");
+                part of a line. Lines are either all of one shape or one color
+                without any duplicates.""");
         hbvb2 = new HBox(10);
         hbvb2_image = new ImageView(new Image("/images/hbvb2.png"));
         hbvb2_IMGCaption = new Label("""
@@ -181,12 +184,12 @@ public class RulesView extends BorderPane {
                 of a line in one
                 turn.""");
         vbox3_2_3_paragraph = new Text("""
-                There cannot be duplicate tiles in a line. For example,
+                There can be no duplicate tiles in a line. For example,
                 a line of squares can only have one blue square. A line
                 can never be longer than six tiles.
 
-                As the game progresses, spaces will be created where
-                no tile can be played.""");
+                As the game progresses, spaces will be created between
+                played tiles, where no other tiles can be played.""");
         vbox3_1_title = new Label("Scoring");
         vbox3_4_paragraph = new Text("One point is scored for each tile in a line that you\n" +
                 "create or add to.");
@@ -211,24 +214,18 @@ public class RulesView extends BorderPane {
                 points for the
                 circle line.""");
         vbox4_2_paragraph = new Text("""
-                Whenever you complete a line of all six it is called
-                a Qwirkle. A Qwirkle scores 12 points, six for the
-                tiles in the line plus six bonus points.
+                Whenever you complete a line with all six of a set,
+                it is called a Qwirkle. A Qwirkle scores 12 points,
+                six for the tiles in the line plus six bonus points.
                 """);
         vbox4_1_2_image = new ImageView(new Image("/images/vbox4_1_2.png"));
         vbox4_1_2_IMGCaption = new Label("Qwirkle scored with shapes");
         vbox4_2_1_image = new ImageView(new Image("/images/vbox4_2_1.png"));
         vbox4_2_1_IMGCaption = new Label("Qwirkle scored with colors");
-        vbox4_4_paragraph = new Text("A six-point bonus is scored by the first player\n" +
-                "to run out of tiles.");
+        vbox4_4_paragraph = new Text("""
+                A six-point bonus is scored by the first player
+                who plays his last tile.""");
         vbox4_1_title = new Label("Ending the Game");
-        vbox4_5_paragraph = new Text("""
-                When there are no more tiles to draw, play
-                continues as before, but players do not
-                replenish their hands. The first player to
-                run out of tiles scores six bonus points
-                and ends the game. The player with the
-                highest score wins.""");
         vbox4_2_title = new Label("Strategy Tips");
         vbox4_6_paragraph = new Text("""
                 • Play your tiles so that they are part of more than
@@ -244,7 +241,7 @@ public class RulesView extends BorderPane {
         vboxTitles = new Group(vb1_1_title, vb1_2_title,vb1_3_title, vb1_4_title, vb1_5_title,vbox2_1_title,vbox2_2_title,vbox3_1_title, vbox4_1_title, vbox4_2_title);
         vboxTitles.getChildren().forEach(node -> node.getStyleClass().add("vbox-Titles"));
 
-        vboxNormalParagraphs = new Group(vb1_1_paragraph, vb1_2_paragraph,vbox2_1_BulParagraph,vb1_3_paragraph, vb1_4_paragraph, vb1_5_paragraph,vbox2_1_paragraph,vbox3_1_paragraph, vbox3_4_paragraph, vbox4_2_paragraph, vbox4_5_paragraph, vbox4_6_paragraph);
+        vboxNormalParagraphs = new Group(vb1_1_paragraph, vb1_2_paragraph,vbox2_1_BulParagraph,vb1_3_paragraph, vb1_4_paragraph, vb1_5_paragraph,vbox2_1_paragraph,vbox3_1_paragraph, vbox3_4_paragraph, vbox4_2_paragraph, vbox4_6_paragraph);
         vboxNormalParagraphs.getChildren().forEach(node -> node.getStyleClass().add("vbox-Normal-Paragraphs"));
 
         vboxColoredParagraphs = new Group(vbox2_2_paragraph,vbox2_3_paragraph);

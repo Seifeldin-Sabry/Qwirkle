@@ -35,7 +35,7 @@ public class PopupView extends StackPane {
         vBox.getChildren().add(label);
         vBox.setPadding(new Insets(20, 0, 20, 0));
         getChildren().add(vBox);
-        setStyle("-fx-background-radius: 45; -fx-background-color: rgba(255,255,255, 0.8); -fx-border-width: 3;");
+        setStyle("-fx-background-radius: 45; -fx-background-color: rgba(255,255,255,0.94); -fx-border-width: 3;");
         setPadding(new Insets(20, 50, 20, 50));
 
     }

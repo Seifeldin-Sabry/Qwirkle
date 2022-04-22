@@ -4,6 +4,7 @@ import qwirkle.data.Database;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.util.Objects;
 
 import static qwirkle.model.Grid.BOARD_SIZE;
 
@@ -11,7 +12,7 @@ import static qwirkle.model.Grid.BOARD_SIZE;
  * @author Seifeldin Ismail
  * Purpose: Store player Moves in board for future validation
  */
-public class Move {
+public class Move implements Comparable<Move>{
 
     private Tile tile;
     private Coordinate Coordinate;
@@ -51,10 +52,19 @@ public class Move {
         return tile.toString() + " " + Coordinate.toString();
     }
 
+    @Override
+    public int compareTo(Move other) {
+        int rows = getCoordinate().getRow() - other.getCoordinate().row;
+        int columns = getCoordinate().column - other.getCoordinate().column;
+        if (rows == 0) {
+            return columns;
+        } else return rows;
+    }
+
     /**
      * A helper class to provide adjacents, coordinates to a certian Move(a move contains Tile)
      */
-    public static class Coordinate {
+    public static class Coordinate{
 
         private int row;
         private int column;
@@ -88,12 +98,12 @@ public class Move {
             Move.Coordinate[] coords = new Coordinate[4];
             //check top
             if (row != BOARD_SIZE) {
-                coords[0] = new Coordinate(row + 1, column);
+                coords[0] = new Coordinate(row - 1, column);
             }
 
             //check bottom
             if (row != 0) {
-                coords[1] = new Coordinate(row - 1, column);
+                coords[1] = new Coordinate(row + 1, column);
             }
 
             //check right
@@ -141,5 +151,17 @@ public class Move {
             e.printStackTrace();
             System.out.println("Error while saving to int_move");
         }
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        if (other == null || getClass() != other.getClass()) return false;
+        boolean rowsEqual = Objects.equals(this.getCoordinate().getRow(), ((Move) other).getCoordinate().getRow());
+        boolean columnsEqual = Objects.equals(this.getCoordinate().getColumn(), ((Move) other).getCoordinate().getColumn());
+        return rowsEqual ? columnsEqual : rowsEqual;
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(getCoordinate());
     }
 }
