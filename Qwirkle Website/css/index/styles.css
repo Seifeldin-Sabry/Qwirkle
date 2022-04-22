@@ -1,0 +1,147 @@
+/*** Global attributes ***/
+
+html {
+    margin: 0;
+    height: 100vh;
+    box-sizing: border-box;
+}
+
+body, html {
+    display: block;
+}
+
+h1, h2, p, div, a, figurecaption {
+    color: #222630;
+}
+
+*, *::before, *::after {
+    box-sizing: inherit;
+}
+/*** Header ***/
+#logo {
+    display: block;
+    margin: auto;
+    max-width: 900px;
+    width: 100%;
+    height: auto;
+    min-width: 200px;
+    animation: fadeIn 4s;
+    -webkit-animation: fadeIn 4s;
+    -moz-animation: fadeIn 4s;
+    -o-animation: fadeIn 4s;
+    -ms-animation: fadeIn 4s;
+    -webkit-filter: drop-shadow(15px 15px 20px #121212);
+    filter: drop-shadow(15px 15px 20px #121212);
+}
+@media only screen and (max-width:  940px){
+    #logo {
+    }
+}
+@keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
+}
+
+@-moz-keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
+}
+
+@-webkit-keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
+}
+
+@-o-keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
+}
+
+@-ms-keyframes fadeIn {
+    0% {opacity:0;}
+    100% {opacity:1;}
+}
+/*** Body ***/
+body {
+    margin: 0;
+    background-image: url("/images/tiles3D_min.png");
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: auto;
+}
+button {
+    display: inline-block;
+    width: 200px;
+    height: 50px;
+    background-color: #FF5733;
+    color: #fff;
+    border-color: transparent;
+    font-size: 20px;
+    border-radius: 5px;
+    box-shadow: 15px 15px 20px #121212;
+    margin-bottom: 42%;
+}
+
+button:hover {
+    cursor: pointer;
+    transform: scale(1.1);
+}
+#col1, #col2 {
+    max-width: 200px;
+    margin: auto;
+    display: inline-block;
+}
+article {
+    max-width: 900px;
+    margin: auto;
+}
+#btn1 {
+    animation: fadeIn 6s;
+    -webkit-animation: fadeIn 6s;
+    -moz-animation: fadeIn 6s;
+    -o-animation: fadeIn 6s;
+    -ms-animation: fadeIn 6s;
+}
+#btn2 {
+    animation: fadeIn 7s;
+    -webkit-animation: fadeIn 7s;
+    -moz-animation: fadeIn 7s;
+    -o-animation: fadeIn 7s;
+    -ms-animation: fadeIn 7s;
+}
+
+#btn3 {
+    animation: fadeIn 8s;
+    -webkit-animation: fadeIn 8s;
+    -moz-animation: fadeIn 8s;
+    -o-animation: fadeIn 8s;
+    -ms-animation: fadeIn 8s;
+}
+#btn4 {
+    animation: fadeIn 9s;
+    -webkit-animation: fadeIn 9s;
+    -moz-animation: fadeIn 9s;
+    -o-animation: fadeIn 9s;
+    -ms-animation: fadeIn 9s;
+}
+article {
+    padding: 10%;
+}
+
+@media only screen and (min-width:  505px){
+    #col2 {
+        float: right;
+    }
+}
+
+@media only screen and (max-width:  504px){
+    article {
+        width: 200px;
+        padding: 50px 0 0 0;
+    }
+    button {
+        margin-bottom: 12%;
+    }
+}
+
+
