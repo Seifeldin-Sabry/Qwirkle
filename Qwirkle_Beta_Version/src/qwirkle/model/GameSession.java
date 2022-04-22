@@ -69,7 +69,18 @@ public class GameSession {
 
     //must have in updateView
     public boolean isGameOver() {
-        return getBag().getAmountOfTilesLeft() == 0 && (getActivePlayerSession().getPlayer().getDeck().getTilesInDeck().size() == 0);
+        if (getBag().getAmountOfTilesLeft() == 0) {
+            if (getActivePlayerSession().getPlayer().getDeck().getTilesInDeck().size() == 0) {
+                return true;
+            }
+            if (getActivePlayerSession().equals(playerHumanSession) && playerComputerSession.getLastTurn().getMoves().size() == 0) {
+                return true;
+            }
+            else {
+                return getActivePlayerSession().equals(playerComputerSession) && playerHumanSession.getLastTurn().getMoves().size() == 0;
+            }
+        }
+        return false;
     }
 
     public void setEndTime() {

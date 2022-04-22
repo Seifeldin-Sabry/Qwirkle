@@ -167,10 +167,10 @@ public class GamePlayPresenter {
         }
         if (exchangedTiles.size() > 0) {
             submitExchange(stage);
-            tileExchangeAnimation(stage); //Contains playComputer method in a keyframe
+            tileExchangeAnimation(stage); //Contget the ssh-key contentains playComputer method in a keyframe
             return;
         }
-        if (playedTiles.size() == 0 && !(noMoreMovesLeft()) && currentModel.getBag().getTiles().size() > 0) {
+        if (playedTiles.size() == 0 && !(noMoreMovesLeft()) && currentModel.getPlayerSession().getPlayer().getDeck().getTilesInDeck().size() > 0) {
             String text = """
                     Place a tile on the board or
                      exchange tiles in the bag.""";
@@ -187,7 +187,7 @@ public class GamePlayPresenter {
             }
             return;
         }
-        if (currentModel.isGameOver() || (currentModel.getComputerSession().getLastTurn().getMoves().size() == 0 && noMoreMovesLeft())) {
+        if (currentModel.isGameOver() || (noMoreMovesLeft() && currentModel.getBag().getTiles().size() == 0)) {
             setGameOver(stage);
             updateScore();
             Database.getInstance().save(currentModel);

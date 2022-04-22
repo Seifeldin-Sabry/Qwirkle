@@ -52,21 +52,21 @@ public class PopupPresenter {
         stage.initModality(Modality.APPLICATION_MODAL);stage.show();
         double primaryStageHeight = primaryStage.getHeight();
         stage.setY((primaryStageHeight - stage.getHeight())/2);
-        KeyFrame firstFrame = (new KeyFrame(Duration.seconds(duration),
+        KeyFrame firstFrame = new KeyFrame(Duration.seconds(duration),
                 event -> {
                     try {
                         fadeOut(view);
                     } catch (NullPointerException ignored) {
                     }
-                }));
-        KeyFrame secondFrame = (new KeyFrame(Duration.seconds(duration + 0.3),
+                });
+        KeyFrame secondFrame = new KeyFrame(Duration.seconds(duration + 0.3),
                 event -> {
                     try {
                         stage.close();
                         timeline.stop();
                     } catch (NullPointerException ignored) {
                     }
-                }));
+                });
         timeline = new Timeline(firstFrame, secondFrame);
         fadeIn(view);
         timeline.play();
