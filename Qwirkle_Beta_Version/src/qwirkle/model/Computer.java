@@ -859,7 +859,13 @@ public class Computer extends Player {
                 continue;
             }
             Set<Turn> turns = entry.getValue();
-            toReturn.put(entry.getKey(),turns);
+            Set<Turn> toAdd = new HashSet<>();
+            for (Turn turn : turns) {
+                if(turn.size() > 1) {
+                    toAdd.add(turn);
+                }
+            }
+            toReturn.put(entry.getKey(),toAdd);
         }
         return toReturn;
     }
