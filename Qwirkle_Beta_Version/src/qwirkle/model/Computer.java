@@ -37,7 +37,7 @@ public class Computer extends Player {
     }
 
 
-    public Move makeMove() {
+    private Move makeMove() {
         Set<Move> allMovesPossible = getBoard().getUsedSpaces();
         if (allMovesPossible.isEmpty()) {
             int randomTileInHandIndex = randomTileChooser.nextInt(getDeck().getTilesInDeck().size());
@@ -61,7 +61,7 @@ public class Computer extends Player {
         return null;
     }
 
-    public Turn makeMoves() {
+    private Turn makeMoves() {
         LinkedList<Move> movesToReturn = new LinkedList<>();
         Set<Move> allEdges = getBoard().getAllEdges();
         Turn turn = new Turn();
@@ -92,7 +92,7 @@ public class Computer extends Player {
         return turn;
     }
 
-    public Turn AIMove() {
+    private Turn AIMove() {
         HashMap<Move, Set<Turn>> allMoves = getAllValidMoves();
 
         //RULE NO1: if there are no valid moves, then trade
