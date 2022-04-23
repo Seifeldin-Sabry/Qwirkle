@@ -27,71 +27,188 @@ public class Computer extends Player {
         randomTileChooser = new Random();
     }
 
+    public Turn play() {
+        if (levelOfDifficulty == LevelOfDifficulty.EASY) {
+            return makeMoves();
+        } else {
+            //AI method once finished
+            return AIMove();
+        }
+    }
+
 
     public Move makeMove() {
         Set<Move> allMovesPossible = getBoard().getUsedSpaces();
-        Set<Move> allEdges = getBoard().getAllEdges();
-        switch (levelOfDifficulty) {
-            case EASY -> {
-                if (allMovesPossible.isEmpty()) {
-                    int randomTileInHandIndex = randomTileChooser.nextInt(getDeck().getTilesInDeck().size());
-                    Move firstMove = new Move(getDeck().getTilesInDeck().get(randomTileInHandIndex), new Move.Coordinate(MID, MID));
-                    return firstMove;
-                } else {
-                    for (Move move : allEdges) {
-                        for (int side = 0; side < move.getCoordinate().getAdjacentCoords().length; side++) {
-                            final Move.Coordinate adjacentCoord = move.getCoordinate().getAdjacentCoords()[side];
-                            if (getBoard().isEmpty(adjacentCoord.getRow(), adjacentCoord.getColumn())) {
-                                for (Tile t : getDeck().getTilesInDeck()) {
-                                    Move possibleMove = new Move(t, adjacentCoord);
-                                    if (getBoard().isValidMove(possibleMove)) {
-                                        return  possibleMove;
-                                    }
-                                }
+        if (allMovesPossible.isEmpty()) {
+            int randomTileInHandIndex = randomTileChooser.nextInt(getDeck().getTilesInDeck().size());
+            Move firstMove = new Move(getDeck().getTilesInDeck().get(randomTileInHandIndex), new Move.Coordinate(MID, MID));
+            return firstMove;
+        } else {
+            for (Move move : allMovesPossible) {
+                for (int side = 0; side < move.getCoordinate().getAdjacentCoords().length; side++) {
+                    final Move.Coordinate adjacentCoord = move.getCoordinate().getAdjacentCoords()[side];
+                    if (getBoard().isEmpty(adjacentCoord.getRow(), adjacentCoord.getColumn())) {
+                        for (Tile t : getDeck().getTilesInDeck()) {
+                            Move possibleMove = new Move(t, adjacentCoord);
+                            if (getBoard().isValidMove(possibleMove)) {
+                                return possibleMove;
                             }
                         }
                     }
                 }
-
             }
-            case AI -> {
-                //function to make move based on valid moves in the grid
-                //if no valid moves, then trade the lowest occuring tile
-                // if mutiple low occurences, then pick one at random
-                //if there are valid moves, then make a move that is the most profitable
-            }
-
         }
         return null;
     }
 
-    public List<Move> makeMoves() {
-        LinkedList<Move> moves = new LinkedList<>();
+    public Turn makeMoves() {
+        LinkedList<Move> movesToReturn = new LinkedList<>();
+        Set<Move> allEdges = getBoard().getAllEdges();
         Turn turn = new Turn();
-        boolean hasMoves = true;
-        do {
-            Move move = makeMove();
-            if (move == null) {
-                hasMoves = false;
+        int i = 0;
+        while (i < allEdges.size()) {
+            Move possibleMove = makeMove();
+            if (possibleMove == null) {
+                return turn;
             } else {
-                if (moves.size() == 0) {
-                    moves.add(move);
-                    getBoard().boardAddMove(move);
-                    getDeck().getTilesInDeck().remove(move.getTile());
-                    turn.add(move);
+                if (movesToReturn.size() == 0) {
+                    movesToReturn.add(possibleMove);
+                    getBoard().boardAddMove(possibleMove);
+                    getDeck().getTilesInDeck().remove(possibleMove.getTile());
+                    turn.add(possibleMove);
                 } else {
-                    turn.add(move);
+                    turn.add(possibleMove);
                     if (getBoard().isValidMove(turn)) {
-                        moves.add(move);
-                        getBoard().boardAddMove(move);
-                        getDeck().getTilesInDeck().remove(move.getTile());
+                        movesToReturn.add(possibleMove);
+                        getBoard().boardAddMove(possibleMove);
+                        getDeck().getTilesInDeck().remove(possibleMove.getTile());
                     } else {
                         turn.getMoves().removeLast();
                     }
                 }
             }
-        } while (hasMoves);
-        return moves;
+            i++;
+        }
+        return turn;
+    }
+
+    public Turn AIMove() {
+        HashMap<Move, Set<Turn>> allMoves = getAllValidMoves();
+
+        //RULE NO1: if there are no valid moves, then trade
+        if (allMoves.isEmpty()) {
+            return null;
+        }
+        //if there are valid moves, then make a move that is the most profitable
+
+        //RULE NO2: if there are valid moves, eliminate ones that give the opponent a chance to double his points
+        allMoves = eliminatePotentialOpponentQwirkles(allMoves, 5);
+        if (allMoves.isEmpty()) {
+            return null;
+        }
+
+        //RULE NO3: if there are valid moves, eliminate ones that score lower than 4 points
+        allMoves = eliminateMovesThatHaveScoreOrLess(allMoves, 3);
+        if (allMoves.isEmpty()) {
+            return null;
+        }
+
+        //RULE NO4: if there are valid moves, play the most profitable one
+        Turn mostprofitable = getMostProfitableTurn(allMoves);
+        return mostprofitable;
+    }
+
+    private HashMap<Move, Set<Turn>> eliminatePotentialOpponentQwirkles(HashMap<Move, Set<Turn>> allMoves, int score) {
+        HashMap<Move, Set<Turn>> toReturn = new HashMap<>();
+        for (Map.Entry<Move,Set<Turn>> entry: allMoves.entrySet()) {
+            toReturn.computeIfAbsent(entry.getKey(), k -> new HashSet<>());
+            Set<Turn> turns = entry.getValue();
+            for (Turn turn : turns) {
+                Grid grid = getBoard().getDeepCopy();
+                for (Move move : turn){
+                    grid.boardAddMove(move);
+                }
+                if(turn.calcScore(grid) != score){
+                    toReturn.get(entry.getKey()).add(turn);
+                }
+            }
+        }
+        return toReturn;
+    }
+
+    /**
+     * @param allMoves
+     * @param score
+     * @return allMoves that don't score 5 points
+     */
+    private HashMap<Move, Set<Turn>> eliminateMovesThatHaveScore(HashMap<Move, Set<Turn>> allMoves, int score) {
+        HashMap<Move, Set<Turn>> toReturn = new HashMap<>();
+        for (Map.Entry<Move,Set<Turn>> entry: allMoves.entrySet()) {
+            toReturn.computeIfAbsent(entry.getKey(), k -> new HashSet<>());
+            Set<Turn> turns = entry.getValue();
+            for (Turn turn : turns) {
+                Grid grid = getBoard().getDeepCopy();
+                for (Move move : turn){
+                    grid.boardAddMove(move);
+                }
+                if(turn.calcScore(grid) != score){
+                    toReturn.get(entry.getKey()).add(turn);
+                }
+            }
+        }
+        return toReturn;
+    }
+
+    private HashMap<Move, Set<Turn>> eliminateMovesThatHaveScoreOrLess(HashMap<Move, Set<Turn>> allMoves, int score) {
+        HashMap<Move, Set<Turn>> toReturn = new HashMap<>();
+        for (Map.Entry<Move,Set<Turn>> entry: allMoves.entrySet()) {
+            toReturn.computeIfAbsent(entry.getKey(), k -> new HashSet<>());
+            Set<Turn> turns = entry.getValue();
+            for (Turn turn : turns) {
+                Grid grid = getBoard().getDeepCopy();
+                for (Move move : turn){
+                    grid.boardAddMove(move);
+                }
+                if(turn.calcScore(grid) > score){
+                    toReturn.get(entry.getKey()).add(turn);
+                }
+            }
+        }
+        return toReturn;
+    }
+
+    private Turn getMostProfitableTurn(HashMap<Move, Set<Turn>> allMoves) {
+        //assign to the first element
+        Turn mostProfitable = null;
+        while(mostProfitable == null){
+            for (Map.Entry<Move,Set<Turn>> entry: allMoves.entrySet()) {
+                Set<Turn> turns = entry.getValue();
+                for (Turn turn : turns) {
+                    mostProfitable = turn;
+                    if (mostProfitable != null) {
+                        break;
+                    }
+                }
+            }
+        }
+        Grid grid = getBoard().getDeepCopy();
+        for (Move move : mostProfitable){
+            grid.boardAddMove(move);
+        }
+        int scoreMostProfitable = mostProfitable.calcScore(grid);
+        for (Map.Entry<Move,Set<Turn>> entry: allMoves.entrySet()) {
+            Set<Turn> turns = entry.getValue();
+            for (Turn turn : turns) {
+                grid = getBoard().getDeepCopy();
+                for (Move move : turn){
+                    grid.boardAddMove(move);
+                }
+                if(turn.calcScore(grid) > scoreMostProfitable){
+                    mostProfitable = turn;
+                }
+            }
+        }
+        return mostProfitable;
     }
 
     public LevelOfDifficulty getLevelOfDifficulty() {
@@ -100,18 +217,19 @@ public class Computer extends Player {
 
 
     /**
-     *
      * @return a Set of tiles with the lowest occurence in the deck to trade
      */
     public void trade() {
         switch (levelOfDifficulty) {
             case EASY -> {
                 tradeRandomNumTiles();
+                System.out.println("Trade easyMode");
             }
-            case AI ->{
+            case AI -> {
                 //find the tile that has no color occurence, nor shape occurence
                 //if there are multiple tiles with no correlation to others, then trade them all
                 tradeAI();
+                System.out.println("Trade AI");
             }
         }
     }
@@ -122,10 +240,10 @@ public class Computer extends Player {
         HashMap<Tile.TileShape, Integer> sameShapeCount = new HashMap<>();
         HashSet<Tile> tilesToTrade = new HashSet<>();
 
-        for (Tile tile: getDeck().getTilesInDeck()) {
+        for (Tile tile : getDeck().getTilesInDeck()) {
             sameTileCount.put(tile, getDeck().getTilesInDeck().stream().filter(t -> t.equals(tile)).toList().size());
-            sameColorCount.put(tile.getColor(),getDeck().getTilesInDeck().stream().filter(t -> t.isSameColor(tile)).toList().size());
-            sameShapeCount.put(tile.getShape(),getDeck().getTilesInDeck().stream().filter(t -> t.isSameShape(tile)).toList().size());
+            sameColorCount.put(tile.getColor(), getDeck().getTilesInDeck().stream().filter(t -> t.isSameColor(tile)).toList().size());
+            sameShapeCount.put(tile.getShape(), getDeck().getTilesInDeck().stream().filter(t -> t.isSameShape(tile)).toList().size());
         }
 
         System.out.println(sameTileCount);
@@ -136,7 +254,7 @@ public class Computer extends Player {
         //if more than 1 of the same tile, then trade all sets of same tiles
         if (sameTileCount.values().stream().anyMatch(i -> i > 1)) {
             System.out.println("trade all same tiles");
-            for(Tile tile: sameTileCount.keySet()) {
+            for (Tile tile : sameTileCount.keySet()) {
                 if (sameTileCount.get(tile) > 1) {
                     tilesToTrade.add(tile);
                 }
@@ -158,7 +276,7 @@ public class Computer extends Player {
                 && sameShapeCount.values().stream().allMatch(i -> i > 1)
                 && sameTileCount.values().stream().allMatch(i -> i > 1)) {
             System.out.println("trade all same tiles");
-            for(Tile tile: sameTileCount.keySet()) {
+            for (Tile tile : sameTileCount.keySet()) {
                 if (sameTileCount.get(tile) > 1) {
                     tilesToTrade.add(tile);
                 }
@@ -169,7 +287,7 @@ public class Computer extends Player {
 
         //if color frequency and shape frequency are the same, pick a random number to trade color or shape
         //if random number is 0, then trade shape, if 1, then trade color
-        if(sameColorCount.values().stream().allMatch(i -> Objects.equals(i, sameShapeCount.values()
+        if (sameColorCount.values().stream().allMatch(i -> Objects.equals(i, sameShapeCount.values()
                 .stream()
                 .findFirst()
                 .get()))
@@ -190,8 +308,7 @@ public class Computer extends Player {
                     }
                 }
                 tradeTiles(tilesToTrade);
-            }
-            else {
+            } else {
 
                 Integer value = sameColorCount.entrySet().stream().min(Map.Entry.comparingByValue()).get().getValue();
                 for (Map.Entry<Tile.TileColor, Integer> entry : sameColorCount.entrySet()) {
@@ -235,7 +352,6 @@ public class Computer extends Player {
             tradeTiles(tilesToTrade);
             return;
         }
-
 
 
         //if color frequency max is greater than shape frequency max, then trade least common shape
@@ -304,7 +420,6 @@ public class Computer extends Player {
     }
 
 
-
     private void tradeTiles(HashSet<Tile> tiles) {
         ArrayList<Tile> tilesToTrade = new ArrayList<>(tiles);
         getDeck().trade(getBag(), tilesToTrade);
@@ -352,110 +467,20 @@ public class Computer extends Player {
             tilesToTrade.add(tilesInDeck.get(randomTileIndex));
             tilesInDeck.remove(randomTileIndex);
         }
-        getDeck().trade(getBag(),tilesToTrade);
+        getDeck().trade(getBag(), tilesToTrade);
     }
 
-    public HashMap<Move, Set<Turn>> getAllValidMoves() {
-        HashMap<Move, Set<Turn>> validMoves = new HashMap<>();
-        Set<Set<Tile>> combos = allDeckTileCombinations();
-        Set<Move> edges = getBoard().getAllOccupiedEdges();
-        for(Move edge: edges){
-            validMoves.computeIfAbsent(edge, k -> new HashSet<>());
-            Move.Coordinate coordinate = edge.getCoordinate();
-            for(Set<Tile> combo: combos){
-                ArrayList<Tile> tiles = new ArrayList<>(combo);
-                boolean isEmptyUp = getBoard().isEmpty(coordinate.getRow()-1,coordinate.getColumn());
-                boolean isEmptyDown = getBoard().isEmpty(coordinate.getRow()+1,coordinate.getColumn());
-                boolean isEmptyLeft = getBoard().isEmpty(coordinate.getRow(),coordinate.getColumn()-1);
-                boolean isEmptyRight = getBoard().isEmpty(coordinate.getRow()-1,coordinate.getColumn()+1);
-
-                if (isEmptyUp) {
-                    Turn turn = new Turn();
-                    turn.add(edge);
-                    for (int i = 0; i < tiles.size(); i++) {
-                        turn.add(new Move(tiles.get(i),new Move.Coordinate(coordinate.getRow() - (1-i), coordinate.getColumn())));
-                        if(!getBoard().isValidMove(turn)){
-                            turn.removeLast();
-                        }
-                    }
-                    if(turn.size() > 1){
-                        validMoves.get(edge).add(turn);
-                    }
-                }
-
-                if (isEmptyDown) {
-                    Turn turn = new Turn();
-                    turn.add(edge);
-                    for (int i = 0; i < tiles.size(); i++) {
-                        turn.add(new Move(tiles.get(i),new Move.Coordinate(coordinate.getRow() + (1+i), coordinate.getColumn())));
-                        if(!getBoard().isValidMove(turn)){
-                            turn.removeLast();
-                        }
-                    }
-                    if(turn.size() > 1){
-                        validMoves.get(edge).add(turn);
-                    }
-                }
-
-                if (isEmptyLeft) {
-                    Turn turn = new Turn();
-                    turn.add(edge);
-                    for (int i = 0; i < tiles.size(); i++) {
-                        turn.add(new Move(tiles.get(i),new Move.Coordinate(coordinate.getRow() , coordinate.getColumn() - (1 - i))));
-                        if(!getBoard().isValidMove(turn)){
-                            turn.removeLast();
-                        }
-                    }
-                    if(turn.size() > 1){
-                        validMoves.get(edge).add(turn);
-                    }
-                }
-
-                if (isEmptyRight) {
-                    Turn turn = new Turn();
-                    turn.add(edge);
-                    for (int i = 0; i < tiles.size(); i++) {
-                        turn.add(new Move(tiles.get(i),new Move.Coordinate(coordinate.getRow() , coordinate.getColumn() + (i+1))));
-                        if(!getBoard().isValidMove(turn)){
-                            turn.removeLast();
-                        }
-                    }
-                    if(turn.size() > 1){
-                        validMoves.get(edge).add(turn);
-                    }
-                }
-            }
+    private List<List<Tile>> getAllPossibleCombinationAndPermutations() {
+        Set<Set<Tile>> setOfCombinations = mostOccuringTileCombo();
+        List<List<Tile>> allCombinations = new ArrayList<>();
+        for (Set<Tile> combo : setOfCombinations) {
+            List<Tile> tileCombo = new ArrayList<>(combo);
+            allCombinations.addAll(getAllPermutations(tileCombo));
         }
-        HashMap<Move, Set<Turn>> toReturn = new HashMap<>();
-
-       validMoves.entrySet().removeIf(entry -> entry.getValue().isEmpty());
-        return toReturn;
+        return allCombinations;
     }
 
-
-
-
-    //this works perfectly
-    //Next step (this is for the lecturers to read)
-    //1. make a move that return a hashmap of the edge Move and a list of combinations that are valid
-    //2. after this is completed we can make both the difficulties (easy and hard) based on that method
-    //because we can just filter out based on score so easy plays moves that are 4 or less points, hard plays moves that are 5 or more points (example)
-    //INPUT:[RED CLOVER 1, ORANGE DIAMOND 102, BLUE CIRCLE 17, BLUE CLOVER 85, BLUE EIGHT_POINT_STAR 87, ORANGE EIGHT_POINT_STAR 27]
-    //OUTPUT:[
-    // [BLUE CIRCLE 17, BLUE EIGHT_POINT_STAR 87],
-    // [BLUE CLOVER 85],
-    // [BLUE CLOVER 85, RED CLOVER 1],
-    // [ORANGE DIAMOND 102],
-    // [BLUE CLOVER 85, BLUE CIRCLE 17, BLUE EIGHT_POINT_STAR 87],
-    // [ORANGE EIGHT_POINT_STAR 27],
-    // [BLUE CLOVER 85, BLUE CIRCLE 17],
-    // [ORANGE DIAMOND 102, ORANGE EIGHT_POINT_STAR 27],
-    // [ORANGE EIGHT_POINT_STAR 27, BLUE EIGHT_POINT_STAR 87],
-    // [BLUE CIRCLE 17],
-    // [BLUE EIGHT_POINT_STAR 87],
-    // [RED CLOVER 1]
-    // ]
-    public Set<Set<Tile>> allDeckTileCombinations() {
+    public Set<Set<Tile>> mostOccuringTileCombo() {
         Set<Set<Tile>> allTileCombinations = new HashSet<>();
         Set<Set<Tile>> toReturn = new HashSet<>();
         List<Tile> tilesInDeck = getDeck().getTilesInDeck();
@@ -492,9 +517,415 @@ public class Computer extends Player {
         return toReturn;
     }
 
+    public HashMap<Move, Set<Turn>> getAllValidMoves() {
+
+        HashMap<Move, Set<Turn>> validMoves = new HashMap<>();
+        List<List<Tile>> allCombinations = getAllPossibleCombinationAndPermutations();
+        Grid grid;
+        Set<Move> edges = getBoard().getAllOccupiedEdges();
+
+        ArrayList<Move> moves = new ArrayList<>();
+
+        for(Move edge: edges){
+            validMoves.computeIfAbsent(edge, k -> new HashSet<>());
+            Move.Coordinate coordinate = edge.getCoordinate();
+            for(List<Tile> combo: allCombinations){
+                boolean isEmptyUp = getBoard().isEmpty(coordinate.getRow()-1,coordinate.getColumn());
+                boolean isEmptyDown = getBoard().isEmpty(coordinate.getRow()+1,coordinate.getColumn());
+                boolean isEmptyLeft = getBoard().isEmpty(coordinate.getRow(),coordinate.getColumn()-1);
+                boolean isEmptyRight = getBoard().isEmpty(coordinate.getRow()-1,coordinate.getColumn()+1);
+
+                if(isEmptyUp){
+                    grid = getBoard().getDeepCopy();
+                    for (int i = 0; i < combo.size(); i++) {
+                        Move.Coordinate newCoordinate = new Move.Coordinate(coordinate.getRow()-(i+1),coordinate.getColumn());
+                        Move move = new Move(combo.get(i),newCoordinate);
+                        moves.add(move);
+                        if (!grid.isValidMoves(moves)) {
+                            moves.clear();
+                            break;
+                        }
+                    }
+                }
+                if (moves.size() > 0) {
+                    validMoves.get(edge).add(new Turn(moves));
+                    moves.clear();
+                }
+
+                if(isEmptyDown){
+                    grid = getBoard().getDeepCopy();
+                    for (int i = 0; i < combo.size(); i++) {
+                        Move.Coordinate newCoordinate = new Move.Coordinate(coordinate.getRow()+(i+1),coordinate.getColumn());
+                        Move move = new Move(combo.get(i),newCoordinate);
+                        moves.add(move);
+                        if (!grid.isValidMoves(moves)) {
+                            moves.clear();
+                            break;
+                        }
+                    }
+                }
+                if (moves.size() > 0) {
+                    validMoves.get(edge).add(new Turn(moves));
+                    moves.clear();
+                }
+
+                if(isEmptyLeft){
+                    grid = getBoard().getDeepCopy();
+                    for (int i = 0; i < combo.size(); i++) {
+                        Move.Coordinate newCoordinate = new Move.Coordinate(coordinate.getRow(),coordinate.getColumn()-(i+1));
+                        Move move = new Move(combo.get(i),newCoordinate);
+                        moves.add(move);
+                        if (!grid.isValidMoves(moves)) {
+                            moves.clear();
+                            break;
+                        }
+                    }
+                }
+                if (moves.size() > 0) {
+                    validMoves.get(edge).add(new Turn(moves));
+                    moves.clear();
+                }
+
+                if(isEmptyRight){
+                    grid = getBoard().getDeepCopy();
+                    for (int i = 0; i < combo.size(); i++) {
+                        Move.Coordinate newCoordinate = new Move.Coordinate(coordinate.getRow(),coordinate.getColumn()+(i+1));
+                        Move move = new Move(combo.get(i),newCoordinate);
+                        moves.add(move);
+                        if (!grid.isValidMoves(moves)) {
+                            moves.clear();
+                            break;
+                        }
+                    }
+                }
+                if (moves.size() > 0) {
+                    validMoves.get(edge).add(new Turn(moves));
+                    moves.clear();
+                }
+                //for loop for 1up then right example: |->>>
+                boolean firstTileFlag = true;
+                grid = getBoard().getDeepCopy();
+                for (int i = 0; i < combo.size(); i++) {
+                    Move.Coordinate newCoordinate ;
+                    if (firstTileFlag) {
+                        newCoordinate = new Move.Coordinate(coordinate.getRow()-1,coordinate.getColumn());
+                        Move move = new Move(combo.get(i),newCoordinate);
+                        moves.add(move);
+                        if (!grid.isValidMoves(moves)) {
+                            moves.clear();
+                            break;
+                        }
+                        firstTileFlag = false;
+                        continue;
+                    }
+                    //not (i+1) because the first iteration is already done
+                    newCoordinate = new Move.Coordinate(coordinate.getRow()-1,coordinate.getColumn()+(i));
+                    Move move = new Move(combo.get(i),newCoordinate);
+                    moves.add(move);
+                    if (!grid.isValidMoves(moves)) {
+                        moves.clear();
+                        break;
+                    }
+                }
+                if (moves.size() > 0) {
+                    validMoves.get(edge).add(new Turn(moves));
+                    moves.clear();
+                }
+
+
+                //for loop for 1up then left example: |->>>
+                firstTileFlag = true;
+                grid = getBoard().getDeepCopy();
+                for (int i = 0; i < combo.size(); i++) {
+                    Move.Coordinate newCoordinate ;
+                    if (firstTileFlag) {
+                        newCoordinate = new Move.Coordinate(coordinate.getRow()-1,coordinate.getColumn());
+                        Move move = new Move(combo.get(i),newCoordinate);
+                        moves.add(move);
+                        if (!grid.isValidMoves(moves)) {
+                            moves.clear();
+                            break;
+                        }
+                        firstTileFlag = false;
+                        continue;
+                    }
+                    //not (i+1) because the first iteration is already done
+                    newCoordinate = new Move.Coordinate(coordinate.getRow()-1,coordinate.getColumn()-(i));
+                    Move move = new Move(combo.get(i),newCoordinate);
+                    moves.add(move);
+                    if (!grid.isValidMoves(moves)) {
+                        moves.clear();
+                        break;
+                    }
+                }
+                if (moves.size() > 0) {
+                    validMoves.get(edge).add(new Turn(moves));
+                    moves.clear();
+                }
+
+
+                //for loop for 1left then up example: |->>>
+                firstTileFlag = true;
+                grid = getBoard().getDeepCopy();
+                for (int i = 0; i < combo.size(); i++) {
+                    Move.Coordinate newCoordinate ;
+                    if (firstTileFlag) {
+                        newCoordinate = new Move.Coordinate(coordinate.getRow(),coordinate.getColumn()-1);
+                        Move move = new Move(combo.get(i),newCoordinate);
+                        moves.add(move);
+                        if (!grid.isValidMoves(moves)) {
+                            moves.clear();
+                            break;
+                        }
+                        firstTileFlag = false;
+                        continue;
+                    }
+                    //not (i+1) because the first iteration is already done
+                    newCoordinate = new Move.Coordinate(coordinate.getRow()-i,coordinate.getColumn()-1);
+                    Move move = new Move(combo.get(i),newCoordinate);
+                    moves.add(move);
+                    if (!grid.isValidMoves(moves)) {
+                        moves.clear();
+                        break;
+                    }
+                }
+                if (moves.size() > 0) {
+                    validMoves.get(edge).add(new Turn(moves));
+                    moves.clear();
+                }
+
+
+                //for loop for 1left then down example: |->>>
+                firstTileFlag = true;
+                grid = getBoard().getDeepCopy();
+                for (int i = 0; i < combo.size(); i++) {
+                    Move.Coordinate newCoordinate ;
+                    if (firstTileFlag) {
+                        newCoordinate = new Move.Coordinate(coordinate.getRow(),coordinate.getColumn()-1);
+                        Move move = new Move(combo.get(i),newCoordinate);
+                        moves.add(move);
+                        if (!grid.isValidMoves(moves)) {
+                            moves.clear();
+                            break;
+                        }
+                        firstTileFlag = false;
+                        continue;
+                    }
+                    //not (i+1) because the first iteration is already done
+                    newCoordinate = new Move.Coordinate(coordinate.getRow()+i,coordinate.getColumn()-1);
+                    Move move = new Move(combo.get(i),newCoordinate);
+                    moves.add(move);
+                    if (!grid.isValidMoves(moves)) {
+                        moves.clear();
+                        break;
+                    }
+                }
+                if (moves.size() > 0) {
+                    validMoves.get(edge).add(new Turn(moves));
+                    moves.clear();
+                }
+
+
+
+                //for loop for 1right then up example: |->>>
+                firstTileFlag = true;
+                grid = getBoard().getDeepCopy();
+                for (int i = 0; i < combo.size(); i++) {
+                    Move.Coordinate newCoordinate ;
+                    if (firstTileFlag) {
+                        newCoordinate = new Move.Coordinate(coordinate.getRow(),coordinate.getColumn()+1);
+                        Move move = new Move(combo.get(i),newCoordinate);
+                        moves.add(move);
+                        if (!grid.isValidMoves(moves)) {
+                            moves.clear();
+                            break;
+                        }
+                        firstTileFlag = false;
+                        continue;
+                    }
+                    //not (i+1) because the first iteration is already done
+                    newCoordinate = new Move.Coordinate(coordinate.getRow()-i,coordinate.getColumn()+1);
+                    Move move = new Move(combo.get(i),newCoordinate);
+                    moves.add(move);
+                    if (!grid.isValidMoves(moves)) {
+                        moves.clear();
+                        break;
+                    }
+                }
+                if (moves.size() > 0) {
+                    validMoves.get(edge).add(new Turn(moves));
+                    moves.clear();
+                }
+
+
+
+                //for loop for 1right then down example: |->>>
+                firstTileFlag = true;
+                grid = getBoard().getDeepCopy();
+                for (int i = 0; i < combo.size(); i++) {
+                    Move.Coordinate newCoordinate ;
+                    if (firstTileFlag) {
+                        newCoordinate = new Move.Coordinate(coordinate.getRow(),coordinate.getColumn()+1);
+                        Move move = new Move(combo.get(i),newCoordinate);
+                        moves.add(move);
+                        if (!grid.isValidMoves(moves)) {
+                            moves.clear();
+                            break;
+                        }
+                        firstTileFlag = false;
+                        continue;
+                    }
+                    //not (i+1) because the first iteration is already done
+                    newCoordinate = new Move.Coordinate(coordinate.getRow()+i,coordinate.getColumn()+1);
+                    Move move = new Move(combo.get(i),newCoordinate);
+                    moves.add(move);
+                    if (!grid.isValidMoves(moves)) {
+                        moves.clear();
+                        break;
+                    }
+                }
+                if (moves.size() > 0) {
+                    validMoves.get(edge).add(new Turn(moves));
+                    moves.clear();
+                }
+
+
+                //for loop for 1down then left example: |->>>
+                firstTileFlag = true;
+                grid = getBoard().getDeepCopy();
+                for (int i = 0; i < combo.size(); i++) {
+                    Move.Coordinate newCoordinate ;
+                    if (firstTileFlag) {
+                        newCoordinate = new Move.Coordinate(coordinate.getRow()+1,coordinate.getColumn());
+                        Move move = new Move(combo.get(i),newCoordinate);
+                        moves.add(move);
+                        if (!grid.isValidMoves(moves)) {
+                            moves.clear();
+                            break;
+                        }
+                        firstTileFlag = false;
+                        continue;
+                    }
+                    //not (i+1) because the first iteration is already done
+                    newCoordinate = new Move.Coordinate(coordinate.getRow()+1,coordinate.getColumn()-i);
+                    Move move = new Move(combo.get(i),newCoordinate);
+                    moves.add(move);
+                    if (!grid.isValidMoves(moves)) {
+                        moves.clear();
+                        break;
+                    }
+                }
+                if (moves.size() > 0) {
+                    validMoves.get(edge).add(new Turn(moves));
+                    moves.clear();
+                }
+
+
+                //for loop for 1down then right example: |->>>
+                firstTileFlag = true;
+                grid = getBoard().getDeepCopy();
+                for (int i = 0; i < combo.size(); i++) {
+                    Move.Coordinate newCoordinate ;
+                    if (firstTileFlag) {
+                        newCoordinate = new Move.Coordinate(coordinate.getRow()-1,coordinate.getColumn());
+                        Move move = new Move(combo.get(i),newCoordinate);
+                        moves.add(move);
+                        if (!grid.isValidMoves(moves)) {
+                            moves.clear();
+                            break;
+                        }
+                        firstTileFlag = false;
+                        continue;
+                    }
+                    //not (i+1) because the first iteration is already done
+                    newCoordinate = new Move.Coordinate(coordinate.getRow()-1,coordinate.getColumn()+i);
+                    Move move = new Move(combo.get(i),newCoordinate);
+                    moves.add(move);
+                    if (!grid.isValidMoves(moves)) {
+                        moves.clear();
+                        break;
+                    }
+                }
+                if (moves.size() > 0) {
+                    validMoves.get(edge).add(new Turn(moves));
+                    moves.clear();
+                }
+
+            }
+        }
+        HashMap<Move,Set<Turn>> toReturn = new HashMap<>();
+        for (Map.Entry<Move,Set<Turn>> entry : validMoves.entrySet()) {
+            if (entry.getValue().isEmpty()){
+                continue;
+            }
+            Set<Turn> turns = entry.getValue();
+            toReturn.put(entry.getKey(),turns);
+        }
+        return toReturn;
+    }
+
+
+    //this works perfectly
+    //Next step (this is for the lecturers to read)
+    //1. make a move that return a hashmap of the edge Move and a list of combinations that are valid
+    //2. after this is completed we can make both the difficulties (easy and hard) based on that method
+    //because we can just filter out based on score so easy plays moves that are 4 or less points, hard plays moves that are 5 or more points (example)
+    //INPUT:[RED CLOVER 1, ORANGE DIAMOND 102, BLUE CIRCLE 17, BLUE CLOVER 85, BLUE EIGHT_POINT_STAR 87, ORANGE EIGHT_POINT_STAR 27]
+    //OUTPUT:[
+    // [BLUE CIRCLE 17, BLUE EIGHT_POINT_STAR 87],
+    // [BLUE CLOVER 85],
+    // [BLUE CLOVER 85, RED CLOVER 1],
+    // [ORANGE DIAMOND 102],
+    // [BLUE CLOVER 85, BLUE CIRCLE 17, BLUE EIGHT_POINT_STAR 87],
+    // [ORANGE EIGHT_POINT_STAR 27],
+    // [BLUE CLOVER 85, BLUE CIRCLE 17],
+    // [ORANGE DIAMOND 102, ORANGE EIGHT_POINT_STAR 27],
+    // [ORANGE EIGHT_POINT_STAR 27, BLUE EIGHT_POINT_STAR 87],
+    // [BLUE CIRCLE 17],
+    // [BLUE EIGHT_POINT_STAR 87],
+    // [RED CLOVER 1]
+    // ]
+    public Set<Set<Tile>> allDeckTileCombinations() {
+        Set<Set<Tile>> allTileCombinations = new HashSet<>();
+        Set<Set<Tile>> toReturn = new HashSet<>();
+        List<Tile> tilesInDeck = getDeck().getTilesInDeck();
+        for (Tile tile : tilesInDeck) {
+            Set<Tile> tileShapeCombination = new HashSet<>();
+            Set<Tile> tileColorCombination = new HashSet<>();
+
+            for (Tile t : tilesInDeck) {
+                if (t.equals(tile)) {
+                    continue;
+                }
+                if (t.isSameShape(tile) && !t.isSameColor(tile)) {
+                    tileShapeCombination.add(t);
+                    tileShapeCombination.add(tile);
+                    continue;
+                }
+                if (!t.isSameShape(tile) && t.isSameColor(tile)) {
+                    tileColorCombination.add(t);
+                    tileColorCombination.add(tile);
+                }
+            }
+            allTileCombinations.add(tileShapeCombination);
+            allTileCombinations.add(tileColorCombination);
+        }
+
+        //after getting the highest tile combo
+        //we need to make lists out of every combo into smaller ones
+        //that way we can get all the combos
+        for (Set<Tile> list : allTileCombinations) {
+            toReturn.addAll(getAllCombinations(list));
+        }
+        toReturn.removeIf(x -> x.size() == 0);
+
+        return toReturn;
+    }
+
     /**
      * This method returns all the possible combinations of a given list of tiles
      * uses the power of recursion
+     *
      * @param list
      * @return
      */
@@ -523,6 +954,7 @@ public class Computer extends Player {
     /**
      * This method returns all the combinations and every single order of the given list of tiles
      * this is to make it easier to test for all possible valid moves in the game
+     *
      * @param list
      * @return
      */
@@ -548,19 +980,19 @@ public class Computer extends Player {
     }
 
     @Override
-    public void save(){
+    public void save() {
         try {
             Connection conn = Database.getInstance().getConnection();
             String sql = """
-                         INSERT INTO int_player(player_id, player_name, difficulty)
-                                 VALUES (nextval('player_id_seq'),?,?);
-                         """;
+                    INSERT INTO int_player(player_id, player_name, difficulty)
+                            VALUES (nextval('player_id_seq'),?,?);
+                    """;
             PreparedStatement ptsmt = conn.prepareStatement(sql);
-            ptsmt.setString(1,getName());
-            ptsmt.setString(2,levelOfDifficulty.toString());
+            ptsmt.setString(1, getName());
+            ptsmt.setString(2, levelOfDifficulty.toString());
             ptsmt.executeUpdate();
             ptsmt.close();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Error while saving to int_player");
         }

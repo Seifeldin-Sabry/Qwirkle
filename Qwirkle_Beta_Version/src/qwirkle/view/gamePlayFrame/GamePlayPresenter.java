@@ -20,6 +20,8 @@ import qwirkle.view.newGameFrame.NewGamePresenter;
 import qwirkle.view.newGameFrame.NewGameView;
 import qwirkle.view.rulesFrame.RulesPresenterGP;
 import qwirkle.view.rulesFrame.RulesView;
+import qwirkle.view.popupFrame.PopupPresenter;
+import qwirkle.view.popupFrame.PopupView;
 import qwirkle.view.statisticsFrame.StatisticsPresenterGO;
 import qwirkle.view.statisticsFrame.StatisticsView;
 import qwirkle.view.welcomeFrame.WelcomePresenter;
@@ -38,6 +40,7 @@ public class GamePlayPresenter {
     private Timeline computerMove;
     private Timeline welcome;
     private Timeline tileExchange;
+    private Timeline submit;
     private LinkedList<TileNode> deckTiles = new LinkedList<>();
     private LinkedList<TileNode> exchangedTiles = new LinkedList<>();
     private LinkedList<TileNode> validPositionList = new LinkedList<>();
@@ -161,84 +164,84 @@ public class GamePlayPresenter {
                     You can't trade tiles and place
                      them on the board at the same
                                         time!""";
-            popupMessage(stage, text, 3, false);
+            popupMessage(stage, text, 3);
             undo(stage);
             return;
         }
         if (exchangedTiles.size() > 0) {
             submitExchange(stage);
-            tileExchangeAnimation(stage); //Contget the ssh-key contentains playComputer method in a keyframe
+            tileExchangeAnimation(stage); //Contains playComputer method in a keyframe
             return;
         }
-        if (playedTiles.size() == 0 && !(noMoreMovesLeft()) && currentModel.getPlayerSession().getPlayer().getDeck().getTilesInDeck().size() > 0) {
+        if (playedTiles.size() == 0 && currentModel.getPlayerSession().getPlayer().getDeck().getTilesInDeck().size() > 0) {
             String text = """
                     Place a tile on the board or
                      exchange tiles in the bag.""";
-            popupMessage(stage, text, 2.5, false);
+            popupMessage(stage, text, 2.5);
             return;
         }
         if (playedTiles.size() > 0) {
             playedTiles.clear();
             exchangedTiles.clear();
             if (!currentModel.isGameOver()) {
-                currentModel.setNextPlayerSession();
-                updateView(stage);
-                playComputerMove(stage);
+                playerPlayedAnimation(stage); //Contains playComputer in a keyframe
             }
-            return;
         }
-        if (currentModel.isGameOver() || (noMoreMovesLeft() && currentModel.getBag().getTiles().size() == 0)) {
+        if (currentModel.isGameOver() || (currentModel.getBag().getTiles().size() == 0)) {
             setGameOver(stage);
-            updateScore();
             Database.getInstance().save(currentModel);
         }
     }
 
 
-    private void popupMessage(Stage stage, String text, double duration, boolean computerPlayed) {
+    private void popupMessage(Stage stage, String text, double duration) {
         PopupView view = new PopupView();
-        new PopupPresenter(stage, view, text, 660, 300, duration, computerPlayed);
+        new PopupPresenter(stage, view, text, 660, 300, duration, false);
     }
 
-    private boolean noMoreMovesLeft() {
-        if (currentModel.getActivePlayerSession().equals(currentModel.getComputerSession())) {
-            Computer computer = (Computer) currentModel.getComputerSession().getPlayer();
-            Move move = computer.makeMove();
-            if (move == null) {
-                return true;
-            }
-        } else {
-            for (Tile deckTile : currentModel.getActivePlayerSession().getPlayer().getDeck().getTilesInDeck()) {
-                for (TileNode tile : validPositionList) {
-                    int row = tile.getRow();
-                    int col = tile.getCol();
-                    Move move = new Move(deckTile, new Move.Coordinate(row, col));
-                    if (currentModel.getGrid().isValidMove(move)) {
-                        return false;
-                    }
-                }
-            }
-        }
-        return true;
-    }
+//    private boolean noMoreMovesLeft() {
+//        if (currentModel.getActivePlayerSession().equals(currentModel.getComputerSession())) {
+//            Computer computer = (Computer) currentModel.getComputerSession().getPlayer();
+//            Move move = computer.makeMove();
+//            if (move == null) {
+//                return true;
+//            }
+//        } else {
+//            for (Tile deckTile : currentModel.getActivePlayerSession().getPlayer().getDeck().getTilesInDeck()) {
+//                for (TileNode tile : validPositionList) {
+//                    int row = tile.getRow();
+//                    int col = tile.getCol();
+//                    Move move = new Move(deckTile, new Move.Coordinate(row, col));
+//                    if (currentModel.getGrid().isValidMove(move)) {
+//                        return false;
+//                    }
+//                }
+//            }
+//        }
+//        return true;
+//    }
 
     private void playComputerMove(Stage stage) {
         Computer computer = (Computer) currentModel.getComputerSession().getPlayer();
-        Move move = computer.makeMove();
-        if (move == null && currentModel.getBag().getTiles().size() > 0) {
+        List<Move> moves = computer.play();
+        if (moves == null && currentModel.getBag().getTiles().size() > 0) {
             ((Computer) currentModel.getComputerSession().getPlayer()).trade();
             exchangedTiles.clear();
             popupComputerPlayed(stage, "Computer traded tiles", "", 2.2, true);
             currentModel.setNextPlayerSession();
+            updateView(stage);
             return;
         }
-        if (move != null) {
-            currentModel.getComputerSession().getPlayer().makeMove(move);
-            TileNode tileNode = new TileNode(move.getTile(), gridZoomOut());
-            tileNode.savePosition(move.getCoordinate().getColumn(), move.getCoordinate().getRow());
-            currentModel.getComputerSession().getLastTurn().add(move);
-            playedTiles.add(tileNode);
+        if (moves != null &&  moves.size() > 0) {
+            for (Move move : moves) {
+                currentModel.getComputerSession().getPlayer().makeMove(move);
+                currentModel.getComputerSession().getLastTurn().add(move);
+                TileNode tileNode = new TileNode(move.getTile(), gridZoomOut());
+                tileNode.savePosition(move.getCoordinate().getColumn(), move.getCoordinate().getRow());
+                playedTiles.add(tileNode);
+            }
             placeTiles(playedTiles);
+            playedTiles.clear();
             currentModel.setNextPlayerSession();
             int points = currentModel.getComputerSession().getLastTurn().getPoints();
             String pointsLabel;
@@ -249,14 +252,11 @@ public class GamePlayPresenter {
             }
             popupComputerPlayed(stage, "Computer Played: ", String.valueOf(points + pointsLabel), 2.2, true);
             positioningHandler(validPositionList);
-            playedTiles.clear();
             updateView(stage);
             return;
         }
-        if ((move == null && currentModel.getPlayerSession().getLastTurn().getMoves().size() == 0
-                && currentModel.getBag().getTiles().size() == 0) || currentModel.isGameOver()) {
+        if (currentModel.getBag().getTiles().size() == 0 || currentModel.isGameOver()) {
             setGameOver(stage);
-            updateScore();
             Database.getInstance().save(currentModel);
         }
     }
@@ -274,7 +274,6 @@ public class GamePlayPresenter {
             tileNode.setStyle("-fx-effect: dropshadow( gaussian , rgb(255,0,0) , 4,1,0,0 );");
             computerMove.play();
         }
-
         playedTiles.clear();
     }
 
@@ -282,8 +281,8 @@ public class GamePlayPresenter {
         paintGrid();
         fillEmptySpots();
         setDeckTiles();
-        updateTilesLeftLabel();
         updateScore();
+        updateTilesLeftLabel();
         positioningHandler(validPositionList);
         resizeGridContent(gridZoomOut());
     }
@@ -311,6 +310,42 @@ public class GamePlayPresenter {
         } else {
             currentView.getComputerScore().setText("Computer Score:    " + currentModel.getComputerSession().getTotalScore());
         }
+
+//        int computerTurnPoins;
+//        int computerTotalScore;
+//        int playerTurnPoints;
+//        int playerTotalScore;
+//        if (currentModel.getActivePlayerSession().equals(currentModel.getPlayerSession())) {
+//            if (currentModel.getPlayerSession().getTurnsPlayed().size() == 0 || currentModel.getPlayerSession().getLastTurn().getPoints() == 0) {
+//                currentView.getPlayerScore().setText("Your Score:    " + 0);
+//            } else {
+//                playerTurnPoints = currentModel.getPlayerSession().getLastTurn().getPoints();
+//                playerTotalScore = currentModel.getPlayerSession().getTotalScore();
+//                currentView.getPlayerScore().setText(String.format("Your score: %s (+%s)", playerTotalScore, playerTurnPoints));
+//            }
+//            if (currentModel.getComputerSession().getTurnsPlayed().size() == 0 || currentModel.getComputerSession().getLastTurn().getPoints() == 0) {
+//                currentView.getComputerScore().setText("Computer Score:    " + 0);
+//            } else {
+//                computerTurnPoins = currentModel.getComputerSession().getLastTurn().getPoints();
+//                computerTotalScore = currentModel.getComputerSession().getTotalScore();
+//                currentView.getComputerScore().setText(String.format("Computer score: %s (+%s)", computerTotalScore, computerTurnPoins));
+//            }
+//        } else {
+//            if (currentModel.getComputerSession().getTurnsPlayed().size() == 0 || currentModel.getComputerSession().getLastTurn().getPoints() == 0) {
+//                currentView.getComputerScore().setText("Computer Score:    " + 0);
+//            } else {
+//                computerTurnPoins = currentModel.getComputerSession().getLastTurn().getPoints();
+//                computerTotalScore = currentModel.getComputerSession().getTotalScore();
+//                currentView.getComputerScore().setText(String.format("Computer score: %s (+%s)", computerTotalScore, computerTurnPoins));
+//            }
+//            if (currentModel.getPlayerSession().getTurnsPlayed().size() == 0 || currentModel.getPlayerSession().getLastTurn().getPoints() == 0) {
+//                currentView.getPlayerScore().setText("Your Score:    " + 0);
+//            } else {
+//                playerTurnPoints = currentModel. getPlayerSession().getLastTurn().getPoints();
+//                playerTotalScore = currentModel.getPlayerSession().getTotalScore();
+//                currentView.getPlayerScore().setText(String.format("Your score: %s (+%s)", playerTotalScore, playerTurnPoints));
+//            }
+//        }
     }
 
 
@@ -318,6 +353,7 @@ public class GamePlayPresenter {
         currentModel.getActivePlayerSession().getLastTurn().endTurn(currentModel.getGrid());
         currentModel.setEndTime();
         timer.stop();
+        updateScore();
         currentView.getVb2().getChildren().clear();
         currentModel.addExtraPoints();
         currentView.getVb2().getChildren().addAll(currentView.getHbScore(), currentView.getVBox());
@@ -427,15 +463,22 @@ public class GamePlayPresenter {
         }
     }
 
-    void popupWhoPlaysFirst(Stage stage, String text, int duration) {
+    private void popupWhoPlaysFirst(Stage stage, String text, int duration) {
         PopupView view = new PopupView();
         new PopupPresenter(stage, view, text, 660, 300, duration);
     }
 
-    void popupComputerPlayed(Stage stage, String text, String score, double duration, boolean computerPlayed) {
+    private void popupComputerPlayed(Stage stage, String text, String score, double duration, boolean computerPlayed) {
         StringBuilder newText = new StringBuilder(text + score);
         PopupView view = new PopupView();
         new PopupPresenter(stage, view, newText.toString(), 660, 300, duration, computerPlayed);
+    }
+
+    private void popupPlayPlayed(Stage stage) {
+        String score = String.valueOf(currentModel.getPlayerSession().getLastTurn().getPoints());
+        StringBuilder newText = new StringBuilder("You got " + score + " points");
+        PopupView view = new PopupView();
+        new PopupPresenter(stage, view, newText.toString(), 660, 300, 1, false);
     }
 
     private void setExchangedTiles(TileNode tileNode) {
@@ -656,10 +699,10 @@ public class GamePlayPresenter {
         }
     }
 
-    private void zoomIn(Node object, double start, double end, double duration) {
+    private void zoomIn(Node object, double start, double end, double startTime) {
         KeyValue kv1 = new KeyValue(object.scaleXProperty(), end);
         KeyValue kv2 = new KeyValue(object.scaleYProperty(), end);
-        Timeline scaling = new Timeline(new KeyFrame(Duration.millis(duration), kv1, kv2));
+        Timeline scaling = new Timeline(new KeyFrame(Duration.millis(startTime), kv1, kv2));
         SequentialTransition seq = new SequentialTransition(scaling);
         object.setScaleX(start);
         object.setScaleY(start);
@@ -682,10 +725,10 @@ public class GamePlayPresenter {
         tile.setOnMouseEntered(null);
     }
 
-    private void bounchNode(Node node, double oldSize, double newSize, double duration) {
+    private void bounchNode(Node node, double oldSize, double newSize, double startTime) {
         KeyValue kv1 = new KeyValue(node.scaleXProperty(), newSize);
         KeyValue kv2 = new KeyValue(node.scaleYProperty(), newSize);
-        Timeline scaling = new Timeline(new KeyFrame(Duration.millis(duration), kv1, kv2));
+        Timeline scaling = new Timeline(new KeyFrame(Duration.millis(startTime), kv1, kv2));
         SequentialTransition seq = new SequentialTransition(scaling);
         node.setScaleX(oldSize);
         node.setScaleY(oldSize);
@@ -717,10 +760,13 @@ public class GamePlayPresenter {
                 Tiles exchanged successfully!""";
         ;
         KeyFrame firstFrame = new KeyFrame(Duration.seconds(0), e -> {
-            popupMessage(stage, text, 1, false);
+            popupMessage(stage, text, 1);
             updateView(stage);
         });
-        KeyFrame secondFrame = new KeyFrame(Duration.seconds(1.6), e -> {
+        KeyFrame secondFrame = new KeyFrame(Duration.seconds(1), e -> {
+            popupPlayPlayed(stage);
+        });
+        KeyFrame thirdFrame = new KeyFrame(Duration.seconds(2), e -> {
             if (!currentModel.isGameOver()) {
                 playedTiles.clear();
                 exchangedTiles.clear();
@@ -729,7 +775,22 @@ public class GamePlayPresenter {
                 tileExchange.stop();
             }
         });
-        tileExchange = new Timeline(firstFrame, secondFrame);
+        tileExchange = new Timeline(firstFrame, secondFrame, thirdFrame);
         tileExchange.play();
+    }
+
+    private void playerPlayedAnimation(Stage stage) {
+        KeyFrame firstFrame = new KeyFrame(Duration.seconds(0), e -> {
+            currentModel.setNextPlayerSession();
+            popupPlayPlayed(stage);
+        });
+        KeyFrame secondFrame = new KeyFrame(Duration.seconds(1), e -> {
+            updateView(stage);
+            playComputerMove(stage);
+            submit.stop();
+        });
+        submit = new Timeline(firstFrame, secondFrame);
+        submit.play();
+
     }
 }

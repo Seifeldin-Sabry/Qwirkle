@@ -1,4 +1,4 @@
-package qwirkle.view.gamePlayFrame;
+package qwirkle.view.popupFrame;
 
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
@@ -21,16 +21,16 @@ public class PopupPresenter {
     private Timeline rotation;
 
 
-    PopupPresenter(Stage stage, PopupView view, String text, double width, double height, double duration) {
+    public PopupPresenter(Stage stage, PopupView view, String text, double width, double height, double duration) {
         this.view = view;
         updateView(text);
         popup(stage, width, height, duration);
     }
 
-    PopupPresenter(Stage stage, PopupView view, String text, double width, double height, double duration, boolean computerPlayed) {
+    public PopupPresenter(Stage stage, PopupView view, String text, double width, double height, double duration, boolean computerPlayed) {
         this.view = view;
         if (computerPlayed) {
-            updateView(text, computerPlayed);
+            updateView(text, true);
         } else {
             updateView(text);
         }
@@ -38,7 +38,7 @@ public class PopupPresenter {
     }
 
 
-    private void popup(Stage primaryStage, double width, double height, double duration) {
+    private void popup(Stage primaryStage, double width, double height, double startTime) {
         Scene scene = new Scene(view);
         Stage stage = new Stage();
         stage.setFullScreen(false);
@@ -52,14 +52,14 @@ public class PopupPresenter {
         stage.initModality(Modality.APPLICATION_MODAL);stage.show();
         double primaryStageHeight = primaryStage.getHeight();
         stage.setY((primaryStageHeight - stage.getHeight())/2);
-        KeyFrame firstFrame = new KeyFrame(Duration.seconds(duration),
+        KeyFrame firstFrame = new KeyFrame(Duration.seconds(startTime),
                 event -> {
                     try {
                         fadeOut(view);
                     } catch (NullPointerException ignored) {
                     }
                 });
-        KeyFrame secondFrame = new KeyFrame(Duration.seconds(duration + 0.3),
+        KeyFrame secondFrame = new KeyFrame(Duration.seconds(startTime + 0.5),
                 event -> {
                     try {
                         stage.close();

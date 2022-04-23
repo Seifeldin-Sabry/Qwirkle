@@ -293,7 +293,7 @@ public class GamePlayView extends BorderPane {
 
     }
 
-    void makeTransparent() {
+     void makeTransparent() {
         grid.setOpacity(0);
         submit.setOpacity(0);
         undo.setOpacity(0);

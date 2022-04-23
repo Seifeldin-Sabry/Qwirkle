@@ -1,4 +1,4 @@
-package qwirkle.view.gamePlayFrame;
+package qwirkle.view.popupFrame;
 
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -14,14 +14,14 @@ public class PopupView extends StackPane {
     private ImageView imageView;
     private VBox vBox;
 
-    PopupView() {
+    public PopupView() {
         initialiseNodes();
         layoutNodes();
     }
 
     private void initialiseNodes() {
         label = new Label();
-        Image img =  new Image("/images/hourglass.png",205, 167.5, true,true );
+        Image img = new Image("/images/hourglass.png", 205, 167.5, true, true);
         imageView = new ImageView(img);
         vBox = new VBox(20);
     }
@@ -40,9 +40,10 @@ public class PopupView extends StackPane {
 
     }
 
-     VBox getVBox() {
+    VBox getVBox() {
         return vBox;
     }
+
     ImageView getImageView() {
         return imageView;
     }

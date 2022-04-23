@@ -214,7 +214,7 @@ public class RulesView extends BorderPane {
                 points for the
                 circle line.""");
         vbox4_2_paragraph = new Text("""
-                Whenever you complete a line with all six of a set,
+                Whenever you complete a set of six tiles in a line,
                 it is called a Qwirkle. A Qwirkle scores 12 points,
                 six for the tiles in the line plus six bonus points.
                 """);

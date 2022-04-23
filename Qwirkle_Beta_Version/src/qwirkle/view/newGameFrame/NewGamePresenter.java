@@ -35,10 +35,7 @@ public class NewGamePresenter {
         view.getRadioHPF1().setOnAction(event -> isPlayerStarting = true);
         view.getRadioHPF2().setOnAction(event -> isPlayerStarting = false);
         view.getRadioMode1().setOnAction(event -> difficultyLvl = Computer.LevelOfDifficulty.EASY);
-        //Temporary assigned with easy mode in order to keep lees changes in the view design
-        view.getRadioMode2().setOnAction(event -> difficultyLvl = Computer.LevelOfDifficulty.EASY);
-        //TO be applied once the AI is done
-//        view.getRadioMode2().setOnAction(event -> difficultyLvl = Computer.LevelOfDifficulty.AI);
+        view.getRadioMode2().setOnAction(event -> difficultyLvl = Computer.LevelOfDifficulty.AI);
         view.getRules().setOnAction(event -> setRulesView(stage, isPlayerStarting, name));
         view.getPlay().setOnAction((ActionEvent event) -> {
             name = (((RadioButton) view.getGroup1().getSelectedToggle()).getText());

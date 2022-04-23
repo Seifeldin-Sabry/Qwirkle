@@ -26,6 +26,11 @@ public class Turn implements List<Move>{
         startTimer = System.currentTimeMillis();
     }
 
+    public Turn(List<Move> moveList) {
+        this.moveList = new LinkedList<>(moveList);
+        startTimer = System.currentTimeMillis();
+    }
+
     public int getPoints() {
         return points;
     }
@@ -196,7 +201,9 @@ public class Turn implements List<Move>{
      * for every first move we calculate the points in the direction the tiles were placed
      * @param grid : the grid of the game
      */
-    private void calcScore(Grid grid){
+    public int calcScore(Grid grid){
+
+
         AtomicInteger score = new AtomicInteger();
         boolean firstMoveFlag = false;
 
@@ -224,6 +231,7 @@ public class Turn implements List<Move>{
                 // tile is not connected to any direction (+1 is the to include the tile itself)
                 else score.set(sizeHorizontal + sizeVertical + 1);
                 setPoints(score.get());
+                return score.get();
             }
             case 0 ->{
                 for (Move move:getMoves()) {
@@ -243,6 +251,7 @@ public class Turn implements List<Move>{
 
                 }
                 setPoints(score.get());
+                return score.get();
             }
             case 1 ->{
                 for (Move move:getMoves()) {
@@ -260,11 +269,14 @@ public class Turn implements List<Move>{
                     }
                 }
                 setPoints(score.get());
+                return score.get();
             }
-            default -> setPoints(0);
+            default -> {
+                setPoints(0);
+                return 0;
+            }
         }
     }
-
 
     public void save(int turn_no){
         try {
@@ -291,5 +303,11 @@ public class Turn implements List<Move>{
 //        System.out.println("Saved turnNo " +turn_no );
     }
 
-
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        sb.append("Turn: ").append("\n");
+        moveList.forEach(move -> sb.append(move.toString()).append("\n"));
+        return sb.toString();
+    }
 }

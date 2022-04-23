@@ -51,14 +51,23 @@ public class GameSession {
     public PlayerSession getActivePlayerSession() {
         if (playerHumanSession.isActive()) {
             return playerHumanSession;
-        } else return playerComputerSession;
+        }
+        if (playerComputerSession.isActive()) {
+            return playerComputerSession;
+        }
+        return null;
     }
 
     public void setNextPlayerSession() {
         getActivePlayerSession().getPlayer().getDeck().refill(getBag());
         getActivePlayerSession().getLastTurn().endTurn(getGrid());
-        playerHumanSession.setActive(!playerHumanSession.isActive());
-        playerComputerSession.setActive(!playerComputerSession.isActive());
+        if (getActivePlayerSession().equals(playerHumanSession)) {
+            playerComputerSession.setActive(true);
+            playerHumanSession.setActive(false);
+        } else {
+            playerComputerSession.setActive(false);
+            playerHumanSession.setActive(true);
+        }
         addTurnToActiveSession();
     }
 
@@ -70,15 +79,7 @@ public class GameSession {
     //must have in updateView
     public boolean isGameOver() {
         if (getBag().getAmountOfTilesLeft() == 0) {
-            if (getActivePlayerSession().getPlayer().getDeck().getTilesInDeck().size() == 0) {
-                return true;
-            }
-            if (getActivePlayerSession().equals(playerHumanSession) && playerComputerSession.getLastTurn().getMoves().size() == 0) {
-                return true;
-            }
-            else {
-                return getActivePlayerSession().equals(playerComputerSession) && playerHumanSession.getLastTurn().getMoves().size() == 0;
-            }
+            return getActivePlayerSession().getPlayer().getDeck().getTilesInDeck().size() == 0;
         }
         return false;
     }
@@ -90,9 +91,11 @@ public class GameSession {
 
     public void addExtraPoints() {
         if (getActivePlayerSession().equals(playerHumanSession)) {
-            getPlayerSession().getLastTurn().setPoints(getPlayerSession().getLastTurn().getPoints() + 6);
+            int playerPoints = getPlayerSession().getLastTurn().getPoints();
+            getPlayerSession().getLastTurn().setPoints(playerPoints + 6);
         } else {
-            getComputerSession().getLastTurn().setPoints(getComputerSession().getLastTurn().getPoints() + 6);
+            int computerPoints = getComputerSession().getLastTurn().getPoints();
+            getComputerSession().getLastTurn().setPoints(computerPoints + 6);
         }
     }
 

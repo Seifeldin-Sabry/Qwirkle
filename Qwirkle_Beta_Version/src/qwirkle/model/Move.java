@@ -54,7 +54,7 @@ public class Move implements Comparable<Move>{
 
     @Override
     public int compareTo(Move other) {
-        int rows = getCoordinate().getRow() - other.getCoordinate().row;
+        int rows = getCoordinate().row - other.getCoordinate().row;
         int columns = getCoordinate().column - other.getCoordinate().column;
         if (rows == 0) {
             return columns;
@@ -98,12 +98,12 @@ public class Move implements Comparable<Move>{
             Move.Coordinate[] coords = new Coordinate[4];
             //check top
             if (row != BOARD_SIZE) {
-                coords[0] = new Coordinate(row - 1, column);
+                coords[0] = new Coordinate(row + 1, column);
             }
 
             //check bottom
             if (row != 0) {
-                coords[1] = new Coordinate(row + 1, column);
+                coords[1] = new Coordinate(row - 1, column);
             }
 
             //check right
