@@ -3,6 +3,8 @@ package qwirkle.model;
 import qwirkle.data.Database;
 
 import java.sql.*;
+import java.util.List;
+import java.util.Set;
 
 /**
  * @author : Seifeldin Ismail
@@ -75,11 +77,17 @@ public class GameSession {
         getActivePlayerSession().add(new Turn());
     }
 
-
-    //must have in updateView
-    public boolean isGameOver() {
+    public boolean isGameOver(List<Tile> tiles) {
         if (getBag().getAmountOfTilesLeft() == 0) {
-            return getActivePlayerSession().getPlayer().getDeck().getTilesInDeck().size() == 0;
+            if (getActivePlayerSession().getPlayer().getDeck().getTilesInDeck().size() == 0) {
+                return true;
+            }
+            if (getActivePlayerSession().equals(playerHumanSession) && getComputerSession().getLastTurn().getPoints() == 0 && moveLeft(tiles)) {
+                return false;
+            }
+            if (getActivePlayerSession().equals(playerComputerSession) && getPlayerSession().getLastTurn().getPoints() == 0 && moveLeft(tiles)) {
+                return false;
+            }
         }
         return false;
     }
@@ -97,6 +105,24 @@ public class GameSession {
             int computerPoints = getComputerSession().getLastTurn().getPoints();
             getComputerSession().getLastTurn().setPoints(computerPoints + 6);
         }
+    }
+    //It checks if there is a single valid move left
+    public boolean moveLeft(List<Tile> tiles) {
+        Set<Move> allPlayedTiles = getGrid().getUsedSpaces();
+        for (Move move : allPlayedTiles) {
+            for (int side = 0; side < move.getCoordinate().getAdjacentCoords().length; side++) {
+                final Move.Coordinate adjacentCoord = move.getCoordinate().getAdjacentCoords()[side];
+                if (getGrid().isEmpty(adjacentCoord.getRow(), adjacentCoord.getColumn())) {
+                    for (Tile tile : tiles) {
+                        Move possibleMove = new Move(tile, adjacentCoord);
+                        if (getGrid().isValidMove(possibleMove)) {
+                            return true;
+                        }
+                    }
+                }
+            }
+        }
+        return false;
     }
 
     public Bag getBag() {

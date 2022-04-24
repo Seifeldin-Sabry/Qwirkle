@@ -158,10 +158,10 @@ public class Move implements Comparable<Move>{
         if (other == null || getClass() != other.getClass()) return false;
         boolean rowsEqual = Objects.equals(this.getCoordinate().getRow(), ((Move) other).getCoordinate().getRow());
         boolean columnsEqual = Objects.equals(this.getCoordinate().getColumn(), ((Move) other).getCoordinate().getColumn());
-        return rowsEqual ? columnsEqual : rowsEqual;
+        return rowsEqual && columnsEqual;
     }
     @Override
     public int hashCode() {
-        return Objects.hash(getCoordinate());
+        return Objects.hash(getCoordinate(), getTile());
     }
 }

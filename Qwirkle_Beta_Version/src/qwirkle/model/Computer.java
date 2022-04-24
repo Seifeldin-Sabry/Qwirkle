@@ -37,7 +37,7 @@ public class Computer extends Player {
     }
 
 
-    private Move makeMove() {
+    private Move possibleMove() {
         Set<Move> allMovesPossible = getBoard().getUsedSpaces();
         if (allMovesPossible.isEmpty()) {
             int randomTileInHandIndex = randomTileChooser.nextInt(getDeck().getTilesInDeck().size());
@@ -67,7 +67,7 @@ public class Computer extends Player {
         Turn turn = new Turn();
         int i = 0;
         while (i < allEdges.size()) {
-            Move possibleMove = makeMove();
+            Move possibleMove = possibleMove();
             if (possibleMove == null) {
                 return turn;
             } else {
@@ -126,15 +126,15 @@ public class Computer extends Player {
 
     private HashMap<Move, Set<Turn>> eliminatePotentialOpponentQwirkles(HashMap<Move, Set<Turn>> allMoves, int score) {
         HashMap<Move, Set<Turn>> toReturn = new HashMap<>();
-        for (Map.Entry<Move,Set<Turn>> entry: allMoves.entrySet()) {
+        for (Map.Entry<Move, Set<Turn>> entry : allMoves.entrySet()) {
             toReturn.computeIfAbsent(entry.getKey(), k -> new HashSet<>());
             Set<Turn> turns = entry.getValue();
             for (Turn turn : turns) {
                 Grid grid = getBoard().getDeepCopy();
-                for (Move move : turn){
+                for (Move move : turn) {
                     grid.boardAddMove(move);
                 }
-                if(turn.calcScore(grid) != score){
+                if (turn.calcScore(grid) != score) {
                     toReturn.get(entry.getKey()).add(turn);
                 }
             }
@@ -149,15 +149,15 @@ public class Computer extends Player {
      */
     private HashMap<Move, Set<Turn>> eliminateMovesThatHaveScore(HashMap<Move, Set<Turn>> allMoves, int score) {
         HashMap<Move, Set<Turn>> toReturn = new HashMap<>();
-        for (Map.Entry<Move,Set<Turn>> entry: allMoves.entrySet()) {
+        for (Map.Entry<Move, Set<Turn>> entry : allMoves.entrySet()) {
             toReturn.computeIfAbsent(entry.getKey(), k -> new HashSet<>());
             Set<Turn> turns = entry.getValue();
             for (Turn turn : turns) {
                 Grid grid = getBoard().getDeepCopy();
-                for (Move move : turn){
+                for (Move move : turn) {
                     grid.boardAddMove(move);
                 }
-                if(turn.calcScore(grid) != score){
+                if (turn.calcScore(grid) != score) {
                     toReturn.get(entry.getKey()).add(turn);
                 }
             }
@@ -167,15 +167,15 @@ public class Computer extends Player {
 
     private HashMap<Move, Set<Turn>> eliminateMovesThatHaveScoreOrLess(HashMap<Move, Set<Turn>> allMoves, int score) {
         HashMap<Move, Set<Turn>> toReturn = new HashMap<>();
-        for (Map.Entry<Move,Set<Turn>> entry: allMoves.entrySet()) {
+        for (Map.Entry<Move, Set<Turn>> entry : allMoves.entrySet()) {
             toReturn.computeIfAbsent(entry.getKey(), k -> new HashSet<>());
             Set<Turn> turns = entry.getValue();
             for (Turn turn : turns) {
                 Grid grid = getBoard().getDeepCopy();
-                for (Move move : turn){
+                for (Move move : turn) {
                     grid.boardAddMove(move);
                 }
-                if(turn.calcScore(grid) > score){
+                if (turn.calcScore(grid) > score) {
                     toReturn.get(entry.getKey()).add(turn);
                 }
             }
@@ -186,8 +186,8 @@ public class Computer extends Player {
     private Turn getMostProfitableTurn(HashMap<Move, Set<Turn>> allMoves) {
         //assign to the first element
         Turn mostProfitable = null;
-        while(mostProfitable == null){
-            for (Map.Entry<Move,Set<Turn>> entry: allMoves.entrySet()) {
+        while (mostProfitable == null) {
+            for (Map.Entry<Move, Set<Turn>> entry : allMoves.entrySet()) {
                 Set<Turn> turns = entry.getValue();
                 for (Turn turn : turns) {
                     mostProfitable = turn;
@@ -198,18 +198,18 @@ public class Computer extends Player {
             }
         }
         Grid grid = getBoard().getDeepCopy();
-        for (Move move : mostProfitable){
+        for (Move move : mostProfitable) {
             grid.boardAddMove(move);
         }
         int scoreMostProfitable = mostProfitable.calcScore(grid);
-        for (Map.Entry<Move,Set<Turn>> entry: allMoves.entrySet()) {
+        for (Map.Entry<Move, Set<Turn>> entry : allMoves.entrySet()) {
             Set<Turn> turns = entry.getValue();
             for (Turn turn : turns) {
                 grid = getBoard().getDeepCopy();
-                for (Move move : turn){
+                for (Move move : turn) {
                     grid.boardAddMove(move);
                 }
-                if(turn.calcScore(grid) > scoreMostProfitable){
+                if (turn.calcScore(grid) > scoreMostProfitable) {
                     mostProfitable = turn;
                 }
             }
@@ -495,7 +495,7 @@ public class Computer extends Player {
             Set<Tile> tileColorCombination = new HashSet<>();
 
             for (Tile t : tilesInDeck) {
-                if(t.equals(tile)) {
+                if (t.equals(tile)) {
                     continue;
                 }
                 if (t.isSameShape(tile) && !t.isSameColor(tile)) {
@@ -532,20 +532,20 @@ public class Computer extends Player {
 
         ArrayList<Move> moves = new ArrayList<>();
 
-        for(Move edge: edges){
+        for (Move edge : edges) {
             validMoves.computeIfAbsent(edge, k -> new HashSet<>());
             Move.Coordinate coordinate = edge.getCoordinate();
-            for(List<Tile> combo: allCombinations){
-                boolean isEmptyUp = getBoard().isEmpty(coordinate.getRow()-1,coordinate.getColumn());
-                boolean isEmptyDown = getBoard().isEmpty(coordinate.getRow()+1,coordinate.getColumn());
-                boolean isEmptyLeft = getBoard().isEmpty(coordinate.getRow(),coordinate.getColumn()-1);
-                boolean isEmptyRight = getBoard().isEmpty(coordinate.getRow()-1,coordinate.getColumn()+1);
+            for (List<Tile> combo : allCombinations) {
+                boolean isEmptyUp = getBoard().isEmpty(coordinate.getRow() - 1, coordinate.getColumn());
+                boolean isEmptyDown = getBoard().isEmpty(coordinate.getRow() + 1, coordinate.getColumn());
+                boolean isEmptyLeft = getBoard().isEmpty(coordinate.getRow(), coordinate.getColumn() - 1);
+                boolean isEmptyRight = getBoard().isEmpty(coordinate.getRow() - 1, coordinate.getColumn() + 1);
 
-                if(isEmptyUp){
+                if (isEmptyUp) {
                     grid = getBoard().getDeepCopy();
                     for (int i = 0; i < combo.size(); i++) {
-                        Move.Coordinate newCoordinate = new Move.Coordinate(coordinate.getRow()-(i+1),coordinate.getColumn());
-                        Move move = new Move(combo.get(i),newCoordinate);
+                        Move.Coordinate newCoordinate = new Move.Coordinate(coordinate.getRow() - (i + 1), coordinate.getColumn());
+                        Move move = new Move(combo.get(i), newCoordinate);
                         moves.add(move);
                         if (!grid.isValidMoves(moves)) {
                             moves.clear();
@@ -558,11 +558,11 @@ public class Computer extends Player {
                     moves.clear();
                 }
 
-                if(isEmptyDown){
+                if (isEmptyDown) {
                     grid = getBoard().getDeepCopy();
                     for (int i = 0; i < combo.size(); i++) {
-                        Move.Coordinate newCoordinate = new Move.Coordinate(coordinate.getRow()+(i+1),coordinate.getColumn());
-                        Move move = new Move(combo.get(i),newCoordinate);
+                        Move.Coordinate newCoordinate = new Move.Coordinate(coordinate.getRow() + (i + 1), coordinate.getColumn());
+                        Move move = new Move(combo.get(i), newCoordinate);
                         moves.add(move);
                         if (!grid.isValidMoves(moves)) {
                             moves.clear();
@@ -575,11 +575,11 @@ public class Computer extends Player {
                     moves.clear();
                 }
 
-                if(isEmptyLeft){
+                if (isEmptyLeft) {
                     grid = getBoard().getDeepCopy();
                     for (int i = 0; i < combo.size(); i++) {
-                        Move.Coordinate newCoordinate = new Move.Coordinate(coordinate.getRow(),coordinate.getColumn()-(i+1));
-                        Move move = new Move(combo.get(i),newCoordinate);
+                        Move.Coordinate newCoordinate = new Move.Coordinate(coordinate.getRow(), coordinate.getColumn() - (i + 1));
+                        Move move = new Move(combo.get(i), newCoordinate);
                         moves.add(move);
                         if (!grid.isValidMoves(moves)) {
                             moves.clear();
@@ -592,11 +592,11 @@ public class Computer extends Player {
                     moves.clear();
                 }
 
-                if(isEmptyRight){
+                if (isEmptyRight) {
                     grid = getBoard().getDeepCopy();
                     for (int i = 0; i < combo.size(); i++) {
-                        Move.Coordinate newCoordinate = new Move.Coordinate(coordinate.getRow(),coordinate.getColumn()+(i+1));
-                        Move move = new Move(combo.get(i),newCoordinate);
+                        Move.Coordinate newCoordinate = new Move.Coordinate(coordinate.getRow(), coordinate.getColumn() + (i + 1));
+                        Move move = new Move(combo.get(i), newCoordinate);
                         moves.add(move);
                         if (!grid.isValidMoves(moves)) {
                             moves.clear();
@@ -612,10 +612,10 @@ public class Computer extends Player {
                 boolean firstTileFlag = true;
                 grid = getBoard().getDeepCopy();
                 for (int i = 0; i < combo.size(); i++) {
-                    Move.Coordinate newCoordinate ;
+                    Move.Coordinate newCoordinate;
                     if (firstTileFlag) {
-                        newCoordinate = new Move.Coordinate(coordinate.getRow()-1,coordinate.getColumn());
-                        Move move = new Move(combo.get(i),newCoordinate);
+                        newCoordinate = new Move.Coordinate(coordinate.getRow() - 1, coordinate.getColumn());
+                        Move move = new Move(combo.get(i), newCoordinate);
                         moves.add(move);
                         if (!grid.isValidMoves(moves)) {
                             moves.clear();
@@ -625,8 +625,8 @@ public class Computer extends Player {
                         continue;
                     }
                     //not (i+1) because the first iteration is already done
-                    newCoordinate = new Move.Coordinate(coordinate.getRow()-1,coordinate.getColumn()+(i));
-                    Move move = new Move(combo.get(i),newCoordinate);
+                    newCoordinate = new Move.Coordinate(coordinate.getRow() - 1, coordinate.getColumn() + (i));
+                    Move move = new Move(combo.get(i), newCoordinate);
                     moves.add(move);
                     if (!grid.isValidMoves(moves)) {
                         moves.clear();
@@ -643,10 +643,10 @@ public class Computer extends Player {
                 firstTileFlag = true;
                 grid = getBoard().getDeepCopy();
                 for (int i = 0; i < combo.size(); i++) {
-                    Move.Coordinate newCoordinate ;
+                    Move.Coordinate newCoordinate;
                     if (firstTileFlag) {
-                        newCoordinate = new Move.Coordinate(coordinate.getRow()-1,coordinate.getColumn());
-                        Move move = new Move(combo.get(i),newCoordinate);
+                        newCoordinate = new Move.Coordinate(coordinate.getRow() - 1, coordinate.getColumn());
+                        Move move = new Move(combo.get(i), newCoordinate);
                         moves.add(move);
                         if (!grid.isValidMoves(moves)) {
                             moves.clear();
@@ -656,8 +656,8 @@ public class Computer extends Player {
                         continue;
                     }
                     //not (i+1) because the first iteration is already done
-                    newCoordinate = new Move.Coordinate(coordinate.getRow()-1,coordinate.getColumn()-(i));
-                    Move move = new Move(combo.get(i),newCoordinate);
+                    newCoordinate = new Move.Coordinate(coordinate.getRow() - 1, coordinate.getColumn() - (i));
+                    Move move = new Move(combo.get(i), newCoordinate);
                     moves.add(move);
                     if (!grid.isValidMoves(moves)) {
                         moves.clear();
@@ -674,10 +674,10 @@ public class Computer extends Player {
                 firstTileFlag = true;
                 grid = getBoard().getDeepCopy();
                 for (int i = 0; i < combo.size(); i++) {
-                    Move.Coordinate newCoordinate ;
+                    Move.Coordinate newCoordinate;
                     if (firstTileFlag) {
-                        newCoordinate = new Move.Coordinate(coordinate.getRow(),coordinate.getColumn()-1);
-                        Move move = new Move(combo.get(i),newCoordinate);
+                        newCoordinate = new Move.Coordinate(coordinate.getRow(), coordinate.getColumn() - 1);
+                        Move move = new Move(combo.get(i), newCoordinate);
                         moves.add(move);
                         if (!grid.isValidMoves(moves)) {
                             moves.clear();
@@ -687,8 +687,8 @@ public class Computer extends Player {
                         continue;
                     }
                     //not (i+1) because the first iteration is already done
-                    newCoordinate = new Move.Coordinate(coordinate.getRow()-i,coordinate.getColumn()-1);
-                    Move move = new Move(combo.get(i),newCoordinate);
+                    newCoordinate = new Move.Coordinate(coordinate.getRow() - i, coordinate.getColumn() - 1);
+                    Move move = new Move(combo.get(i), newCoordinate);
                     moves.add(move);
                     if (!grid.isValidMoves(moves)) {
                         moves.clear();
@@ -705,10 +705,10 @@ public class Computer extends Player {
                 firstTileFlag = true;
                 grid = getBoard().getDeepCopy();
                 for (int i = 0; i < combo.size(); i++) {
-                    Move.Coordinate newCoordinate ;
+                    Move.Coordinate newCoordinate;
                     if (firstTileFlag) {
-                        newCoordinate = new Move.Coordinate(coordinate.getRow(),coordinate.getColumn()-1);
-                        Move move = new Move(combo.get(i),newCoordinate);
+                        newCoordinate = new Move.Coordinate(coordinate.getRow(), coordinate.getColumn() - 1);
+                        Move move = new Move(combo.get(i), newCoordinate);
                         moves.add(move);
                         if (!grid.isValidMoves(moves)) {
                             moves.clear();
@@ -718,8 +718,8 @@ public class Computer extends Player {
                         continue;
                     }
                     //not (i+1) because the first iteration is already done
-                    newCoordinate = new Move.Coordinate(coordinate.getRow()+i,coordinate.getColumn()-1);
-                    Move move = new Move(combo.get(i),newCoordinate);
+                    newCoordinate = new Move.Coordinate(coordinate.getRow() + i, coordinate.getColumn() - 1);
+                    Move move = new Move(combo.get(i), newCoordinate);
                     moves.add(move);
                     if (!grid.isValidMoves(moves)) {
                         moves.clear();
@@ -730,17 +730,16 @@ public class Computer extends Player {
                     validMoves.get(edge).add(new Turn(moves));
                     moves.clear();
                 }
-
 
 
                 //for loop for 1right then up example: |->>>
                 firstTileFlag = true;
                 grid = getBoard().getDeepCopy();
                 for (int i = 0; i < combo.size(); i++) {
-                    Move.Coordinate newCoordinate ;
+                    Move.Coordinate newCoordinate;
                     if (firstTileFlag) {
-                        newCoordinate = new Move.Coordinate(coordinate.getRow(),coordinate.getColumn()+1);
-                        Move move = new Move(combo.get(i),newCoordinate);
+                        newCoordinate = new Move.Coordinate(coordinate.getRow(), coordinate.getColumn() + 1);
+                        Move move = new Move(combo.get(i), newCoordinate);
                         moves.add(move);
                         if (!grid.isValidMoves(moves)) {
                             moves.clear();
@@ -750,8 +749,8 @@ public class Computer extends Player {
                         continue;
                     }
                     //not (i+1) because the first iteration is already done
-                    newCoordinate = new Move.Coordinate(coordinate.getRow()-i,coordinate.getColumn()+1);
-                    Move move = new Move(combo.get(i),newCoordinate);
+                    newCoordinate = new Move.Coordinate(coordinate.getRow() - i, coordinate.getColumn() + 1);
+                    Move move = new Move(combo.get(i), newCoordinate);
                     moves.add(move);
                     if (!grid.isValidMoves(moves)) {
                         moves.clear();
@@ -764,15 +763,14 @@ public class Computer extends Player {
                 }
 
 
-
                 //for loop for 1right then down example: |->>>
                 firstTileFlag = true;
                 grid = getBoard().getDeepCopy();
                 for (int i = 0; i < combo.size(); i++) {
-                    Move.Coordinate newCoordinate ;
+                    Move.Coordinate newCoordinate;
                     if (firstTileFlag) {
-                        newCoordinate = new Move.Coordinate(coordinate.getRow(),coordinate.getColumn()+1);
-                        Move move = new Move(combo.get(i),newCoordinate);
+                        newCoordinate = new Move.Coordinate(coordinate.getRow(), coordinate.getColumn() + 1);
+                        Move move = new Move(combo.get(i), newCoordinate);
                         moves.add(move);
                         if (!grid.isValidMoves(moves)) {
                             moves.clear();
@@ -782,8 +780,8 @@ public class Computer extends Player {
                         continue;
                     }
                     //not (i+1) because the first iteration is already done
-                    newCoordinate = new Move.Coordinate(coordinate.getRow()+i,coordinate.getColumn()+1);
-                    Move move = new Move(combo.get(i),newCoordinate);
+                    newCoordinate = new Move.Coordinate(coordinate.getRow() + i, coordinate.getColumn() + 1);
+                    Move move = new Move(combo.get(i), newCoordinate);
                     moves.add(move);
                     if (!grid.isValidMoves(moves)) {
                         moves.clear();
@@ -800,10 +798,10 @@ public class Computer extends Player {
                 firstTileFlag = true;
                 grid = getBoard().getDeepCopy();
                 for (int i = 0; i < combo.size(); i++) {
-                    Move.Coordinate newCoordinate ;
+                    Move.Coordinate newCoordinate;
                     if (firstTileFlag) {
-                        newCoordinate = new Move.Coordinate(coordinate.getRow()+1,coordinate.getColumn());
-                        Move move = new Move(combo.get(i),newCoordinate);
+                        newCoordinate = new Move.Coordinate(coordinate.getRow() + 1, coordinate.getColumn());
+                        Move move = new Move(combo.get(i), newCoordinate);
                         moves.add(move);
                         if (!grid.isValidMoves(moves)) {
                             moves.clear();
@@ -813,8 +811,8 @@ public class Computer extends Player {
                         continue;
                     }
                     //not (i+1) because the first iteration is already done
-                    newCoordinate = new Move.Coordinate(coordinate.getRow()+1,coordinate.getColumn()-i);
-                    Move move = new Move(combo.get(i),newCoordinate);
+                    newCoordinate = new Move.Coordinate(coordinate.getRow() + 1, coordinate.getColumn() - i);
+                    Move move = new Move(combo.get(i), newCoordinate);
                     moves.add(move);
                     if (!grid.isValidMoves(moves)) {
                         moves.clear();
@@ -831,10 +829,10 @@ public class Computer extends Player {
                 firstTileFlag = true;
                 grid = getBoard().getDeepCopy();
                 for (int i = 0; i < combo.size(); i++) {
-                    Move.Coordinate newCoordinate ;
+                    Move.Coordinate newCoordinate;
                     if (firstTileFlag) {
-                        newCoordinate = new Move.Coordinate(coordinate.getRow()-1,coordinate.getColumn());
-                        Move move = new Move(combo.get(i),newCoordinate);
+                        newCoordinate = new Move.Coordinate(coordinate.getRow() - 1, coordinate.getColumn());
+                        Move move = new Move(combo.get(i), newCoordinate);
                         moves.add(move);
                         if (!grid.isValidMoves(moves)) {
                             moves.clear();
@@ -844,8 +842,8 @@ public class Computer extends Player {
                         continue;
                     }
                     //not (i+1) because the first iteration is already done
-                    newCoordinate = new Move.Coordinate(coordinate.getRow()-1,coordinate.getColumn()+i);
-                    Move move = new Move(combo.get(i),newCoordinate);
+                    newCoordinate = new Move.Coordinate(coordinate.getRow() - 1, coordinate.getColumn() + i);
+                    Move move = new Move(combo.get(i), newCoordinate);
                     moves.add(move);
                     if (!grid.isValidMoves(moves)) {
                         moves.clear();
@@ -859,19 +857,19 @@ public class Computer extends Player {
 
             }
         }
-        HashMap<Move,Set<Turn>> toReturn = new HashMap<>();
-        for (Map.Entry<Move,Set<Turn>> entry : validMoves.entrySet()) {
-            if (entry.getValue().isEmpty()){
+        HashMap<Move, Set<Turn>> toReturn = new HashMap<>();
+        for (Map.Entry<Move, Set<Turn>> entry : validMoves.entrySet()) {
+            if (entry.getValue().isEmpty()) {
                 continue;
             }
             Set<Turn> turns = entry.getValue();
             Set<Turn> toAdd = new HashSet<>();
             for (Turn turn : turns) {
-                if(turn.size() > 1) {
+                if (turn.size() > 1) {
                     toAdd.add(turn);
                 }
             }
-            toReturn.put(entry.getKey(),toAdd);
+            toReturn.put(entry.getKey(), toAdd);
         }
         return toReturn;
     }
