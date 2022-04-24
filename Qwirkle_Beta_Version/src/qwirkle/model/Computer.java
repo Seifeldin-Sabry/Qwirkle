@@ -93,29 +93,35 @@ public class Computer extends Player {
     }
 
     private Turn AIMove() {
-        HashMap<Move, Set<Turn>> allMoves = getAllValidMoves();
+        Set<Move> usedTiles = getBoard().getUsedSpaces();
+        if (usedTiles.isEmpty()) {
+            Turn firstTurn = makeMoves();
+            return firstTurn;
+        } else {
+            HashMap<Move, Set<Turn>> allMoves = getAllValidMoves();
 
-        //RULE NO1: if there are no valid moves, then trade
-        if (allMoves.isEmpty()) {
-            return null;
+            //RULE NO1: if there are no valid moves, then trade
+            if (allMoves.isEmpty()) {
+                return null;
+            }
+            //if there are valid moves, then make a move that is the most profitable
+
+            //RULE NO2: if there are valid moves, eliminate ones that give the opponent a chance to double his points
+            allMoves = eliminatePotentialOpponentQwirkles(allMoves, 5);
+            if (allMoves.isEmpty()) {
+                return null;
+            }
+
+            //RULE NO3: if there are valid moves, eliminate ones that score lower than 4 points
+            allMoves = eliminateMovesThatHaveScoreOrLess(allMoves, 3);
+            if (allMoves.isEmpty()) {
+                return null;
+            }
+
+            //RULE NO4: if there are valid moves, play the most profitable one
+            Turn mostprofitable = getMostProfitableTurn(allMoves);
+            return mostprofitable;
         }
-        //if there are valid moves, then make a move that is the most profitable
-
-        //RULE NO2: if there are valid moves, eliminate ones that give the opponent a chance to double his points
-        allMoves = eliminatePotentialOpponentQwirkles(allMoves, 5);
-        if (allMoves.isEmpty()) {
-            return null;
-        }
-
-        //RULE NO3: if there are valid moves, eliminate ones that score lower than 4 points
-        allMoves = eliminateMovesThatHaveScoreOrLess(allMoves, 3);
-        if (allMoves.isEmpty()) {
-            return null;
-        }
-
-        //RULE NO4: if there are valid moves, play the most profitable one
-        Turn mostprofitable = getMostProfitableTurn(allMoves);
-        return mostprofitable;
     }
 
     private HashMap<Move, Set<Turn>> eliminatePotentialOpponentQwirkles(HashMap<Move, Set<Turn>> allMoves, int score) {

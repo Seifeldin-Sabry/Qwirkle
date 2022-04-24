@@ -183,8 +183,11 @@ public class GamePlayPresenter {
         if (playedTiles.size() > 0) {
             playedTiles.clear();
             exchangedTiles.clear();
+            currentModel.setNextPlayerSession();
+            updateScore();
             if (!currentModel.isGameOver()) {
                 playerPlayedAnimation(stage); //Contains playComputer in a keyframe
+                return;
             }
         }
         if (currentModel.isGameOver() || (currentModel.getBag().getTiles().size() == 0)) {
@@ -250,14 +253,15 @@ public class GamePlayPresenter {
             } else {
                 pointsLabel = " points";
             }
+            if (currentModel.isGameOver()) {
+                currentView.getActiveDeck().getChildren().clear();
+                setGameOver(stage);
+                Database.getInstance().save(currentModel);
+                return;
+            }
             popupComputerPlayed(stage, "Computer Played: ", String.valueOf(points + pointsLabel), 2.2, true);
             positioningHandler(validPositionList);
             updateView(stage);
-            return;
-        }
-        if (currentModel.getBag().getTiles().size() == 0 || currentModel.isGameOver()) {
-            setGameOver(stage);
-            Database.getInstance().save(currentModel);
         }
     }
 
@@ -292,60 +296,62 @@ public class GamePlayPresenter {
     }
 
     private void updateScore() {
-        if (currentModel.getPlayerSession().size() > 0 && currentModel.getPlayerSession().getTotalScore() > 0) {
-            int playerPoints;
-            try {
-                playerPoints = currentModel.getPlayerSession().get(currentModel.getPlayerSession().indexOf(currentModel.getPlayerSession().getLastTurn()) - 1).getPoints();
-            } catch (IndexOutOfBoundsException e) {
-                playerPoints = 0;
-            }
-            currentView.getPlayerScore().setText(String.format("Your score: %s (+%s)", currentModel.getPlayerSession()
-                    .getTotalScore(), playerPoints));
-        } else {
-            currentView.getPlayerScore().setText("Your Score:    " + currentModel.getPlayerSession().getTotalScore());
-        }
-        if (currentModel.getComputerSession().size() > 0 && currentModel.getComputerSession().getTotalScore() > 0) {
-            currentView.getComputerScore().setText(String.format("Computer score: %s (+%s)", currentModel.getComputerSession()
-                    .getTotalScore(), currentModel.getComputerSession().getLastTurn().getPoints()));
-        } else {
-            currentView.getComputerScore().setText("Computer Score:    " + currentModel.getComputerSession().getTotalScore());
-        }
-
-//        int computerTurnPoins;
-//        int computerTotalScore;
-//        int playerTurnPoints;
-//        int playerTotalScore;
-//        if (currentModel.getActivePlayerSession().equals(currentModel.getPlayerSession())) {
-//            if (currentModel.getPlayerSession().getTurnsPlayed().size() == 0 || currentModel.getPlayerSession().getLastTurn().getPoints() == 0) {
-//                currentView.getPlayerScore().setText("Your Score:    " + 0);
-//            } else {
-//                playerTurnPoints = currentModel.getPlayerSession().getLastTurn().getPoints();
-//                playerTotalScore = currentModel.getPlayerSession().getTotalScore();
-//                currentView.getPlayerScore().setText(String.format("Your score: %s (+%s)", playerTotalScore, playerTurnPoints));
+//        if (currentModel.getPlayerSession().size() > 0 && currentModel.getPlayerSession().getTotalScore() > 0) {
+//            int playerPoints;
+//            try {
+//                playerPoints = currentModel.getPlayerSession().get(currentModel.getPlayerSession().indexOf(currentModel.getPlayerSession().getLastTurn())).getPoints();
+//            } catch (IndexOutOfBoundsException e) {
+//                playerPoints = 0;
 //            }
-//            if (currentModel.getComputerSession().getTurnsPlayed().size() == 0 || currentModel.getComputerSession().getLastTurn().getPoints() == 0) {
-//                currentView.getComputerScore().setText("Computer Score:    " + 0);
-//            } else {
-//                computerTurnPoins = currentModel.getComputerSession().getLastTurn().getPoints();
-//                computerTotalScore = currentModel.getComputerSession().getTotalScore();
-//                currentView.getComputerScore().setText(String.format("Computer score: %s (+%s)", computerTotalScore, computerTurnPoins));
-//            }
+//            currentView.getPlayerScore().setText(String.format("Your score: %s (+%s)", currentModel.getPlayerSession()
+//                    .getTotalScore(), playerPoints));
 //        } else {
-//            if (currentModel.getComputerSession().getTurnsPlayed().size() == 0 || currentModel.getComputerSession().getLastTurn().getPoints() == 0) {
-//                currentView.getComputerScore().setText("Computer Score:    " + 0);
-//            } else {
-//                computerTurnPoins = currentModel.getComputerSession().getLastTurn().getPoints();
-//                computerTotalScore = currentModel.getComputerSession().getTotalScore();
-//                currentView.getComputerScore().setText(String.format("Computer score: %s (+%s)", computerTotalScore, computerTurnPoins));
-//            }
-//            if (currentModel.getPlayerSession().getTurnsPlayed().size() == 0 || currentModel.getPlayerSession().getLastTurn().getPoints() == 0) {
-//                currentView.getPlayerScore().setText("Your Score:    " + 0);
-//            } else {
-//                playerTurnPoints = currentModel. getPlayerSession().getLastTurn().getPoints();
-//                playerTotalScore = currentModel.getPlayerSession().getTotalScore();
-//                currentView.getPlayerScore().setText(String.format("Your score: %s (+%s)", playerTotalScore, playerTurnPoints));
-//            }
+//            currentView.getPlayerScore().setText("Your Score:    " + currentModel.getPlayerSession().getTotalScore());
 //        }
+//        if (currentModel.getComputerSession().size() > 0 && currentModel.getComputerSession().getTotalScore() > 0) {
+//            currentView.getComputerScore().setText(String.format("Computer score: %s (+%s)", currentModel.getComputerSession()
+//                    .getTotalScore(), currentModel.getComputerSession().getLastTurn().getPoints()));
+//        } else {
+//            currentView.getComputerScore().setText("Computer Score:    " + currentModel.getComputerSession().getTotalScore());
+//        }
+
+        int computerTurnPoins;
+        int computerTotalScore;
+        int playerTurnPoints;
+        int playerTotalScore;
+        //When PlayerSession is active
+        if (currentModel.getActivePlayerSession().equals(currentModel.getPlayerSession())) {
+            if (currentModel.getPlayerSession().getTurnsPlayed().size() == 1 && currentModel.getPlayerSession().getLastTurn().getPoints() == 0) {
+                currentView.getPlayerScore().setText("Your Score:    " + 0);
+            } else {
+                playerTurnPoints = currentModel.getPlayerSession().get(currentModel.getPlayerSession().indexOf(currentModel.getPlayerSession().getLastTurn()) - 1).getPoints();
+                playerTotalScore = currentModel.getPlayerSession().getTotalScore();
+                currentView.getPlayerScore().setText(String.format("Your score: %s (+%s)", playerTotalScore, playerTurnPoints));
+            }
+            if (currentModel.getComputerSession().getTurnsPlayed().size() == 0) {
+                currentView.getComputerScore().setText("Computer Score:    " + 0);
+            } else {
+                computerTurnPoins = currentModel.getComputerSession().getLastTurn().getPoints();
+                computerTotalScore = currentModel.getComputerSession().getTotalScore();
+                currentView.getComputerScore().setText(String.format("Computer score: %s (+%s)", computerTotalScore, computerTurnPoins));
+            }
+        //When ComputerSession is active
+        } else {
+            if (currentModel.getComputerSession().getTurnsPlayed().size() == 1 && currentModel.getComputerSession().getLastTurn().getPoints() == 0) {
+                currentView.getComputerScore().setText("Computer Score:    " + 0);
+            } else {
+                computerTurnPoins = currentModel.getComputerSession().get(currentModel.getComputerSession().indexOf(currentModel.getComputerSession().getLastTurn()) - 1).getPoints();
+                computerTotalScore = currentModel.getComputerSession().getTotalScore();
+                currentView.getComputerScore().setText(String.format("Computer score: %s (+%s)", computerTotalScore, computerTurnPoins));
+            }
+            if (currentModel.getPlayerSession().getTurnsPlayed().size() == 0) {
+                currentView.getPlayerScore().setText("Your Score:    " + 0);
+            } else {
+                playerTurnPoints = currentModel. getPlayerSession().getLastTurn().getPoints();
+                playerTotalScore = currentModel.getPlayerSession().getTotalScore();
+                currentView.getPlayerScore().setText(String.format("Your score: %s (+%s)", playerTotalScore, playerTurnPoints));
+            }
+        }
     }
 
 
@@ -353,9 +359,9 @@ public class GamePlayPresenter {
         currentModel.getActivePlayerSession().getLastTurn().endTurn(currentModel.getGrid());
         currentModel.setEndTime();
         timer.stop();
+        currentModel.addExtraPoints();
         updateScore();
         currentView.getVb2().getChildren().clear();
-        currentModel.addExtraPoints();
         currentView.getVb2().getChildren().addAll(currentView.getHbScore(), currentView.getVBox());
         if (currentModel.getComputerSession().getTotalScore() > currentModel.getPlayerSession().getTotalScore()) {
             currentView.getLabel().setText("Computer won!");
@@ -781,12 +787,11 @@ public class GamePlayPresenter {
 
     private void playerPlayedAnimation(Stage stage) {
         KeyFrame firstFrame = new KeyFrame(Duration.seconds(0), e -> {
-            currentModel.setNextPlayerSession();
             popupPlayPlayed(stage);
         });
         KeyFrame secondFrame = new KeyFrame(Duration.seconds(1), e -> {
-            updateView(stage);
             playComputerMove(stage);
+            updateView(stage);
             submit.stop();
         });
         submit = new Timeline(firstFrame, secondFrame);
