@@ -67,19 +67,21 @@ public class PlayerSession implements List<Turn> {
 
     public int getTotalScore() {
         OptionalInt score = turnsPlayed.stream().mapToInt(Turn::getPoints).reduce(Integer::sum);
-        if (score.isPresent()) {
+        try {
             return score.getAsInt();
+        } catch (NoSuchElementException e) {
+            return 0;
         }
-        return 0;
     }
 
 
     public long getTotalTimeSpent() {
         OptionalLong timeSpent = turnsPlayed.stream().mapToLong(Turn::getTurnDuration).reduce(Long::sum);
-        if (timeSpent.isPresent()) {
+        try {
             return timeSpent.getAsLong();
+        } catch (NoSuchElementException e) {
+            return 0;
         }
-        return 0;
     }
 
     @Override

@@ -168,12 +168,11 @@ public class GamePlayPresenter {
             popupMessage(stage, text, 2.5);
             return;
         }
-        if (model.moveLeft(tiles) && model.getPlayerSession().getPlayer().getDeck().getTilesInDeck().size() < 6 && model.getBag().getTiles().size() == 0) {
+        if (model.moveLeft(tiles) &&  model.getBag().getTiles().size() == 0 && playedTiles.size() == 0) {
             String text = """
                     There is at least 1 more
                            available move.""";
             popupMessage(stage, text, 2.5);
-            undo();
             return;
         }
         if (exchangedTiles.size() > 0 && playedTiles.size() > 0) {
@@ -188,9 +187,8 @@ public class GamePlayPresenter {
         if (exchangedTiles.size() > 0) {
             submitExchange();
             tileExchangeAnimation(stage);
-            model.setNextPlayerSession();
-            playedTiles.clear();
-            exchangedTiles.clear();
+            iterateTurns(stage);
+            updateView();
             KeyFrame keyFrame = new KeyFrame(Duration.seconds(2), e -> {
                 playComputerMove(stage);
                 playComputer.stop();
@@ -200,16 +198,8 @@ public class GamePlayPresenter {
             return;
         }
         if (playedTiles.size() > 0) {
-            playedTiles.clear();
-            exchangedTiles.clear();
-            model.setNextPlayerSession();
-            updateScore();
-            if (!model.isGameOver(tiles)) {
-                playerPlayedAnimation(stage); //Contains playComputer in a keyframe
-            } else {
-                setGameOver(stage);
-                Database.getInstance().save(model);
-            }
+            iterateTurns(stage);
+            updateView();
         }
     }
 
@@ -222,9 +212,8 @@ public class GamePlayPresenter {
         List<Move> moves = ((Computer) model.getComputerSession().getPlayer()).play();
         if (moves == null && model.getBag().getTiles().size() > 0) {
             ((Computer) model.getComputerSession().getPlayer()).trade();
-            exchangedTiles.clear();
             popupComputerPlayed(stage, "Computer traded tiles", "");
-            model.setNextPlayerSession();
+            iterateTurns(stage);
             updateView();
             return;
         }
@@ -237,9 +226,7 @@ public class GamePlayPresenter {
                 playedTiles.add(tileNode);
             }
             placeTiles(playedTiles);
-            playedTiles.clear();
-            model.setNextPlayerSession();
-            positioningHandler(validPositionList);
+            iterateTurns(stage);
             updateView();
             int points = model.getComputerSession().getLastTurn().getPoints();
             String pointsLabel;
@@ -249,11 +236,6 @@ public class GamePlayPresenter {
                 pointsLabel = " points";
             }
             popupComputerPlayed(stage, "Computer Played: ", points + pointsLabel);
-        }
-        List<Tile> tiles = model.getComputerSession().getPlayer().getBag().getTiles();
-        if (model.isGameOver(tiles)) {
-            setGameOver(stage);
-            Database.getInstance().save(model);
         }
     }
 
@@ -752,4 +734,20 @@ public class GamePlayPresenter {
         submit.play();
 
     }
+
+    private void iterateTurns(Stage stage) {
+        playedTiles.clear();
+        exchangedTiles.clear();
+        List<Tile> tiles = model.getComputerSession().getPlayer().getBag().getTiles();
+        if (model.isGameOver(tiles)) {
+            setGameOver(stage);
+            Database.getInstance().save(model);
+            return;
+        }
+        model.setNextPlayerSession();
+        if (model.getActivePlayerSession().equals(model.getComputerSession())) {
+            playerPlayedAnimation(stage); //Contains playComputer in a keyframe
+        }
+    }
 }
+

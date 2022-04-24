@@ -172,6 +172,7 @@ public class StatisticsView extends BorderPane {
         xAxisGameNo3 = new NumberAxis();
         xAxisGameNo3.setLabel("Game No.");
         bestScorePerSession = new AreaChart(xAxisGameNo3, yAxisScore);
+        bestScorePerSession.setTitle("Highest score in a turn per session");
 
 
         //Statistics
