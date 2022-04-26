@@ -54,7 +54,7 @@ public class Move implements Comparable<Move>{
 
     @Override
     public int compareTo(Move other) {
-        int rows = getCoordinate().row - other.getCoordinate().row;
+        int rows = getCoordinate().getRow() - other.getCoordinate().row;
         int columns = getCoordinate().column - other.getCoordinate().column;
         if (rows == 0) {
             return columns;
@@ -97,13 +97,13 @@ public class Move implements Comparable<Move>{
         public Move.Coordinate[] getAdjacentCoords() {
             Move.Coordinate[] coords = new Coordinate[4];
             //check top
-            if (row != BOARD_SIZE) {
-                coords[0] = new Coordinate(row + 1, column);
+            if (row != 0) {
+                coords[0] = new Coordinate(row - 1, column);
             }
 
             //check bottom
-            if (row != 0) {
-                coords[1] = new Coordinate(row - 1, column);
+            if (row != BOARD_SIZE) {
+                coords[1] = new Coordinate(row + 1, column);
             }
 
             //check right
@@ -116,9 +116,7 @@ public class Move implements Comparable<Move>{
                 coords[3] = new Coordinate(row, column - 1);
             }
             return coords;
-
         }
-
 
         public String toString() {
             return row + " " + column;
@@ -158,8 +156,9 @@ public class Move implements Comparable<Move>{
         if (other == null || getClass() != other.getClass()) return false;
         boolean rowsEqual = Objects.equals(this.getCoordinate().getRow(), ((Move) other).getCoordinate().getRow());
         boolean columnsEqual = Objects.equals(this.getCoordinate().getColumn(), ((Move) other).getCoordinate().getColumn());
-        return rowsEqual && columnsEqual;
+        return rowsEqual ? columnsEqual : rowsEqual;
     }
+
     @Override
     public int hashCode() {
         return Objects.hash(getCoordinate(), getTile());

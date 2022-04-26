@@ -13,7 +13,7 @@ public class Player {
     private Deck deck;
     private Grid grid;
     private Bag bag;
-
+    private final MoveValidator moveValidator;
 
 
     public Player(String name, Bag bag, Grid grid) {
@@ -22,6 +22,7 @@ public class Player {
         deck.refill(bag);
         this.grid = grid;
         this.bag = bag;
+        this.moveValidator = new MoveValidator(this.getDeck());
     }
 
     public boolean makeMove(Tile tile, Move.Coordinate coord){
@@ -35,7 +36,9 @@ public class Player {
         return false;
     }
 
-
+    public MoveValidator getMoveValidator() {
+        return moveValidator;
+    }
 
     public Deck getDeck() {
         return deck;

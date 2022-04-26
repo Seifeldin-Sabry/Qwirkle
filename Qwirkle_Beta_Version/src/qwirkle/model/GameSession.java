@@ -1,6 +1,7 @@
 package qwirkle.model;
 
 import qwirkle.data.Database;
+import qwirkle.model.computer.Computer;
 
 import java.sql.*;
 import java.util.List;
@@ -77,23 +78,16 @@ public class GameSession {
         getActivePlayerSession().add(new Turn());
     }
 
-    public boolean isGameOver(List<Tile> tiles) {
-        if (getBag().getAmountOfTilesLeft() == 0) {
-            if (getActivePlayerSession().getPlayer().getDeck().getTilesInDeck().size() == 0) {
-                return true;
-            }
-            if (getActivePlayerSession().equals(playerHumanSession) && getComputerSession().getLastTurn().getPoints() == 0 && moveLeft(tiles)) {
-                return false;
-            }
-            if (getActivePlayerSession().equals(playerComputerSession) && getPlayerSession().getLastTurn().getPoints() == 0 && moveLeft(tiles)) {
-                return false;
-            }
-        }
-        return false;
+    public boolean isGameOver() {
+        if(getBag().getAmountOfTilesLeft() == 0 && (getActivePlayerSession().getPlayer().getDeck().getTilesInDeck().size() == 0))
+            return true;
+        return playersHaveNoValidMoves() && getBag().getAmountOfTilesLeft() == 0;
     }
 
+
+
     public void setEndTime() {
-        endTime = new Timestamp(System.currentTimeMillis());
+        Timestamp endTime = new Timestamp(System.currentTimeMillis());
         gameDuration = (endTime.getTime() - startTime.getTime()) / 1000;
     }
 
@@ -107,23 +101,10 @@ public class GameSession {
         }
     }
     //It checks if there is a single valid move left
-    public boolean moveLeft(List<Tile> tiles) {
-        Set<Move> allPlayedTiles = getGrid().getUsedSpaces();
-        for (Move move : allPlayedTiles) {
-            for (int side = 0; side < move.getCoordinate().getAdjacentCoords().length; side++) {
-                final Move.Coordinate adjacentCoord = move.getCoordinate().getAdjacentCoords()[side];
-                if (getGrid().isEmpty(adjacentCoord.getRow(), adjacentCoord.getColumn())) {
-                    for (Tile tile : tiles) {
-                        Move possibleMove = new Move(tile, adjacentCoord);
-                        if (getGrid().isValidMove(possibleMove)) {
-                            return true;
-                        }
-                    }
-                }
-            }
-        }
-        return false;
+    private boolean playersHaveNoValidMoves() {
+        return getPlayerSession().getPlayer().getMoveValidator().getAllValidMoves(getGrid()).isEmpty() && getComputerSession().getPlayer().getMoveValidator().getAllValidMoves(getGrid()).isEmpty();
     }
+
 
     public Bag getBag() {
         return bag;

@@ -1,7 +1,9 @@
 package qwirkle.model;
 
 import qwirkle.data.Database;
-import qwirkle.model.Computer.LevelOfDifficulty;
+import qwirkle.model.computer.Computer.LevelOfDifficulty;
+import qwirkle.model.computer.ComputerAI;
+import qwirkle.model.computer.ComputerEasy;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -13,17 +15,17 @@ import java.util.function.UnaryOperator;
 /**
  * @author Seifeldin Ismail
  */
-public class PlayerSession implements List<Turn> {
+public class PlayerSession implements List<Turn>{
 
     private final Player player;
-    private final boolean isPlayerStarting;
+    private boolean isPlayerStarting;
     private boolean isActive;
     private final LinkedList<Turn> turnsPlayed;
 
 
     //regular player constructor
-    public PlayerSession(String humanName, Bag bag, Grid grid, boolean isPlayerStarting) {
-        this.player = new Player(humanName, bag, grid);
+    public PlayerSession(String humanName, Bag bag,Grid grid, boolean isPlayerStarting) {
+        this.player = new Player(humanName,bag, grid);
         this.isPlayerStarting = isPlayerStarting;
         this.isActive = isPlayerStarting;
         this.turnsPlayed = new LinkedList<>();
@@ -31,7 +33,7 @@ public class PlayerSession implements List<Turn> {
 
     //Computer constructor
     public PlayerSession(Bag bag, Grid grid, LevelOfDifficulty difficulty, boolean isPlayerStarting) {
-        this.player = new Computer(bag, grid, difficulty);
+        this.player = difficulty == LevelOfDifficulty.EASY ? new ComputerEasy(bag, grid) : new ComputerAI(bag, grid);
         this.isPlayerStarting = isPlayerStarting;
         this.isActive = isPlayerStarting;
         this.turnsPlayed = new LinkedList<>();
@@ -57,28 +59,28 @@ public class PlayerSession implements List<Turn> {
         return turnsPlayed;
     }
 
-    public void addTurn(Turn turn) {
+    public void addTurn(Turn turn){
         turnsPlayed.add(turn);
     }
 
-    public void addTurn() {
+    public void addTurn(){
         turnsPlayed.add(new Turn());
     }
 
-    public int getTotalScore() {
+    public int getTotalScore(){
         OptionalInt score = turnsPlayed.stream().mapToInt(Turn::getPoints).reduce(Integer::sum);
         try {
             return score.getAsInt();
-        } catch (NoSuchElementException e) {
+        }catch (NoSuchElementException e){
             return 0;
         }
     }
 
-    public long getTotalTimeSpent() {
+    public long getTotalTimeSpent(){
         OptionalLong timeSpent = turnsPlayed.stream().mapToLong(Turn::getTurnDuration).reduce(Long::sum);
         try {
             return timeSpent.getAsLong();
-        } catch (NoSuchElementException e) {
+        }catch (NoSuchElementException e){
             return 0;
         }
     }
@@ -93,7 +95,7 @@ public class PlayerSession implements List<Turn> {
         return turnsPlayed.size();
     }
 
-    public Turn getLastTurn() {
+    public Turn getLastTurn(){
         return turnsPlayed.getLast();
     }
 
@@ -228,52 +230,53 @@ public class PlayerSession implements List<Turn> {
     }
 
 
-    public void save() {
+    public void save(){
         getPlayer().save();
         savePlayerSession();
         saveTurns();
         saveScore();
     }
 
-    private void savePlayerSession() {
+    private void savePlayerSession(){
         try {
             Connection conn = Database.getInstance().getConnection();
             String sql = """
-                    INSERT INTO int_playersession(playersession_id, player_id, game_id)
-                    VALUES (nextval('playersession_id_seq'),currval('player_id_seq'),currval('game_id_seq'));
-                    """;
+                         INSERT INTO int_playersession(playersession_id, player_id, game_id)
+                         VALUES (nextval('playersession_id_seq'),currval('player_id_seq'),currval('game_id_seq'));
+                         """;
             PreparedStatement ptsmt = conn.prepareStatement(sql);
             ptsmt.executeUpdate();
             ptsmt.close();
-        } catch (Exception e) {
+        }catch (Exception e){
             e.printStackTrace();
-            System.out.println("Error while saving to int_playerSession");
+            System.out.println("Error while saving to int_playersession");
         }
     }
 
-    private void saveScore() {
+    private void saveScore(){
         try {
             Connection conn = Database.getInstance().getConnection();
             String sql = """
-                    INSERT INTO int_score(playersession_id,total_score, tot_time_spent_turns)
-                    VALUES (currval('playersession_id_seq'),?,?);
-                    """;
+                         INSERT INTO int_score(playersession_id,total_score, tot_time_spent_turns)
+                         VALUES (currval('playersession_id_seq'),?,?);
+                         """;
             PreparedStatement ptsmt = conn.prepareStatement(sql);
-            ptsmt.setInt(1, getTotalScore());
-            ptsmt.setLong(2, getTotalTimeSpent());
+            ptsmt.setInt(1,getTotalScore());
+            ptsmt.setLong(2,getTotalTimeSpent());
             ptsmt.executeUpdate();
             ptsmt.close();
-        } catch (Exception e) {
+        }catch (Exception e){
             e.printStackTrace();
             System.out.println("Error while saving to int_score");
         }
 //        System.out.println("Saved score");
     }
 
-    private void saveTurns() {
+    private void saveTurns(){
         //+1 because index of 1st is 0
         turnsPlayed.forEach(turn -> turn.save(turnsPlayed.indexOf(turn) + 1));
     }
 
 
 }
+

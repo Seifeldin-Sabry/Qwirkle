@@ -16,6 +16,7 @@ import javafx.stage.StageStyle;
 import javafx.util.Duration;
 import qwirkle.data.Database;
 import qwirkle.model.*;
+import qwirkle.model.computer.Computer;
 import qwirkle.view.newGameFrame.NewGamePresenter;
 import qwirkle.view.newGameFrame.NewGameView;
 import qwirkle.view.rulesFrame.RulesPresenterGP;
@@ -40,7 +41,7 @@ public class GamePlayPresenter {
     private Timeline welcome;
     private Timeline tileExchange;
     private Timeline submit;
-    private Timeline playComputer;
+    private Timeline gameOver;
     private final LinkedList<TileNode> deckTiles = new LinkedList<>();
     private final LinkedList<TileNode> exchangedTiles = new LinkedList<>();
     private final LinkedList<TileNode> validPositionList = new LinkedList<>();
@@ -160,7 +161,6 @@ public class GamePlayPresenter {
     }
 
     private void submit(Stage stage) {
-        List<Tile> tiles = model.getPlayerSession().getPlayer().getBag().getTiles();
         if (playedTiles.size() == 0 && model.getPlayerSession().getPlayer().getDeck().getTilesInDeck().size() > 0 && exchangedTiles.size() == 0) {
             String text = """
                     Place a tile on the board or
@@ -168,7 +168,7 @@ public class GamePlayPresenter {
             popupMessage(stage, text, 2.5);
             return;
         }
-        if (model.moveLeft(tiles) &&  model.getBag().getTiles().size() == 0 && playedTiles.size() == 0) {
+        if (!model.getPlayerSession().getPlayer().getMoveValidator().getAllValidMoves(model.getGrid()).isEmpty() && model.getBag().getTiles().size() == 0 && playedTiles.size() == 0) {
             String text = """
                     There is at least 1 more
                            available move.""";
@@ -186,20 +186,30 @@ public class GamePlayPresenter {
         }
         if (exchangedTiles.size() > 0) {
             submitExchange();
-            tileExchangeAnimation(stage);
-            iterateTurns(stage);
-            updateView();
-            KeyFrame keyFrame = new KeyFrame(Duration.seconds(2), e -> {
-                playComputerMove(stage);
-                playComputer.stop();
+            KeyFrame keyFrame1 = new KeyFrame(Duration.seconds(0), e -> tileExchangeAnimation(stage));
+            KeyFrame keyFrame2 = new KeyFrame(Duration.seconds(1), e -> {
+                iterateTurns(stage);
+                popupPlayerPlayed(stage);
             });
-            playComputer = new Timeline(keyFrame);
-            playComputer.play();
+            KeyFrame keyFrame3 = new KeyFrame(Duration.seconds(2), e -> {
+                playComputerMove(stage);
+                submit.stop();
+            });
+            submit = new Timeline(keyFrame1, keyFrame2, keyFrame3);
+            submit.play();
             return;
         }
         if (playedTiles.size() > 0) {
-            iterateTurns(stage);
-            updateView();
+            KeyFrame keyFrame1 = new KeyFrame(Duration.seconds(0), e -> {
+                iterateTurns(stage);
+                popupPlayerPlayed(stage);
+            });
+            KeyFrame keyFrame2 = new KeyFrame(Duration.seconds(1), e -> {
+                playComputerMove(stage);
+                submit.stop();
+            });
+            submit = new Timeline(keyFrame1, keyFrame2);
+            submit.play();
         }
     }
 
@@ -209,12 +219,10 @@ public class GamePlayPresenter {
     }
 
     private void playComputerMove(Stage stage) {
-        List<Move> moves = ((Computer) model.getComputerSession().getPlayer()).play();
+        List<Move> moves = ((Computer) model.getComputerSession().getPlayer()).makeTurn();
         if (moves == null && model.getBag().getTiles().size() > 0) {
-            ((Computer) model.getComputerSession().getPlayer()).trade();
             popupComputerPlayed(stage, "Computer traded tiles", "");
             iterateTurns(stage);
-            updateView();
             return;
         }
         if (moves != null && moves.size() > 0) {
@@ -227,7 +235,6 @@ public class GamePlayPresenter {
             }
             placeTiles(playedTiles);
             iterateTurns(stage);
-            updateView();
             int points = model.getComputerSession().getLastTurn().getPoints();
             String pointsLabel;
             if (model.getComputerSession().getLastTurn().getPoints() == 1) {
@@ -509,7 +516,7 @@ public class GamePlayPresenter {
                         int row = rIndex == null ? 0 : rIndex;
                         Move currentMove = new Move(draggableTile.getTile(), new Move.Coordinate(row, col));
                         model.getPlayerSession().getLastTurn().add(currentMove);
-                        if (model.getGrid().isValidMove(model.getPlayerSession().getLastTurn())) {
+                        if (model.getGrid().isValidMoves(model.getPlayerSession().getLastTurn())) {
                             model.getPlayerSession().getPlayer().makeMove(currentMove);
                             playedTiles.add(draggableTile);
                             draggableTile.savePosition(col, row);
@@ -723,30 +730,20 @@ public class GamePlayPresenter {
         tileExchange.play();
     }
 
-    private void playerPlayedAnimation(Stage stage) {
-        KeyFrame firstFrame = new KeyFrame(Duration.seconds(0), e -> popupPlayerPlayed(stage));
-        KeyFrame secondFrame = new KeyFrame(Duration.seconds(1), e -> {
-            playComputerMove(stage);
-            updateView();
-            submit.stop();
-        });
-        submit = new Timeline(firstFrame, secondFrame);
-        submit.play();
-
-    }
-
     private void iterateTurns(Stage stage) {
         playedTiles.clear();
         exchangedTiles.clear();
-        List<Tile> tiles = model.getComputerSession().getPlayer().getBag().getTiles();
-        if (model.isGameOver(tiles)) {
-            setGameOver(stage);
+        if (!model.isGameOver()) {
+            model.setNextPlayerSession();
+            updateView();
+        } else {
+            KeyFrame keyFrame = new KeyFrame(Duration.seconds(1.5), e -> {
+                setGameOver(stage);
+                gameOver.stop();
+            });
+            gameOver = new Timeline(keyFrame);
+            gameOver.play();
             Database.getInstance().save(model);
-            return;
-        }
-        model.setNextPlayerSession();
-        if (model.getActivePlayerSession().equals(model.getComputerSession())) {
-            playerPlayedAnimation(stage); //Contains playComputer in a keyframe
         }
     }
 }
