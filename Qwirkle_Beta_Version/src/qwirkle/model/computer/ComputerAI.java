@@ -36,15 +36,12 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
             trade();
             return null;
         }
+
         return getMostProfitableTurn(allMoves);
     }
 
     private Turn makeFirstTurn() {
         Set<Set<Tile>> combos = getMoveValidator().getLargestCombinations();
-        if(combos.isEmpty()) {
-            trade();
-            return null;
-        }
         Iterator<Set<Tile>> iterator = combos.iterator();
         Set<Tile> selectedCombo = null;
         while(iterator.hasNext()) {
@@ -58,10 +55,6 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
                 break;
             }
             selectedCombo = combo;
-        }
-        if (selectedCombo == null) {
-            trade();
-            return null;
         }
         return firstTurnInRandomDirection(new ArrayList<>(selectedCombo));
     }
@@ -174,14 +167,9 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
             sameShapeCount.put(tile.getShape(),getDeck().getTilesInDeck().stream().filter(t -> t.isSameShape(tile)).toList().size());
         }
 
-        System.out.println(sameTileCount);
-        System.out.println(sameColorCount);
-        System.out.println(sameShapeCount);
-        System.out.println(getDeck().getTilesInDeck());
 
         //if more than 1 of the same tile, then trade 1 of each pair
         if (sameTileCount.values().stream().anyMatch(i -> i > 1)) {
-            System.out.println("trade same tiles");
             ArrayList<Tile> tiles =
                     sameTileCount.entrySet()
                             .stream()
@@ -190,7 +178,6 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
                             .collect(Collectors.toCollection(ArrayList::new));
             tiles.remove(sameTileCount.entrySet().stream().filter(e -> e.getValue() > 1).findFirst().get().getKey());
             //for testing
-            System.out.println(tiles);
             tradeTiles(tiles);
             return;
         }
@@ -209,8 +196,6 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
                             .map(Map.Entry::getKey)
                             .collect(Collectors.toCollection(ArrayList::new));
             tiles.remove(sameTileCount.entrySet().stream().filter(e -> e.getValue() > 1).findFirst().get().getKey());
-            //for testing
-            System.out.println(tiles);
             tradeTiles(tiles);
             return;
         }
@@ -225,7 +210,6 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
                 .stream()
                 .findFirst()
                 .get()))) {
-            System.out.println("trade random color or shape");
             int random = randomTileChooser.nextInt(2);
             if (random == 0) {
                 tradeLeastOccurringShapes(sameShapeCount);
@@ -238,14 +222,12 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
 
         //if color frequency minimum is less than shape frequency minimum, then trade color
         if (sameColorCount.values().stream().min(Integer::compareTo).get().compareTo(sameShapeCount.values().stream().min(Integer::compareTo).get()) < 0) {
-            System.out.println("trade color");
             tradeLeastOccurringColors(sameColorCount);
             return;
         }
 
         //if color frequency minimum is greater than shape frequency minimum, then trade least common shapes, as there is more color variety
         if (sameColorCount.values().stream().min(Integer::compareTo).get().compareTo(sameShapeCount.values().stream().min(Integer::compareTo).get()) > 0) {
-            System.out.println("trade shape");
             tradeLeastOccurringShapes(sameShapeCount);
             return;
         }
@@ -254,14 +236,12 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
 
         //if color frequency max is greater than shape frequency max, then trade least common shapes
         if (sameColorCount.values().stream().max(Integer::compareTo).get().compareTo(sameShapeCount.values().stream().max(Integer::compareTo).get()) > 0) {
-            System.out.println("trade least common shape");
             tradeLeastOccurringShapes(sameShapeCount);
             return;
         }
 
         //if color frequency max is less than shape frequency max, then trade least common colors
         if (sameColorCount.values().stream().max(Integer::compareTo).get().compareTo(sameShapeCount.values().stream().max(Integer::compareTo).get()) < 0) {
-            System.out.println("trade least common color");
             tradeLeastOccurringColors(sameColorCount);
             return;
         }
@@ -269,19 +249,16 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
 
         //if more variety in color, then trade least common shape
         if (sameColorCount.size() > sameShapeCount.size()) {
-            System.out.println("trade least common shape");
             tradeLeastOccurringShapes(sameShapeCount);
             return;
         }
 
         //if more variety in shape, then trade least common color
         if (sameColorCount.size() < sameShapeCount.size()) {
-            System.out.println("trade least common color");
             tradeLeastOccurringColors(sameColorCount);
             return;
         }
 
-        System.out.println("trade RANDOM");
         tradeRandomNumTiles();
     }
 

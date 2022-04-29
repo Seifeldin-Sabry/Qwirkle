@@ -6,7 +6,7 @@ import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
-import javafx.scene.chart.AreaChart;
+import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
 import javafx.scene.control.Button;
@@ -30,13 +30,13 @@ public class StatisticsView extends BorderPane {
 
 
     //Game-Session Statistics
-    private AreaChart durationLastGameSession;
+    private LineChart durationLastGameSession;
     private XYChart.Series seriesDurationLastGameSessionPlayer;
     private XYChart.Series seriesDurationLastGameSessionComputer;
     private NumberAxis yAxisTime;
     private NumberAxis xAxisTurnNo;
 
-    private AreaChart pointsPerTurnLastGameSession;
+    private LineChart pointsPerTurnLastGameSession;
     private XYChart.Series seriesPointsPerTurnLastGameSessionPlayer;
     private XYChart.Series seriesPointsPerTurnLastGameSessionComputer;
     private NumberAxis yAxisPoints;
@@ -61,20 +61,20 @@ public class StatisticsView extends BorderPane {
     private Tab bestScorePerSessionTab;
 
     //duration perSession
-    private AreaChart durationPerSession;
+    private LineChart durationPerSession;
     private NumberAxis yAxisDuration;
     private NumberAxis xAxisGameNo;
     private XYChart.Series seriesDurationPerGameSession;
 
     //player and computer score persession
-    private AreaChart bestScorePerSession;
+    private LineChart bestScorePerSession;
     private NumberAxis yAxisScore;
     private NumberAxis xAxisGameNo2;
     private XYChart.Series seriesBestScorePlayer;
     private XYChart.Series seriesBestScoreComputer;
 
     //average score perturn per session
-    private AreaChart averageScorePerSession;
+    private LineChart averageScorePerSession;
     private NumberAxis yAxisAverageScore;
     private NumberAxis xAxisGameNo3;
     private XYChart.Series seriesAverageScorePlayer;
@@ -104,21 +104,21 @@ public class StatisticsView extends BorderPane {
 //        mostPlayedTilesByShape.setLegendSide(Side.LEFT);
 
 
-        //AREACHARTS GAMESESSION
+        //LineChartS GAMESESSION
         seriesDurationLastGameSessionPlayer = new XYChart.Series<>();
         seriesDurationLastGameSessionPlayer.setName(playerName);
-
-//        seriesDurationLastGameSessionComputer = new XYChart.Series<>();
-//        seriesDurationLastGameSessionComputer.setName("Computer");
-
         yAxisTime = new NumberAxis();
         yAxisTime.setLabel("Time (seconds)");
         xAxisTurnNo = new NumberAxis();
         xAxisTurnNo.setLabel("Turn No.");
-        durationLastGameSession = new AreaChart(xAxisTurnNo, yAxisTime);
+        xAxisTurnNo.setTickUnit(1);
+        durationLastGameSession = new LineChart(xAxisTurnNo, yAxisTime);
         durationLastGameSession.setTitle("Duration per Turn last game session");
         durationLastGameSession.setLegendVisible(true);
         durationLastGameSession.setCreateSymbols(true);
+        durationLastGameSession.setVerticalGridLinesVisible(false);
+        durationLastGameSession.setHorizontalGridLinesVisible(false);
+        durationLastGameSession.setPadding(new Insets(20, 20, 0, 0));
 
         seriesPointsPerTurnLastGameSessionPlayer = new XYChart.Series<>();
         seriesPointsPerTurnLastGameSessionPlayer.setName(playerName);
@@ -128,11 +128,15 @@ public class StatisticsView extends BorderPane {
         yAxisPoints.setLabel("Points");
         xAxisTurnNo2 = new NumberAxis();
         xAxisTurnNo2.setLabel("Turn No.");
-        pointsPerTurnLastGameSession = new AreaChart(xAxisTurnNo2, yAxisPoints);
+        xAxisTurnNo2.setTickUnit(1);
+        pointsPerTurnLastGameSession = new LineChart(xAxisTurnNo2, yAxisPoints);
         pointsPerTurnLastGameSession.setTitle("Points Per Turn of last game session");
+        pointsPerTurnLastGameSession.setVerticalGridLinesVisible(false);
+        pointsPerTurnLastGameSession.setHorizontalGridLinesVisible(false);
+        pointsPerTurnLastGameSession.setPadding(new Insets(20, 20, 0, 0));
 
 
-        //AREACHARTS OVERALL Duration
+        //LineChartS OVERALL Duration
         seriesDurationPerGameSession = new XYChart.Series<>();
         seriesDurationPerGameSession.setName("Duration");
 
@@ -140,13 +144,17 @@ public class StatisticsView extends BorderPane {
         yAxisDuration.setLabel("Time (seconds)");
         xAxisGameNo = new NumberAxis();
         xAxisGameNo.setLabel("Game No.");
-        durationPerSession = new AreaChart(xAxisGameNo, yAxisDuration);
+        xAxisGameNo.setTickUnit(1);
+        durationPerSession = new LineChart(xAxisGameNo, yAxisDuration);
         durationPerSession.setTitle("Duration per session");
         durationPerSession.setLegendVisible(true);
         durationPerSession.setCreateSymbols(true);
+        durationPerSession.setVerticalGridLinesVisible(false);
+        durationPerSession.setHorizontalGridLinesVisible(false);
+        durationPerSession.setPadding(new Insets(20, 20, 0, 0));
 
 
-        //AREACHARTS OVERALL Average Score
+        //LineChartS OVERALL Average Score
         seriesAverageScorePlayer = new XYChart.Series<>();
         seriesAverageScorePlayer.setName("Player");
         seriesAverageScoreComputer = new XYChart.Series<>();
@@ -154,14 +162,18 @@ public class StatisticsView extends BorderPane {
 
         yAxisAverageScore = new NumberAxis();
         yAxisAverageScore.setLabel("Score");
-        xAxisGameNo3 = new NumberAxis();
-        xAxisGameNo3.setLabel("Game No.");
-        averageScorePerSession = new AreaChart(xAxisGameNo3, yAxisAverageScore);
+        xAxisGameNo2 = new NumberAxis();
+        xAxisGameNo2.setLabel("Game No.");
+        xAxisGameNo2.setTickUnit(1);
+        averageScorePerSession = new LineChart(xAxisGameNo2, yAxisAverageScore);
         averageScorePerSession.setTitle("Average score per session");
         averageScorePerSession.setLegendVisible(true);
         averageScorePerSession.setCreateSymbols(true);
+        averageScorePerSession.setVerticalGridLinesVisible(false);
+        averageScorePerSession.setHorizontalGridLinesVisible(false);
+        averageScorePerSession.setPadding(new Insets(20, 20, 0, 0));
 
-        //AREACHARTS OVERALL Best Score Per Session
+        //LineChartS OVERALL Best Score Per Session
         seriesBestScorePlayer = new XYChart.Series<>();
         seriesBestScorePlayer.setName("Player");
         seriesBestScoreComputer = new XYChart.Series<>();
@@ -171,8 +183,12 @@ public class StatisticsView extends BorderPane {
         yAxisScore.setLabel("Score");
         xAxisGameNo3 = new NumberAxis();
         xAxisGameNo3.setLabel("Game No.");
-        bestScorePerSession = new AreaChart(xAxisGameNo3, yAxisScore);
+        xAxisGameNo3.setTickUnit(1);
+        bestScorePerSession = new LineChart(xAxisGameNo3, yAxisScore);
         bestScorePerSession.setTitle("Highest score in a turn per session");
+        bestScorePerSession.setVerticalGridLinesVisible(false);
+        bestScorePerSession.setHorizontalGridLinesVisible(false);
+        bestScorePerSession.setPadding(new Insets(20, 20, 0, 0));
 
 
         //Statistics
@@ -324,7 +340,7 @@ public class StatisticsView extends BorderPane {
         return tabPane1;
     }
 
-    AreaChart getDurationPerSession() {
+    LineChart getDurationPerSession() {
 
         return durationPerSession;
     }
@@ -335,7 +351,7 @@ public class StatisticsView extends BorderPane {
     }
 
 
-    AreaChart getBestScorePerSession() {
+    LineChart getBestScorePerSession() {
         return bestScorePerSession;
     }
 
@@ -349,7 +365,7 @@ public class StatisticsView extends BorderPane {
     }
 
 
-    AreaChart getAverageScorePerSession() {
+    LineChart getAverageScorePerSession() {
         return averageScorePerSession;
     }
 
@@ -369,18 +385,10 @@ public class StatisticsView extends BorderPane {
     }
 
 
-    AreaChart getDurationLastGameSession() {
+    LineChart getDurationLastGameSession() {
 
         return durationLastGameSession;
     }
-//
-//    PieChart getMostPlayedTilesByColor() {
-//        return mostPlayedTilesByColor;
-//    }
-//
-//    PieChart getMostPlayedTilesByShape() {
-//        return mostPlayedTilesByShape;
-//    }
 
     XYChart.Series getSeriesDurationLastGameSessionPlayer() {
         return seriesDurationLastGameSessionPlayer;
@@ -390,7 +398,7 @@ public class StatisticsView extends BorderPane {
         return seriesDurationLastGameSessionComputer;
     }
 
-    AreaChart getPointsPerTurnLastGameSession() {
+    LineChart getPointsPerTurnLastGameSession() {
         return pointsPerTurnLastGameSession;
     }
 
@@ -400,5 +408,48 @@ public class StatisticsView extends BorderPane {
 
     XYChart.Series getSeriesPointsPerTurnLastGameSessionComputer() {
         return seriesPointsPerTurnLastGameSessionComputer;
+    }
+
+    //Axis getters
+
+
+    public NumberAxis getyAxisTime() {
+        return yAxisTime;
+    }
+
+    public NumberAxis getxAxisTurnNo() {
+        return xAxisTurnNo;
+    }
+
+    public NumberAxis getyAxisPoints() {
+        return yAxisPoints;
+    }
+
+    public NumberAxis getxAxisTurnNo2() {
+        return xAxisTurnNo2;
+    }
+
+    public NumberAxis getyAxisDuration() {
+        return yAxisDuration;
+    }
+
+    public NumberAxis getxAxisGameNo() {
+        return xAxisGameNo;
+    }
+
+    public NumberAxis getyAxisScore() {
+        return yAxisScore;
+    }
+
+    public NumberAxis getxAxisGameNo2() {
+        return xAxisGameNo2;
+    }
+
+    public NumberAxis getyAxisAverageScore() {
+        return yAxisAverageScore;
+    }
+
+    public NumberAxis getxAxisGameNo3() {
+        return xAxisGameNo3;
     }
 }

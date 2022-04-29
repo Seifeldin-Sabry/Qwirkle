@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Set;
 
-import static qwirkle.model.Grid.MID;
 import static qwirkle.model.computer.Computer.LevelOfDifficulty.*;
 
 public class ComputerEasy extends Computer {
@@ -23,28 +22,20 @@ public class ComputerEasy extends Computer {
     @Override
     public Turn makeTurn() {
         boolean firstTurn = getBoard().getUsedSpaces().isEmpty();
-        Turn turn = null;
+        Turn turn;
         if (firstTurn) {
             turn = playFirstTurn();
+        } else {
+            turn = getRandomMove(getMoveValidator().getAllValidMoves(getBoard()));
             if (turn == null) {
                 trade();
                 return null;
             }
         }
-//        turn = getRandomMove(getMoveValidator().getAllValidMoves(getBoard()));
-        if (turn == null) {
-            trade();
-            return null;
-        }
         return turn;
     }
 
     private Turn playFirstTurn() {
-        HashMap<Move, Set<Turn>> allmoves = getMoveValidator().getAllValidMoves(getBoard());
-        if (allmoves.isEmpty() && getBoard().isNotEmpty(MID, MID)) {
-            trade();
-            return null;
-        }
         Set<Set<Tile>> tileCombos = getMoveValidator().getLargestCombinations();
         //never empty in first turn
         int randomCombo = randomTileChooser.nextInt(tileCombos.size());

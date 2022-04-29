@@ -35,6 +35,7 @@ public class GameSession {
         startTime = new Timestamp(System.currentTimeMillis());
         playerHumanSession = new PlayerSession(humanName, bag, grid, isPlayerStarting);
         playerComputerSession = new PlayerSession(bag, grid, difficultyLevel, !isPlayerStarting);
+        setFirstPlayerSession();
         addTurnToActiveSession();
     }
 
@@ -59,6 +60,13 @@ public class GameSession {
             return playerComputerSession;
         }
         return null;
+    }
+    private void setFirstPlayerSession(){
+        if (playerHumanSession.isPlayerStarting()) {
+            playerHumanSession.setActive(true);
+        } else {
+            playerComputerSession.setActive(true);
+        }
     }
 
     public void setNextPlayerSession() {
@@ -101,8 +109,11 @@ public class GameSession {
         }
     }
     //It checks if there is a single valid move left
-    private boolean playersHaveNoValidMoves() {
-        return getPlayerSession().getPlayer().getMoveValidator().getAllValidMoves(getGrid()).isEmpty() && getComputerSession().getPlayer().getMoveValidator().getAllValidMoves(getGrid()).isEmpty();
+      public boolean playersHaveNoValidMoves() {
+        if (getBag().getAmountOfTilesLeft() == 0) {
+            return getPlayerSession().getPlayer().getMoveValidator().getAllValidMoves(getGrid()).isEmpty() && getComputerSession().getPlayer().getMoveValidator().getAllValidMoves(getGrid()).isEmpty();
+        }
+        return false;
     }
 
 

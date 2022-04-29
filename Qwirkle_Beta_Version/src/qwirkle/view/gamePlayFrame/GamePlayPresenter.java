@@ -37,11 +37,12 @@ public class GamePlayPresenter {
     private final GamePlayView view;
     private GameSession model;
     private Timeline timer;
-    private Timeline computerMove;
+    private Timeline iterateTurnsTM;
     private Timeline welcome;
     private Timeline tileExchange;
     private Timeline submit;
     private Timeline gameOver;
+    private Timeline computerTurn;
     private final LinkedList<TileNode> deckTiles = new LinkedList<>();
     private final LinkedList<TileNode> exchangedTiles = new LinkedList<>();
     private final LinkedList<TileNode> validPositionList = new LinkedList<>();
@@ -152,6 +153,7 @@ public class GamePlayPresenter {
         updateView();
     }
 
+
     private void validateTiles() {
         for (Node node : view.getGrid().getChildren()) {
             if (((TileNode) node).isEmpty()) {
@@ -161,7 +163,39 @@ public class GamePlayPresenter {
     }
 
     private void submit(Stage stage) {
-        if (playedTiles.size() == 0 && model.getPlayerSession().getPlayer().getDeck().getTilesInDeck().size() > 0 && exchangedTiles.size() == 0) {
+        if (computerTurn != null) {
+            computerTurn.stop();
+        }
+        if (playedTiles.size() > 0 && exchangedTiles.size() == 0) {
+            KeyFrame keyFrame1 = new KeyFrame(Duration.seconds(0.05), e -> {
+                iterateTurns(stage);
+                popupPlayerPlayed(stage);
+            });
+            KeyFrame keyFrame2 = new KeyFrame(Duration.seconds(1.8), e -> {
+                playComputerMove(stage);
+                submit.stop();
+            });
+            submit = new Timeline(keyFrame1, keyFrame2);
+            submit.play();
+            return;
+        }
+        if (exchangedTiles.size() > 0 && playedTiles.size() == 0) {
+            submitExchange();
+            KeyFrame keyFrame1 = new KeyFrame(Duration.seconds(0.05), e -> {
+                popupTilesExchange(stage);
+                iterateTurns(stage);
+            });
+            KeyFrame keyFrame2 = new KeyFrame(Duration.seconds(1.4), e -> {
+                if (!model.isGameOver()) {
+                    playComputerMove(stage);
+                    submit.stop();
+                }
+            });
+            submit = new Timeline(keyFrame1, keyFrame2);
+            submit.play();
+        }
+
+        if (playedTiles.size() == 0 && model.getBag().getAmountOfTilesLeft() > 0 && exchangedTiles.size() == 0) {
             String text = """
                     Place a tile on the board or
                      exchange tiles in the bag.""";
@@ -182,82 +216,66 @@ public class GamePlayPresenter {
                                         time!""";
             popupMessage(stage, text, 3);
             undo();
-            return;
-        }
-        if (exchangedTiles.size() > 0) {
-            submitExchange();
-            KeyFrame keyFrame1 = new KeyFrame(Duration.seconds(0), e -> tileExchangeAnimation(stage));
-            KeyFrame keyFrame2 = new KeyFrame(Duration.seconds(1), e -> {
-                iterateTurns(stage);
-                popupPlayerPlayed(stage);
-            });
-            KeyFrame keyFrame3 = new KeyFrame(Duration.seconds(2), e -> {
-                playComputerMove(stage);
-                submit.stop();
-            });
-            submit = new Timeline(keyFrame1, keyFrame2, keyFrame3);
-            submit.play();
-            return;
-        }
-        if (playedTiles.size() > 0) {
-            KeyFrame keyFrame1 = new KeyFrame(Duration.seconds(0), e -> {
-                iterateTurns(stage);
-                popupPlayerPlayed(stage);
-            });
-            KeyFrame keyFrame2 = new KeyFrame(Duration.seconds(1), e -> {
-                playComputerMove(stage);
-                submit.stop();
-            });
-            submit = new Timeline(keyFrame1, keyFrame2);
-            submit.play();
         }
     }
 
-    private void popupMessage(Stage stage, String text, double duration) {
+    private void popupMessage(Stage stage, String text, double startTime) {
         PopupView view = new PopupView();
-        new PopupPresenter(stage, view, text, 660, 300, duration, false);
+        new PopupPresenter(stage, view, text, 660, 300, startTime, false);
     }
 
     private void playComputerMove(Stage stage) {
-        List<Move> moves = ((Computer) model.getComputerSession().getPlayer()).makeTurn();
-        if (moves == null && model.getBag().getTiles().size() > 0) {
-            popupComputerPlayed(stage, "Computer traded tiles", "");
-            iterateTurns(stage);
-            return;
+        if (submit != null) {
+            submit.stop();
         }
-        if (moves != null && moves.size() > 0) {
-            for (Move move : moves) {
-                model.getComputerSession().getPlayer().makeMove(move);
-                model.getComputerSession().getLastTurn().add(move);
-                TileNode tileNode = new TileNode(move.getTile(), gridZoomOut());
-                tileNode.savePosition(move.getCoordinate().getColumn(), move.getCoordinate().getRow());
-                playedTiles.add(tileNode);
+        Computer computer = (Computer) model.getComputerSession().getPlayer();
+        List<Move> moves = computer.makeTurn();
+        KeyFrame kf1 = new KeyFrame(Duration.seconds(0.1), e -> {
+            if (moves == null && model.getBag().getTiles().size() > 0) {
+                popupComputerPlayed(stage, "Computer traded tiles", "", 1.8);
+                iterateTurns(stage);
+                computerTurn.stop();
             }
+            if (moves != null && moves.size() > 0) {
+                calculatingMove(stage, "Calculating move");
+                for (Move move : moves) {
+                    model.getComputerSession().getPlayer().makeMove(move);
+                    model.getComputerSession().getLastTurn().add(move);
+                    TileNode tileNode = new TileNode(move.getTile(), gridZoomOut());
+                    tileNode.savePosition(move.getCoordinate().getColumn(), move.getCoordinate().getRow());
+                    playedTiles.add(tileNode);
+                }
+            }
+            if (moves == null && model.getBag().getTiles().size() == 0) {
+                popupComputerPlayed(stage, "Computer has no move to play", "", 1.8);
+            }
+        });
+        KeyFrame kf2 = new KeyFrame(Duration.seconds(2.35), e -> {
             placeTiles(playedTiles);
             iterateTurns(stage);
             int points = model.getComputerSession().getLastTurn().getPoints();
-            String pointsLabel;
-            if (model.getComputerSession().getLastTurn().getPoints() == 1) {
-                pointsLabel = " point";
-            } else {
-                pointsLabel = " points";
+            if (!model.isGameOver()) {
+                String pointsLabel;
+                if (model.getComputerSession().getLastTurn().getPoints() == 1) {
+                    pointsLabel = " point";
+                } else {
+                    pointsLabel = " points";
+                }
+                if (moves != null) {
+                    popupComputerPlayed(stage, "Computer Played: ", points + pointsLabel, 1.6);
+                }
             }
-            popupComputerPlayed(stage, "Computer Played: ", points + pointsLabel);
-        }
+        });
+        computerTurn = new Timeline(kf1, kf2);
+        computerTurn.play();
     }
 
 
     private void placeTiles(LinkedList<TileNode> playedTiles) {
         for (TileNode tileNode : playedTiles) {
-            computerMove = new Timeline(new KeyFrame(Duration.seconds(6), e -> {
-                fillEmptySpots();
-                removeTileEffect();
-                computerMove.stop();
-            }));
-            computerMove.setDelay(Duration.seconds(1));
+            fillEmptySpots();
             view.getGrid().add(tileNode, tileNode.getCol(), tileNode.getRow());
             tileNode.setStyle("-fx-effect: dropshadow( gaussian , rgb(255,0,0) , 4,1,0,0 );");
-            computerMove.play();
         }
         playedTiles.clear();
     }
@@ -268,7 +286,6 @@ public class GamePlayPresenter {
         setDeckTiles();
         updateScore();
         updateTilesLeftLabel();
-        positioningHandler(validPositionList);
         resizeGridContent(gridZoomOut());
     }
 
@@ -317,33 +334,48 @@ public class GamePlayPresenter {
     }
 
     private void setGameOver(Stage stage) {
-        model.getActivePlayerSession().getLastTurn().endTurn(model.getGrid());
+        iterateTurnsTM.stop();
         model.setEndTime();
-        timer.stop();
-        model.addExtraPoints();
-        updateScore();
-        view.getVb2().getChildren().clear();
-        view.getActiveDeck().getChildren().clear();
-        view.getVb2().getChildren().addAll(view.getHbScore(), view.getVBox());
-        if (model.getComputerSession().getTotalScore() > model.getPlayerSession().getTotalScore()) {
-            view.getLabel().setText("Computer won!");
+        Database.getInstance().save(model);
+        KeyFrame keyFrame1;
+        if (model.getPlayerSession().isActive()) {
+            keyFrame1 = new KeyFrame(Duration.seconds(1.6), e -> popupMessage(stage, "You got 6 bonus points\n for finishing first!", 1.5));
         } else {
-            view.getLabel().setText("You won!");
+            keyFrame1 = new KeyFrame(Duration.seconds(1.6), e -> popupMessage(stage, "Computer got 6 bonus points\n   for finishing first!", 1.5));
         }
-        zoomIn(view.getGameOverImage(), 0, 500);
-        cancelButtons();
-        view.makeTransparent();
-        view.getStatistics().setOnAction(e -> {
-            StatisticsView view = new StatisticsView();
-            new StatisticsPresenterGO(view, this.view);
-            this.view.getScene().setRoot(view);
+        KeyFrame keyFrame2 = new KeyFrame(Duration.seconds(3.2), e -> {
+            view.getVb2().getChildren().clear();
+            view.getActiveDeck().getChildren().clear();
+            view.getVb2().getChildren().addAll(view.getHbScore(), view.getVBox());
+            if (model.getComputerSession().getTotalScore() > model.getPlayerSession().getTotalScore()) {
+                view.getLabel().setText("Computer won!");
+            } else {
+                view.getLabel().setText("You won!");
+            }
+            zoomIn(view.getGameOverImage(), 0, 500);
+            cancelButtons();
+            view.makeTransparent();
+            view.getStatistics().setOnAction(event -> {
+                StatisticsView view = new StatisticsView();
+                new StatisticsPresenterGO(view, this.view);
+                this.view.getScene().setRoot(view);
+            });
+            view.getNewGame().setOnAction(event -> {
+                NewGameView view = new NewGameView();
+                new NewGamePresenter(stage, view);
+                this.view.getScene().setRoot(view);
+            });
+            view.getQuit().setOnAction(event -> setWelcomeFrame(stage));
+            if (submit != null) {
+                submit.stop();
+            }
+            if (computerTurn != null) {
+                computerTurn.stop();
+            }
+            gameOver.stop();
         });
-        view.getNewGame().setOnAction(e -> {
-            NewGameView view = new NewGameView();
-            new NewGamePresenter(stage, view);
-            this.view.getScene().setRoot(view);
-        });
-        view.getQuit().setOnAction(e -> setWelcomeFrame(stage));
+        gameOver = new Timeline(keyFrame1, keyFrame2);
+        gameOver.play();
     }
 
     private void cancelButtons() {
@@ -430,15 +462,26 @@ public class GamePlayPresenter {
         new PopupPresenter(stage, view, text, 660, 300, 2);
     }
 
-    private void popupComputerPlayed(Stage stage, String text, String score) {
+    private void popupComputerPlayed(Stage stage, String text, String score, double duration) {
         PopupView view = new PopupView();
-        new PopupPresenter(stage, view, text + score, 660, 300, 2.2, true);
+        new PopupPresenter(stage, view, text + score, 660, 300, duration, false);
+    }
+
+    private void calculatingMove(Stage stage, String text) {
+        PopupView view = new PopupView();
+        new PopupPresenter(stage, view, text + "", 660, 300, 2, true);
     }
 
     private void popupPlayerPlayed(Stage stage) {
         String score = String.valueOf(model.getPlayerSession().getLastTurn().getPoints());
         PopupView view = new PopupView();
-        new PopupPresenter(stage, view, "You got " + score + " points", 660, 300, 1, false);
+        String pointsText;
+        if (model.getPlayerSession().getLastTurn().getPoints() == 1) {
+            pointsText = " point";
+        } else {
+            pointsText = " points";
+        }
+        new PopupPresenter(stage, view, "You got " + score + pointsText, 660, 300, 1.4, false);
     }
 
     private void setExchangedTiles(TileNode tileNode) {
@@ -705,7 +748,7 @@ public class GamePlayPresenter {
     private void welcomeAnimation(Stage stage) {
         zoomIn(view.getGrid(), 0, 500);
         KeyFrame firstFrame = new KeyFrame(Duration.seconds(0.5), e -> welcomeMessage(stage));
-        KeyFrame secondFrame = new KeyFrame(Duration.seconds(2.5), e -> {
+        KeyFrame secondFrame = new KeyFrame(Duration.seconds(2.9), e -> {
             if (model.getActivePlayerSession().equals(model.getComputerSession())) {
                 playComputerMove(stage);
             }
@@ -715,15 +758,14 @@ public class GamePlayPresenter {
         welcome.play();
     }
 
-    private void tileExchangeAnimation(Stage stage) {
+    private void popupTilesExchange(Stage stage) {
         String text = """
                 Tiles exchanged successfully!""";
         KeyFrame firstFrame = new KeyFrame(Duration.seconds(0), e -> {
             popupMessage(stage, text, 1);
             updateView();
         });
-        KeyFrame secondFrame = new KeyFrame(Duration.seconds(1), e -> {
-            popupPlayerPlayed(stage);
+        KeyFrame secondFrame = new KeyFrame(Duration.seconds(1.1), e -> {
             tileExchange.stop();
         });
         tileExchange = new Timeline(firstFrame, secondFrame);
@@ -734,16 +776,39 @@ public class GamePlayPresenter {
         playedTiles.clear();
         exchangedTiles.clear();
         if (!model.isGameOver()) {
+            System.out.println("Before" + model.getActivePlayerSession().getPlayer().getName());
             model.setNextPlayerSession();
+            System.out.println("Next" + model.getActivePlayerSession().getPlayer().getName());
             updateView();
         } else {
-            KeyFrame keyFrame = new KeyFrame(Duration.seconds(1.5), e -> {
-                setGameOver(stage);
-                gameOver.stop();
-            });
-            gameOver = new Timeline(keyFrame);
-            gameOver.play();
-            Database.getInstance().save(model);
+            KeyFrame kf1;
+            KeyFrame kf2;
+            if (model.playersHaveNoValidMoves()) {
+                kf1 = new KeyFrame(Duration.seconds(2), e -> popupMessage(stage, "No more valid moves\nfor any of the players", 2));
+                kf2 = new KeyFrame(Duration.seconds(4.1), e -> {
+                    timer.stop();
+                    setGameOver(stage);
+                });
+            } else {
+                kf1 = new KeyFrame(Duration.seconds(0));
+                kf2 = new KeyFrame(Duration.seconds(2), e -> {
+                    timer.stop();
+                    setGameOver(stage);
+                });
+            }
+            model.getActivePlayerSession().getLastTurn().endTurn(model.getGrid());
+            model.addExtraPoints();
+            updateScore();
+            int points = model.getComputerSession().getLastTurn().getPoints();
+            String pointsLabel;
+            if (model.getComputerSession().getLastTurn().getPoints() == 1) {
+                pointsLabel = " point";
+            } else {
+                pointsLabel = " points";
+            }
+            popupComputerPlayed(stage, "Computer Played: ", points + pointsLabel, 1.6);
+            iterateTurnsTM = new Timeline(kf1, kf2);
+            iterateTurnsTM.play();
         }
     }
 }

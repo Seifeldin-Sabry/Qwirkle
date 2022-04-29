@@ -1,6 +1,13 @@
 package qwirkle.view.statisticsFrame;
 
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
+import javafx.event.EventHandler;
+import javafx.scene.Cursor;
 import javafx.scene.chart.XYChart;
+import javafx.scene.control.Label;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import qwirkle.data.Database;
 import qwirkle.view.welcomeFrame.WelcomePresenter;
@@ -9,8 +16,8 @@ import qwirkle.view.welcomeFrame.WelcomeView;
 import java.util.List;
 
 public class StatisticsPresenterW {
-    private StatisticsView view;
-    private Database database;
+    private final StatisticsView view;
+    private final Database database;
 
 
     public StatisticsPresenterW(StatisticsView view, Stage stage) {
@@ -21,12 +28,29 @@ public class StatisticsPresenterW {
         this.view.getLastGameButton().setStyle("-fx-background-color: #FF5733; -fx-text-fill: #fff;");
         addEventHandler(stage);
         loadStatistics();
+        updateStyle();
+    }
+
+    private void updateStyle() {
+        view.getxAxisGameNo().setUpperBound(view.getSeriesDurationPerGameSession().getData().size());
+        view.getxAxisGameNo3().setUpperBound(view.getSeriesBestScorePlayer().getData().size());
+        view.getxAxisGameNo2().setUpperBound(view.getSeriesAverageScorePlayer().getData().size());
+        view.getxAxisTurnNo().setUpperBound(view.getSeriesDurationLastGameSessionPlayer().getData().size());
+        view.getxAxisTurnNo2().setUpperBound(view.getSeriesPointsPerTurnLastGameSessionPlayer().getData().size());
+
+        view.getxAxisGameNo().setAutoRanging(false);
+        view.getxAxisGameNo2().setAutoRanging(false);
+        view.getxAxisGameNo3().setAutoRanging(false);
+        view.getxAxisTurnNo().setAutoRanging(false);
+        view.getxAxisTurnNo2().setAutoRanging(false);
+        view.getSeriesPointsPerTurnLastGameSessionComputer().setName("Computer " + Database.getInstance().getLastComputerMode());
     }
 
     private void addEventHandler(Stage stage) {
         view.getBack().setOnAction(event -> setBack(stage));
         tabButtons();
     }
+
     private void tabButtons() {
         view.getLastGameButton().setOnAction(event -> {
             view.getTabPane1().setPrefHeight(700);
@@ -53,57 +77,76 @@ public class StatisticsPresenterW {
     private void loadStatistics() {
         loadDurationPerTurnLastGame();
         loadPointsPerTurnLastGame();
-//        loadTilesByShape();
-//        loadTilesByColor();
         loadDurationPerSession();
         loadAvgPointsPerSession();
         loadBestPointsPerSession();
     }
 
     private void loadBestPointsPerSession() {
-        XYChart.Series seriesBestPointsPerSessionComputer = view.getSeriesBestScoreComputer();
-        seriesBestPointsPerSessionComputer.getData().addAll(database.getBestPointsPerSessionComputer());
-
-        XYChart.Series seriesBestPointsPerSessionPlayer = view.getSeriesBestScorePlayer();
-        seriesBestPointsPerSessionPlayer.getData().addAll(database.getBestPointsPerSessionPlayer());
-        view.getBestScorePerSession().getData().addAll(List.of(seriesBestPointsPerSessionPlayer, seriesBestPointsPerSessionComputer));
+        ObservableList<XYChart.Data> data = FXCollections.observableArrayList();
+        data.add(new XYChart.Data<>(0, 0));
+        data.addAll(mouseOverChart(database.getBestPointsPerSessionComputer()));
+        view.getSeriesBestScoreComputer().getData().addAll(data);
+        data.clear();
+        data.add(new XYChart.Data<>(0, 0));
+        data.addAll(mouseOverChart(database.getBestPointsPerSessionPlayer()));
+        view.getSeriesBestScorePlayer().getData().addAll(data);
+        view.getBestScorePerSession().getData().addAll(List.of(view.getSeriesBestScorePlayer(), view.getSeriesBestScoreComputer()));
     }
 
     private void loadAvgPointsPerSession() {
-        XYChart.Series seriesAvgPointsPerSessionComputer = view.getSeriesAverageScoreComputer();
-        seriesAvgPointsPerSessionComputer.getData().addAll(database.getAvgPointsPerSessionComputer());
-
-        XYChart.Series seriesAvgPointsPerSessionPlayer = view.getSeriesAverageScorePlayer();
-        seriesAvgPointsPerSessionPlayer.getData().addAll(database.getAvgPointsPerSessionPlayer());
-        view.getAverageScorePerSession().getData().addAll(List.of(seriesAvgPointsPerSessionPlayer, seriesAvgPointsPerSessionComputer));
+        ObservableList<XYChart.Data> data = FXCollections.observableArrayList();
+        data.add(new XYChart.Data<>(0, 0));
+        data.addAll(mouseOverChart(database.getAvgPointsPerSessionComputer()));
+        view.getSeriesAverageScoreComputer().getData().addAll(data);
+        data.clear();
+        data.add(new XYChart.Data<>(0, 0));
+        data.addAll(mouseOverChart(database.getAvgPointsPerSessionPlayer()));
+        view.getSeriesAverageScorePlayer().getData().addAll(data);
+        view.getAverageScorePerSession().getData().addAll(List.of(view.getSeriesAverageScorePlayer(), view.getSeriesAverageScoreComputer()));
     }
 
     private void loadDurationPerSession() {
-        XYChart.Series seriesDurationOverall = view.getSeriesDurationPerGameSession();
-        seriesDurationOverall.getData().addAll(database.getDurationPerSession());
-        view.getDurationPerSession().getData().add(seriesDurationOverall);
+        ObservableList<XYChart.Data> data = FXCollections.observableArrayList();
+        data.add(new XYChart.Data<>(0, 0));
+        data.addAll(mouseOverChart(database.getDurationPerSession()));
+        view.getSeriesDurationPerGameSession().getData().addAll(data);
+        view.getDurationPerSession().getData().add(view.getSeriesDurationPerGameSession());
     }
 
 
     private void loadDurationPerTurnLastGame() {
-//        XYChart.Series seriesDurationLastGameSessionComputer = view.getSeriesDurationLastGameSessionComputer();
-//        seriesDurationLastGameSessionComputer.getData().addAll(database.getDurationPerTurnLastGameSessionComputer());
-
-        XYChart.Series seriesDurationLastGameSessionPlayer = view.getSeriesDurationLastGameSessionPlayer();
-        seriesDurationLastGameSessionPlayer.getData().addAll(database.getDurationPerTurnLastGameSessionPlayer());
-//        view.getDurationLastGameSession().getData().addAll(List.of(seriesDurationLastGameSessionPlayer,seriesDurationLastGameSessionComputer));
-        view.getDurationLastGameSession().getData().addAll(List.of(seriesDurationLastGameSessionPlayer));
+        ObservableList<XYChart.Data> data = FXCollections.observableArrayList();
+        data.add(new XYChart.Data<>(0, 0));
+        data.addAll(mouseOverChart(database.getDurationPerTurnLastGameSessionPlayer()));
+        view.getSeriesDurationLastGameSessionPlayer().getData().addAll(data);
+        view.getDurationLastGameSession().getData().addAll(List.of(view.getSeriesDurationLastGameSessionPlayer()));
     }
 
     private void loadPointsPerTurnLastGame() {
-        XYChart.Series seriesPointsLastGameSessionComputer = view.getSeriesPointsPerTurnLastGameSessionComputer();
-        seriesPointsLastGameSessionComputer.getData().addAll(database.getPointsPerTurnLastGameSessionComputer());
-
-        XYChart.Series seriesPointsLastGameSessionPlayer = view.getSeriesPointsPerTurnLastGameSessionPlayer();
-        seriesPointsLastGameSessionPlayer.getData().addAll(database.getPointsPerTurnLastGameSessionPlayer());
-        view.getPointsPerTurnLastGameSession().getData().addAll(List.of(seriesPointsLastGameSessionPlayer, seriesPointsLastGameSessionComputer));
+        ObservableList<XYChart.Data> data = FXCollections.observableArrayList();
+        data.add(new XYChart.Data<>(0, 0));
+        data.addAll(mouseOverChart(database.getPointsPerTurnLastGameSessionComputer()));
+        view.getSeriesPointsPerTurnLastGameSessionComputer().getData().addAll(data);
+        data.clear();
+        data.add(new XYChart.Data<>(0, 0));
+        data.addAll(mouseOverChart(database.getPointsPerTurnLastGameSessionPlayer()));
+        view.getSeriesPointsPerTurnLastGameSessionPlayer().getData().addAll(data);
+        view.getPointsPerTurnLastGameSession().getData().addAll(List.of(view.getSeriesPointsPerTurnLastGameSessionPlayer()
+                , view.getSeriesPointsPerTurnLastGameSessionComputer()));
     }
 
+    private ObservableList<XYChart.Data<Integer, Integer>> mouseOverChart(ObservableList<XYChart.Data> series) {
+        final ObservableList<XYChart.Data<Integer, Integer>> dataset = FXCollections.observableArrayList();
+        int i = 0;
+        while (i < series.size()) {
+            final XYChart.Data<Integer, Integer> data = new XYChart.Data<>(i + 1, Integer.parseInt(series.get(i).getYValue().toString()));
+            data.setNode(new HoveredNode((i == 0) ? 0 : (int) series.get(i).getYValue()));
+            dataset.add(data);
+            i++;
+        }
+        return dataset;
+    }
 }
 
 

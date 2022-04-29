@@ -4,6 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
+import javafx.scene.chart.XYChart.Data;
 import qwirkle.model.GameSession;
 
 import java.io.IOException;
@@ -364,7 +365,6 @@ public class Database {
                 while(rs.next()){
                     data.add(new XYChart.Data<>(rs.getInt("turn_no"), rs.getInt("time_spent")));
                 }
-
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -562,6 +562,8 @@ public class Database {
                           """;
             ptsmt = connection.prepareStatement(sql);
             rs = ptsmt.executeQuery();
+            Data xyData = new XYChart.Data<>(0, 0);
+            data.add(xyData);
             while(rs.next()){
                 data.add(new XYChart.Data<>(rs.getInt("game_id"), rs.getInt("points")));
             }
@@ -603,6 +605,8 @@ public class Database {
                           """;
             ptsmt = connection.prepareStatement(sql);
             rs = ptsmt.executeQuery();
+            Data xyData = new XYChart.Data<>(0, 0);
+            data.add(xyData);
             while(rs.next()){
                 data.add(new XYChart.Data<>(rs.getInt("game_id"), rs.getInt("points")));
             }
@@ -644,6 +648,8 @@ public class Database {
                           """;
             ptsmt = connection.prepareStatement(sql);
             rs = ptsmt.executeQuery();
+            Data xyData = new XYChart.Data<>(0, 0);
+            data.add(xyData);
             while(rs.next()){
                 data.add(new XYChart.Data<>(rs.getInt("game_id"), rs.getInt("points")));
             }
@@ -685,6 +691,8 @@ public class Database {
                           """;
             ptsmt = connection.prepareStatement(sql);
             rs = ptsmt.executeQuery();
+            Data xyData = new XYChart.Data<>(0, 0);
+            data.add(xyData);
             while(rs.next()){
                 data.add(new XYChart.Data<>(rs.getInt("game_id"), rs.getInt("points")));
             }
@@ -722,6 +730,8 @@ public class Database {
                           """;
             ptsmt = connection.prepareStatement(sql);
             rs = ptsmt.executeQuery();
+            Data xyData = new XYChart.Data<>(0, 0);
+            data.add(xyData);
             while(rs.next()){
                 data.add(new XYChart.Data<>(rs.getInt("game_id"), rs.getInt("duration")));
             }
@@ -797,6 +807,47 @@ public class Database {
                 return rs.getString("player_name");
             }
             return "Player";
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }finally {
+            if (connection != null) {
+                closeConnectionQuietly(connection);
+            }
+            if (stmt != null) {
+                closeStatementQuietly(stmt);
+            }
+            if (rs != null) {
+                closeResultSetQuietly(rs);
+            }
+            if (ptsmt != null) {
+                closePreparedStatementQuietly(ptsmt);
+            }
+        }
+        return data;
+    }
+
+    public String getLastComputerMode(){
+        this.connection = setConnection();
+        PreparedStatement ptsmt = null;
+        Statement stmt = null;
+        ResultSet rs = null;
+        String data = null;
+        try {
+            stmt = connection.createStatement();
+            String sql = """
+                         SELECT difficulty
+                         FROM int_gamesession
+                         JOIN int_playersession USING (game_id)
+                         JOIN int_player USING (player_id)
+                         WHERE player_name in ('Computer')
+                         ORDER BY game_id DESC
+                         LIMIT 1
+                         """;
+            rs = stmt.executeQuery(sql);
+            if (rs.next()) {
+                return rs.getString("difficulty");
+            }
+            return "";
         } catch (SQLException e) {
             e.printStackTrace();
         }finally {

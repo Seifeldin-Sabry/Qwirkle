@@ -38,12 +38,13 @@ public class NewGamePresenter {
         view.getRadioMode2().setOnAction(event -> difficultyLvl = Computer.LevelOfDifficulty.AI);
         view.getRules().setOnAction(event -> setRulesView(stage, isPlayerStarting, name));
         view.getPlay().setOnAction((ActionEvent event) -> {
-            name = (((RadioButton) view.getGroup1().getSelectedToggle()).getText());
+            name =  view.getRadioHPF1().getText();
             setPLayView(stage, getIsPlayerStarting(), getName());
         });
         view.getSubmit().setOnAction(event ->  {
             if (!view.getPlaceholder().getText().isEmpty()) {
                 restoreNodes();
+                name = view.getPlaceholder().getText();
             }
         });
     }
@@ -120,6 +121,7 @@ public class NewGamePresenter {
     }
 
     private void updateView(){
+        name = view.getRadioHPF1().getText();
         if (isPlayerStarting) {
             view.getGroup1().selectToggle(view.getRadioHPF1());
         } else view.getGroup1().selectToggle(view.getRadioHPF2());
