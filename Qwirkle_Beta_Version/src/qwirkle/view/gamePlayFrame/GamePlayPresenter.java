@@ -166,12 +166,14 @@ public class GamePlayPresenter {
         if (computerTurn != null) {
             computerTurn.stop();
         }
+        KeyFrame keyFrame1 = null;
+        KeyFrame keyFrame2 = null;
         if (playedTiles.size() > 0 && exchangedTiles.size() == 0) {
-            KeyFrame keyFrame1 = new KeyFrame(Duration.seconds(0.05), e -> {
+            keyFrame1 = new KeyFrame(Duration.seconds(0.1), e -> {
                 iterateTurns(stage);
                 popupPlayerPlayed(stage);
             });
-            KeyFrame keyFrame2 = new KeyFrame(Duration.seconds(1.8), e -> {
+            keyFrame2 = new KeyFrame(Duration.seconds(1.8), e -> {
                 playComputerMove(stage);
                 submit.stop();
             });
@@ -180,20 +182,20 @@ public class GamePlayPresenter {
             return;
         }
         if (exchangedTiles.size() > 0 && playedTiles.size() == 0) {
-            submitExchange();
-            KeyFrame keyFrame1 = new KeyFrame(Duration.seconds(0.05), e -> {
+            keyFrame1 = new KeyFrame(Duration.seconds(0.1), e -> {
+                submitExchange();
                 popupTilesExchange(stage);
                 iterateTurns(stage);
             });
-            KeyFrame keyFrame2 = new KeyFrame(Duration.seconds(1.4), e -> {
+            keyFrame2 = new KeyFrame(Duration.seconds(1.5), e -> {
                 if (!model.isGameOver()) {
                     playComputerMove(stage);
                     submit.stop();
                 }
             });
-            submit = new Timeline(keyFrame1, keyFrame2);
-            submit.play();
         }
+        submit = new Timeline(keyFrame1, keyFrame2);
+        submit.play();
 
         if (playedTiles.size() == 0 && model.getBag().getAmountOfTilesLeft() > 0 && exchangedTiles.size() == 0) {
             String text = """
@@ -783,7 +785,7 @@ public class GamePlayPresenter {
         } else {
             KeyFrame kf1;
             KeyFrame kf2;
-            if (model.playersHaveNoValidMoves()) {
+            if (model.playerHaveNoValidMoves()) {
                 kf1 = new KeyFrame(Duration.seconds(2), e -> popupMessage(stage, "No more valid moves\nfor any of the players", 2));
                 kf2 = new KeyFrame(Duration.seconds(4.1), e -> {
                     timer.stop();

@@ -2,7 +2,12 @@ package qwirkle.model;
 
 import java.util.*;
 
-public record MoveValidator(Deck deck) {
+public class MoveValidator {
+    private final Deck deck;
+
+    public MoveValidator(Deck deck) {
+        this.deck = deck;
+    }
 
     public HashMap<Move, Set<Turn>> getAllValidMoves(Grid grid) {
 
@@ -24,64 +29,90 @@ public record MoveValidator(Deck deck) {
                 boolean isEmptyLeft = grid.isEmpty(row, column - 1);
                 boolean isEmptyRight = grid.isEmpty(row - 1, column + 1);
 
+                boolean isEmptyUpOneAndOneRight = isEmptyUp && grid.isEmpty(row - 1, column + 1);
+                boolean isEmptyUpOneAndOneLeft = isEmptyUp && grid.isEmpty(row - 1, column - 1);
+
+                boolean isEmptyRightAndOneUp = isEmptyRight && grid.isEmpty(row + 1, column + 1);
+                boolean isEmptyRightOneAndOneDown = isEmptyRight && grid.isEmpty(row - 1, column + 1);
+
+                boolean isEmptyLeftOneAndOneDown = isEmptyLeft && grid.isEmpty(row + 1, column - 1);
+                boolean isEmptyLeftOneAndOneUp = isEmptyLeft && grid.isEmpty(row - 1, column - 1);
+
+                boolean isEmptyDownOneAndOneLeft = isEmptyDown && grid.isEmpty(row + 1, column - 1);
+                boolean isEmptyDownOneAndOneRight = isEmptyDown && grid.isEmpty(row + 1, column + 1);
+
                 if (isEmptyUp) {
                     scanUp(moves, combo, column, row, grid);
+                    AddTurnIfNotEmpty(validMoves, moves, edge);
                 }
-                AddTurnIfNotEmpty(validMoves, moves, edge);
 
                 if (isEmptyDown) {
                     scanDown(moves, combo, column, row, grid);
+                    AddTurnIfNotEmpty(validMoves, moves, edge);
                 }
-                AddTurnIfNotEmpty(validMoves, moves, edge);
 
                 if (isEmptyLeft) {
                     scanLeft(moves, combo, column, row, grid);
+                    AddTurnIfNotEmpty(validMoves, moves, edge);
                 }
-                AddTurnIfNotEmpty(validMoves, moves, edge);
 
                 if (isEmptyRight) {
                     scanRight(moves, combo, column, row, grid);
+                    AddTurnIfNotEmpty(validMoves, moves, edge);
                 }
-                AddTurnIfNotEmpty(validMoves, moves, edge);
 
-                //for loop for 1up then right example: |->>>
-                scanUpOneThenRight(moves, combo, column, row, grid);
-                AddTurnIfNotEmpty(validMoves, moves, edge);
-
-
-                //for loop for 1up then left example: |->>>
-                scanUpOneThenLeft(moves, combo, column, row, grid);
-                AddTurnIfNotEmpty(validMoves, moves, edge);
+                if (isEmptyUpOneAndOneRight){
+                    //for loop for 1up then right example: |->>>
+                    scanUpOneThenRight(moves, combo, column, row, grid);
+                    AddTurnIfNotEmpty(validMoves, moves, edge);
+                }
 
 
-                //for loop for 1left then up example: |->>>
-                scanLeftOneThenUp(moves, combo, column, row, grid);
-                AddTurnIfNotEmpty(validMoves, moves, edge);
+                if (isEmptyUpOneAndOneLeft){
+                    //for loop for 1up then left example: |->>>
+                    scanUpOneThenLeft(moves, combo, column, row, grid);
+                    AddTurnIfNotEmpty(validMoves, moves, edge);
+                }
 
 
-                //for loop for 1left then down example: |->>>
-                scanLeftOneThenDown(moves, combo, column, row, grid);
-                AddTurnIfNotEmpty(validMoves, moves, edge);
+                if (isEmptyLeftOneAndOneUp){
+                    //for loop for 1left then up example: |->>>
+                    scanLeftOneThenUp(moves, combo, column, row, grid);
+                    AddTurnIfNotEmpty(validMoves, moves, edge);
+                }
+
+                if (isEmptyLeftOneAndOneDown){
+                    //for loop for 1left then down example: |->>>
+                    scanLeftOneThenDown(moves, combo, column, row, grid);
+                    AddTurnIfNotEmpty(validMoves, moves, edge);
+                }
 
 
-                //for loop for 1right then up example: |->>>
-                scanRightOneThenUp(moves, combo, column, row, grid);
-                AddTurnIfNotEmpty(validMoves, moves, edge);
+                if (isEmptyRightAndOneUp){
+                    //for loop for 1right then up example: |->>>
+                    scanRightOneThenUp(moves, combo, column, row, grid);
+                    AddTurnIfNotEmpty(validMoves, moves, edge);
+                }
 
 
-                //for loop for 1right then down example: |->>>
-                scanRightOneThenDown(moves, combo, column, row, grid);
-                AddTurnIfNotEmpty(validMoves, moves, edge);
+                if (isEmptyRightOneAndOneDown){
+                    //for loop for 1right then down example: |->>>
+                    scanRightOneThenDown(moves, combo, column, row, grid);
+                    AddTurnIfNotEmpty(validMoves, moves, edge);
+                }
 
 
-                //for loop for 1down then left example: |->>>
-                scanDownOneThenLeft(moves, combo, column, row, grid);
-                AddTurnIfNotEmpty(validMoves, moves, edge);
+                if (isEmptyDownOneAndOneLeft){
+                    //for loop for 1down then left example: |->>>
+                    scanDownOneThenLeft(moves, combo, column, row, grid);
+                    AddTurnIfNotEmpty(validMoves, moves, edge);
+                }
 
-
-                //for loop for 1down then right example: |->>>
-                scanDownOneThenRight(moves, combo, column, row, grid);
-                AddTurnIfNotEmpty(validMoves, moves, edge);
+                if (isEmptyDownOneAndOneRight){
+                    //for loop for 1down then right example: |->>>
+                    scanDownOneThenRight(moves, combo, column, row, grid);
+                    AddTurnIfNotEmpty(validMoves, moves, edge);
+                }
 
             }
         }
@@ -546,4 +577,3 @@ public record MoveValidator(Deck deck) {
         return toReturn;
     }
 }
-

@@ -44,6 +44,10 @@ public class StatisticsPresenterW {
         view.getxAxisTurnNo().setAutoRanging(false);
         view.getxAxisTurnNo2().setAutoRanging(false);
         view.getSeriesPointsPerTurnLastGameSessionComputer().setName("Computer " + Database.getInstance().getLastComputerMode());
+        view.getSeriesPointsPerTurnLastGameSessionComputer().getNode().getStyleClass().add("computer-label");
+        view.getSeriesBestScoreComputer().getNode().getStyleClass().addAll("computer-axis-line");
+        view.getSeriesPointsPerTurnLastGameSessionComputer().getNode().getStyleClass().addAll("computer-axis-line");
+        view.getSeriesAverageScoreComputer().getNode().getStyleClass().addAll("computer-axis-line");
     }
 
     private void addEventHandler(Stage stage) {

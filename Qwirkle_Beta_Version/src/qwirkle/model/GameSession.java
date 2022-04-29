@@ -4,8 +4,6 @@ import qwirkle.data.Database;
 import qwirkle.model.computer.Computer;
 
 import java.sql.*;
-import java.util.List;
-import java.util.Set;
 
 /**
  * @author : Seifeldin Ismail
@@ -89,7 +87,7 @@ public class GameSession {
     public boolean isGameOver() {
         if(getBag().getAmountOfTilesLeft() == 0 && (getActivePlayerSession().getPlayer().getDeck().getTilesInDeck().size() == 0))
             return true;
-        return playersHaveNoValidMoves() && getBag().getAmountOfTilesLeft() == 0;
+        return false;
     }
 
 
@@ -109,9 +107,15 @@ public class GameSession {
         }
     }
     //It checks if there is a single valid move left
-      public boolean playersHaveNoValidMoves() {
+      public boolean playerHaveNoValidMoves() {
         if (getBag().getAmountOfTilesLeft() == 0) {
-            return getPlayerSession().getPlayer().getMoveValidator().getAllValidMoves(getGrid()).isEmpty() && getComputerSession().getPlayer().getMoveValidator().getAllValidMoves(getGrid()).isEmpty();
+            return getPlayerSession().getPlayer().getMoveValidator().getAllValidMoves(getGrid()).isEmpty();
+        }
+        return false;
+    }
+    public boolean computerHasNoValidMoves() {
+        if (getBag().getAmountOfTilesLeft() == 0) {
+             return getComputerSession().getPlayer().getMoveValidator().getAllValidMoves(getGrid()).isEmpty();
         }
         return false;
     }
