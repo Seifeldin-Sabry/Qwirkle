@@ -57,6 +57,7 @@ public class GamePlayPresenter {
         if (tileFormat == null) {
             tileFormat = new DataFormat("MyTile");
         }
+        model.getBag().getTiles().clear();
         updateView();
         addEventHandler(stage);
         timerSet();
@@ -777,19 +778,22 @@ public class GamePlayPresenter {
     private void iterateTurns(Stage stage) {
         playedTiles.clear();
         exchangedTiles.clear();
-        KeyFrame kf1 = null;
-        KeyFrame kf2 = null;
-        if (!model.isGameOver() && !(model.computerHasNoValidMoves() || model.playerHaveNoValidMoves())) {
-            model.setNextPlayerSession();
-            updateView();
-            return;
-        }
-        if (!model.isGameOver() && model.computerHasNoValidMoves() && model.playerHaveNoValidMoves()) {
-            kf1 = new KeyFrame(Duration.seconds(2), e -> popupMessage(stage, "No more valid moves\nfor any of the players", 2));
-            kf2 = new KeyFrame(Duration.seconds(4.1), e -> {
-                timer.stop();
-                setGameOver(stage);
-            });
+        KeyFrame kf1 = new KeyFrame(Duration.ONE);
+        KeyFrame kf2 = new KeyFrame(Duration.ONE);
+        if (!model.isGameOver()) {
+
+            if (!(model.computerHasNoValidMoves() || model.playerHaveNoValidMoves())) {
+                model.setNextPlayerSession();
+                updateView();
+                return;
+            } else if (model.computerHasNoValidMoves() && model.playerHaveNoValidMoves()) {
+                kf1 = new KeyFrame(Duration.seconds(2), e -> popupMessage(stage, "No more valid moves\nfor any of the players", 2));
+                kf2 = new KeyFrame(Duration.seconds(4.1), e -> {
+                    timer.stop();
+                    setGameOver(stage);
+                });
+
+            }
         }
         if (model.isGameOver()) {
             kf1 = new KeyFrame(Duration.seconds(0), e -> {

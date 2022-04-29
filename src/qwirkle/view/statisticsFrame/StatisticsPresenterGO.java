@@ -33,7 +33,7 @@ public class StatisticsPresenterGO {
     }
 
     private void updateStyle() {
-        view.getxAxisGameNo().setUpperBound(view.getSeriesDurationPerGameSession().getData().size() - 1);
+        view.getxAxisGameNo().setUpperBound(view.getSeriesDurationPerGameSession().getData().size());
         view.getxAxisGameNo3().setUpperBound(view.getSeriesBestScorePlayer().getData().size());
         view.getxAxisGameNo2().setUpperBound(view.getSeriesAverageScorePlayer().getData().size());
         view.getxAxisTurnNo().setUpperBound(view.getSeriesDurationLastGameSessionPlayer().getData().size());
@@ -45,6 +45,10 @@ public class StatisticsPresenterGO {
         view.getxAxisTurnNo().setAutoRanging(false);
         view.getxAxisTurnNo2().setAutoRanging(false);
         view.getSeriesPointsPerTurnLastGameSessionComputer().setName("Computer " + Database.getInstance().getLastComputerMode());
+        view.getSeriesPointsPerTurnLastGameSessionComputer().getNode().getStyleClass().add("computer-label");
+        view.getSeriesBestScoreComputer().getNode().getStyleClass().addAll("computer-axis-line");
+        view.getSeriesPointsPerTurnLastGameSessionComputer().getNode().getStyleClass().addAll("computer-axis-line");
+        view.getSeriesAverageScoreComputer().getNode().getStyleClass().addAll("computer-axis-line");
     }
 
     private void addEventHandler() {
