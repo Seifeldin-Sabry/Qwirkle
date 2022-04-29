@@ -562,8 +562,6 @@ public class Database {
                           """;
             ptsmt = connection.prepareStatement(sql);
             rs = ptsmt.executeQuery();
-            Data xyData = new XYChart.Data<>(0, 0);
-            data.add(xyData);
             while(rs.next()){
                 data.add(new XYChart.Data<>(rs.getInt("game_id"), rs.getInt("points")));
             }
@@ -605,8 +603,6 @@ public class Database {
                           """;
             ptsmt = connection.prepareStatement(sql);
             rs = ptsmt.executeQuery();
-            Data xyData = new XYChart.Data<>(0, 0);
-            data.add(xyData);
             while(rs.next()){
                 data.add(new XYChart.Data<>(rs.getInt("game_id"), rs.getInt("points")));
             }
@@ -648,8 +644,6 @@ public class Database {
                           """;
             ptsmt = connection.prepareStatement(sql);
             rs = ptsmt.executeQuery();
-            Data xyData = new XYChart.Data<>(0, 0);
-            data.add(xyData);
             while(rs.next()){
                 data.add(new XYChart.Data<>(rs.getInt("game_id"), rs.getInt("points")));
             }
@@ -691,8 +685,6 @@ public class Database {
                           """;
             ptsmt = connection.prepareStatement(sql);
             rs = ptsmt.executeQuery();
-            Data xyData = new XYChart.Data<>(0, 0);
-            data.add(xyData);
             while(rs.next()){
                 data.add(new XYChart.Data<>(rs.getInt("game_id"), rs.getInt("points")));
             }
@@ -730,8 +722,6 @@ public class Database {
                           """;
             ptsmt = connection.prepareStatement(sql);
             rs = ptsmt.executeQuery();
-            Data xyData = new XYChart.Data<>(0, 0);
-            data.add(xyData);
             while(rs.next()){
                 data.add(new XYChart.Data<>(rs.getInt("game_id"), rs.getInt("duration")));
             }

@@ -44,6 +44,7 @@ public class StatisticsPresenterGO {
         view.getxAxisGameNo3().setAutoRanging(false);
         view.getxAxisTurnNo().setAutoRanging(false);
         view.getxAxisTurnNo2().setAutoRanging(false);
+        view.getSeriesPointsPerTurnLastGameSessionComputer().setName("Computer " + Database.getInstance().getLastComputerMode());
     }
 
     private void addEventHandler() {
