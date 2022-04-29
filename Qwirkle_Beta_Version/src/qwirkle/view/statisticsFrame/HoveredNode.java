@@ -34,4 +34,5 @@ class HoveredNode extends StackPane {
         label.setMinSize(Label.USE_PREF_SIZE, Label.USE_PREF_SIZE);
         return label;
     }
+
 }
