@@ -85,7 +85,7 @@ public class GameSession {
     }
 
     public boolean isGameOver() {
-        if(getBag().getAmountOfTilesLeft() == 0 && (getActivePlayerSession().getPlayer().getDeck().getTilesInDeck().size() == 0))
+        if (getBag().getAmountOfTilesLeft() == 0 && (getActivePlayerSession().getPlayer().getDeck().getTilesInDeck().size() == 0))
             return true;
         return false;
     }
