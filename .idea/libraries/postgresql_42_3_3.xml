@@ -1,8 +1,6 @@
 <component name="libraryTable">
   <library name="postgresql-42.3.3">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/Qwirkle_Beta_Version/lib/postgresql-42.3.3.jar!/" />
-    </CLASSES>
+    <CLASSES />
     <JAVADOC />
     <SOURCES />
   </library>
