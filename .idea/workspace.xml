@@ -1,12 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fdd80d70-d918-4a56-b8aa-7e348c030f8e" name="Changes" comment="edited file tree">
+    <list default="true" id="fdd80d70-d918-4a56-b8aa-7e348c030f8e" name="Changes" comment="fixed an issue where the ai would place an existing move">
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Qwirkle_Beta_Version/src/qwirkle/model/MoveValidator.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Qwirkle_Beta_Version/src/qwirkle/model/computer/Computer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Qwirkle_Beta_Version/src/qwirkle/model/computer/ComputerAI.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/Qwirkle_Beta_Version/src/qwirkle/model/computer/ComputerEasy.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Qwirkle_Beta_Version/src/qwirkle/model/Computer.java" beforeDir="false" afterPath="$PROJECT_DIR$/Qwirkle_Beta_Version/src/qwirkle/model/Computer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Qwirkle_Beta_Version/src/qwirkle/model/Grid.java" beforeDir="false" afterPath="$PROJECT_DIR$/Qwirkle_Beta_Version/src/qwirkle/model/Grid.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Qwirkle_Beta_Version/src/qwirkle/model/Turn.java" beforeDir="false" afterPath="$PROJECT_DIR$/Qwirkle_Beta_Version/src/qwirkle/model/Turn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Qwirkle_Beta_Version/src/qwirkle/model/Computer.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/Qwirkle_Beta_Version/src/qwirkle/model/GameSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/Qwirkle_Beta_Version/src/qwirkle/model/GameSession.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Qwirkle_Beta_Version/src/qwirkle/model/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/Qwirkle_Beta_Version/src/qwirkle/model/Player.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Qwirkle_Beta_Version/src/qwirkle/model/PlayerSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/Qwirkle_Beta_Version/src/qwirkle/model/PlayerSession.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Qwirkle_Beta_Version/src/qwirkle/model/QwirkleEngine.java" beforeDir="false" afterPath="$PROJECT_DIR$/Qwirkle_Beta_Version/src/qwirkle/model/computer/QwirkleEngineAI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/Qwirkle_Beta_Version/src/qwirkle/view/gamePlayFrame/GamePlayPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/Qwirkle_Beta_Version/src/qwirkle/view/gamePlayFrame/GamePlayPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Qwirkle_Beta_Version/src/qwirkle/view/newGameFrame/NewGamePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/Qwirkle_Beta_Version/src/qwirkle/view/newGameFrame/NewGamePresenter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -17,10 +25,16 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="Interface" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RESET_MODE" value="HARD" />
   </component>
@@ -32,14 +46,20 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "jdk.selected.JAVA_MODULE": "17",
-    "last_opened_file_path": "/home/seif/Documents/integration-project-qwirkle-mainBranch/Qwirkle Website"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;17&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/seif/Desktop&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;vcs.Git&quot;
+  },
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
+    ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/Qwirkle Website" />
@@ -55,11 +75,15 @@
       <recent name="$PROJECT_DIR$/JavaFunctionalCode" />
       <recent name="$PROJECT_DIR$/JavaFunctionalCode/src" />
     </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="qwirkle.view.popupFrame" />
+      <recent name="qwirkle.view.popFrame" />
+    </key>
   </component>
-  <component name="RunManager" selected="Application.Test">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="qwirkle.Main" />
-      <module name="JavaCodeIncompleteGUI" />
+      <module name="Qwirkle_Beta_Version" />
       <option name="VM_PARAMETERS" value=" --module-path &quot;$PROJECT_DIR$/../lib/javafx-sdk-17.0.2/lib&quot; --add-modules javafx.controls,javafx.fxml" />
       <extension name="coverage">
         <pattern>
@@ -104,7 +128,7 @@
       <module name="Qwirkle_Beta_Version" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="qwirkle.model.*" />
+          <option name="PATTERN" value="qwirkle.model.computer.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -133,11 +157,10 @@
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Test" />
         <item itemvalue="Application.Main" />
         <item itemvalue="Application.Tester" />
+        <item itemvalue="Application.Test" />
         <item itemvalue="Application.Runner" />
-        <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
   </component>
@@ -160,7 +183,8 @@
       <workItem from="1648380745024" duration="357000" />
       <workItem from="1649510925901" duration="446000" />
       <workItem from="1650120730932" duration="814000" />
-      <workItem from="1650623931981" duration="6643000" />
+      <workItem from="1650623931981" duration="33192000" />
+      <workItem from="1650814610843" duration="5555000" />
     </task>
     <task id="LOCAL-00001" summary="Added Java module">
       <created>1644572434802</created>
@@ -232,7 +256,35 @@
       <option name="project" value="LOCAL" />
       <updated>1650626279002</updated>
     </task>
-    <option name="localTasksCounter" value="11" />
+    <task id="LOCAL-00011" summary="tweaked some methods added a &quot;complete&quot; validmoves method">
+      <created>1650632104047</created>
+      <option name="number" value="00011" />
+      <option name="presentableId" value="LOCAL-00011" />
+      <option name="project" value="LOCAL" />
+      <updated>1650632104047</updated>
+    </task>
+    <task id="LOCAL-00012" summary="Added allvalid moves method. added to string to turn for testing">
+      <created>1650652695062</created>
+      <option name="number" value="00012" />
+      <option name="presentableId" value="LOCAL-00012" />
+      <option name="project" value="LOCAL" />
+      <updated>1650652695062</updated>
+    </task>
+    <task id="LOCAL-00013" summary="AI working">
+      <created>1650685699540</created>
+      <option name="number" value="00013" />
+      <option name="presentableId" value="LOCAL-00013" />
+      <option name="project" value="LOCAL" />
+      <updated>1650685699540</updated>
+    </task>
+    <task id="LOCAL-00014" summary="fixed an issue where the ai would place an existing move">
+      <created>1650797954673</created>
+      <option name="number" value="00014" />
+      <option name="presentableId" value="LOCAL-00014" />
+      <option name="project" value="LOCAL" />
+      <updated>1650797954673</updated>
+    </task>
+    <option name="localTasksCounter" value="15" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -294,6 +346,17 @@
     <MESSAGE value="Added Updated code" />
     <MESSAGE value="Added website" />
     <MESSAGE value="edited file tree" />
-    <option name="LAST_COMMIT_MESSAGE" value="edited file tree" />
+    <MESSAGE value="tweaked some methods added a &quot;complete&quot; validmoves method" />
+    <MESSAGE value="Added allvalid moves method. added to string to turn for testing" />
+    <MESSAGE value="AI working" />
+    <MESSAGE value="fixed an issue where the ai would place an existing move" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed an issue where the ai would place an existing move" />
+  </component>
+  <component name="XDebuggerManager">
+    <watches-manager>
+      <configuration name="Application">
+        <watch expression="((HashSet)((HashMap.Node)allMoves.entrySet().toArray()[0]).getValue()).toArray()[73]" custom="java.util.HashSet,java.util.HashMap.Node" />
+      </configuration>
+    </watches-manager>
   </component>
 </project>
