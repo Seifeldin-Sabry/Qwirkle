@@ -131,7 +131,25 @@ public class MoveValidator {
             toReturn.put(entry.getKey(), toAdd);
         }
         toReturn = removeEmptyTurns(toReturn);
+        toReturn = removeDuplicateTurns(toReturn);
+
+        System.out.println("valid moves: " + toReturn);
         return toReturn;
+    }
+
+    private HashMap<Move, Set<Turn>> removeDuplicateTurns(HashMap<Move, Set<Turn>> toReturn) {
+        HashMap<Move, Set<Turn>> toReturn2 = new HashMap<>();
+        for (Map.Entry<Move, Set<Turn>> entry : toReturn.entrySet()) {
+            Set<Turn> turns = entry.getValue();
+            Set<Turn> toAdd = new HashSet<>();
+            for (Turn turn : turns) {
+                if (!toAdd.contains(turn)) {
+                    toAdd.add(turn);
+                }
+            }
+            toReturn2.put(entry.getKey(), toAdd);
+        }
+        return toReturn2;
     }
 
     private HashMap<Move, Set<Turn>> removeEmptyTurns(HashMap<Move, Set<Turn>> validMoves) {

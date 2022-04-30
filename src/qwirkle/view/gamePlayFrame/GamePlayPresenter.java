@@ -244,6 +244,7 @@ public class GamePlayPresenter {
             }
             if (moves == null && model.getBag().getTiles().size() == 0) {
                 popupComputerPlayed(stage, "Computer has no move to play", "", 1.8);
+                System.out.println(computer.getDeck().getTilesInDeck());
                 iterateTurns(stage);
                 computerTurn.stop();
             }

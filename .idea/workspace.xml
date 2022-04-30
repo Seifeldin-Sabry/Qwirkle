@@ -1,8 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fdd80d70-d918-4a56-b8aa-7e348c030f8e" name="Changes" comment="changed the MoveValidator to only use ArrayLists for indexing, and no randomising of the elements">
+    <list default="true" id="fdd80d70-d918-4a56-b8aa-7e348c030f8e" name="Changes" comment="changed my module javafx command">
+      <change beforePath="$PROJECT_DIR$/.idea/Integration 1.2 - Qwirkle.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Integration 1.2 - Qwirkle.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/qwirkle/model/MoveValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/MoveValidator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/qwirkle/view/gamePlayFrame/GamePlayPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/gamePlayFrame/GamePlayPresenter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,24 +37,24 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;17&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/seif/integration-project-qwirkle/src&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Global Libraries&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "jdk.selected.JAVA_MODULE": "17",
+    "last_opened_file_path": "/home/seif/integration-project-qwirkle/src",
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "preferences.pluginManager"
   },
-  &quot;keyToStringList&quot;: {
-    &quot;DatabaseDriversLRU&quot;: [
-      &quot;postgresql&quot;
+  "keyToStringList": {
+    "DatabaseDriversLRU": [
+      "postgresql"
     ]
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/src" />
@@ -72,23 +75,7 @@
       <recent name="qwirkle.view.popFrame" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.Main">
-    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="ALTERNATIVE_JRE_PATH" value="17" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-      <option name="MAIN_CLASS_NAME" value="qwirkle.Main" />
-      <module name="Integration 1.2 - Qwirkle" />
-      <option name="VM_PARAMETERS" value=" --module-path &quot;$PROJECT_DIR$/../lib/javafx-sdk-17.0.2/lib&quot; --add-modules javafx.controls,javafx.fxml" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="qwirkle.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
+  <component name="RunManager" selected="Application.qwirkle.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="qwirkle.Main" />
       <module name="QirkleGameLogic" />
@@ -143,19 +130,35 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="qwirkle.Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="ALTERNATIVE_JRE_PATH" value="17" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
+      <option name="MAIN_CLASS_NAME" value="qwirkle.Main" />
+      <module name="Integration 1.2 - Qwirkle" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;$PROJECT_DIR$/../Documents/lib/javafx-sdk-17.0.2/lib&quot; --add-modules javafx.controls,javafx.media" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="qwirkle.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <list>
       <item itemvalue="Application.Test" />
-      <item itemvalue="Application.Main" />
+      <item itemvalue="Application.qwirkle.Main" />
       <item itemvalue="Application.Runner" />
       <item itemvalue="Application.Tester" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.Main" />
+        <item itemvalue="Application.qwirkle.Main" />
         <item itemvalue="Application.Tester" />
         <item itemvalue="Application.Runner" />
         <item itemvalue="Application.Test" />
-        <item itemvalue="Application.Main" />
+        <item itemvalue="Application.qwirkle.Main" />
       </list>
     </recent_temporary>
   </component>
@@ -180,7 +183,7 @@
       <workItem from="1650120730932" duration="814000" />
       <workItem from="1650623931981" duration="33192000" />
       <workItem from="1650814610843" duration="5555000" />
-      <workItem from="1651335745387" duration="326000" />
+      <workItem from="1651335745387" duration="726000" />
     </task>
     <task id="LOCAL-00001" summary="Added Java module">
       <created>1644572434802</created>
@@ -294,7 +297,28 @@
       <option name="project" value="LOCAL" />
       <updated>1651335895978</updated>
     </task>
-    <option name="localTasksCounter" value="17" />
+    <task id="LOCAL-00017" summary="Fixed bug where computer wouldnt get the best move in the first turn">
+      <created>1651336196361</created>
+      <option name="number" value="00017" />
+      <option name="presentableId" value="LOCAL-00017" />
+      <option name="project" value="LOCAL" />
+      <updated>1651336196361</updated>
+    </task>
+    <task id="LOCAL-00018" summary="Fixed bug where computer wouldnt get the best move in the first turn">
+      <created>1651336227534</created>
+      <option name="number" value="00018" />
+      <option name="presentableId" value="LOCAL-00018" />
+      <option name="project" value="LOCAL" />
+      <updated>1651336227534</updated>
+    </task>
+    <task id="LOCAL-00019" summary="changed my module javafx command">
+      <created>1651336258039</created>
+      <option name="number" value="00019" />
+      <option name="presentableId" value="LOCAL-00019" />
+      <option name="project" value="LOCAL" />
+      <updated>1651336258039</updated>
+    </task>
+    <option name="localTasksCounter" value="20" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -362,7 +386,9 @@
     <MESSAGE value="fixed an issue where the ai would place an existing move" />
     <MESSAGE value="updated .gitignore" />
     <MESSAGE value="changed the MoveValidator to only use ArrayLists for indexing, and no randomising of the elements" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed the MoveValidator to only use ArrayLists for indexing, and no randomising of the elements" />
+    <MESSAGE value="Fixed bug where computer wouldnt get the best move in the first turn" />
+    <MESSAGE value="changed my module javafx command" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed my module javafx command" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
