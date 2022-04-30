@@ -36,7 +36,7 @@ public class ComputerEasy extends Computer {
     }
 
     private Turn playFirstTurn() {
-        Set<Set<Tile>> tileCombos = getMoveValidator().getLargestCombinations();
+        Set<ArrayList<Tile>> tileCombos = getMoveValidator().getLargestCombinations();
         //never empty in first turn
         int randomCombo = randomTileChooser.nextInt(tileCombos.size());
         ArrayList<Tile> tileCombo = new ArrayList<>(tileCombos.stream().toList().get(randomCombo));
