@@ -12,7 +12,7 @@ public class MoveValidator {
     public HashMap<Move, Set<Turn>> getAllValidMoves(Grid grid) {
 
         HashMap<Move, Set<Turn>> validMoves = new HashMap<>();
-        List<List<Tile>> allCombinations = getAllPossibleCombinationAndPermutations();
+        List<ArrayList<Tile>> allCombinations = getAllPossibleCombinationAndPermutations();
         Set<Move> edges = grid.getAllOccupiedEdges();
 
         ArrayList<Move> moves = new ArrayList<>();
@@ -20,7 +20,7 @@ public class MoveValidator {
         for (Move edge : edges) {
             validMoves.computeIfAbsent(edge, k -> new HashSet<>());
             Move.Coordinate coordinate = edge.getCoordinate();
-            for (List<Tile> combo : allCombinations) {
+            for (ArrayList<Tile> combo : allCombinations) {
                 int column = coordinate.getColumn();
                 int row = coordinate.getRow();
 
@@ -129,6 +129,26 @@ public class MoveValidator {
                 }
             }
             toReturn.put(entry.getKey(), toAdd);
+        }
+        toReturn = removeEmptyTurns(toReturn);
+        return toReturn;
+    }
+
+    private HashMap<Move, Set<Turn>> removeEmptyTurns(HashMap<Move, Set<Turn>> validMoves) {
+        HashMap<Move, Set<Turn>> toReturn = new HashMap<>();
+        for (Map.Entry<Move, Set<Turn>> entry : validMoves.entrySet()) {
+            Move move = entry.getKey();
+            Set<Turn> turns = entry.getValue();
+            Set<Turn> toAdd = new HashSet<>();
+            if (turns.isEmpty()) {
+                continue;
+            }
+            for (Turn turn : turns) {
+                if (turn.size() >= 1) {
+                    toAdd.add(turn);
+                }
+            }
+            toReturn.put(move, toAdd);
         }
         return toReturn;
     }
@@ -467,12 +487,11 @@ public class MoveValidator {
         }
     }
 
-    private List<List<Tile>> getAllPossibleCombinationAndPermutations() {
-        Set<Set<Tile>> setOfCombinations = getLargestCombinations();
-        List<List<Tile>> allCombinations = new ArrayList<>();
-        for (Set<Tile> combo : setOfCombinations) {
-            List<Tile> tileCombo = new ArrayList<>(combo);
-            allCombinations.addAll(getAllPermutations(tileCombo));
+    private List<ArrayList<Tile>> getAllPossibleCombinationAndPermutations() {
+        Set<ArrayList<Tile>> setOfCombinations = getLargestCombinations();
+        List<ArrayList<Tile>> allCombinations = new ArrayList<>();
+        for (ArrayList<Tile> combo : setOfCombinations) {
+            allCombinations.addAll(getAllPermutations(combo));
         }
         return allCombinations;
     }
@@ -482,26 +501,25 @@ public class MoveValidator {
      * @return the largest combinations of tiles. this is used along with
      * <code>Method</code>> getAllCombinations and getAllPermutations to get all combos, and all orders of the combos
      */
-    public Set<Set<Tile>> getLargestCombinations() {
-        Set<Set<Tile>> allTileCombinations = new HashSet<>();
-        Set<Set<Tile>> toReturn = new HashSet<>();
+    public Set<ArrayList<Tile>> getLargestCombinations() {
+        Set<ArrayList<Tile>> allTileCombinations = new HashSet<>();
+        Set<ArrayList<Tile>> toReturn = new HashSet<>();
         List<Tile> tilesInDeck = deck.getTilesInDeck();
         for (Tile tile : tilesInDeck) {
-            Set<Tile> tileShapeCombination = new HashSet<>();
-            Set<Tile> tileColorCombination = new HashSet<>();
-
+            ArrayList<Tile> tileShapeCombination = new ArrayList<>();
+            ArrayList<Tile> tileColorCombination = new ArrayList<>();
+            tileColorCombination.add(tile);
+            tileShapeCombination.add(tile);
             for (Tile t : tilesInDeck) {
                 if (t.equals(tile)) {
                     continue;
                 }
-                if (t.isSameShape(tile) && !t.isSameColor(tile)) {
+                if (t.isSameShape(tile) && !t.isSameColor(tile) && !tileShapeCombination.contains(t)) {
                     tileShapeCombination.add(t);
-                    tileShapeCombination.add(tile);
                     continue;
                 }
-                if (!t.isSameShape(tile) && t.isSameColor(tile)) {
+                if (!t.isSameShape(tile) && t.isSameColor(tile) && !tileColorCombination.contains(t)) {
                     tileColorCombination.add(t);
-                    tileColorCombination.add(tile);
                 }
             }
             allTileCombinations.add(tileShapeCombination);
@@ -511,7 +529,7 @@ public class MoveValidator {
         //after getting the highest tile combo
         //we need to make lists out of every combo into smaller ones
         //that way we can get all the combos
-        for (Set<Tile> list : allTileCombinations) {
+        for (ArrayList<Tile> list : allTileCombinations) {
             toReturn.addAll(getAllCombinations(list));
         }
         toReturn.removeIf(x -> x.size() == 0);
@@ -526,20 +544,20 @@ public class MoveValidator {
      * @param list the list of tiles to get all the possible combinations of
      * @return a list of all the possible combinations of the given list of tiles
      */
-    private Set<Set<Tile>> getAllCombinations(Set<Tile> list) {
-        Set<Set<Tile>> toReturn = new HashSet<>();
+    private Set<ArrayList<Tile>> getAllCombinations(ArrayList<Tile> list) {
+        Set<ArrayList<Tile>> toReturn = new HashSet<>();
         if (list.isEmpty()) {
-            toReturn.add(new HashSet<>());
+            toReturn.add(new ArrayList<>());
             return toReturn;
         }
         ArrayList<Tile> listCopy = new ArrayList<>(list);
         Tile head = listCopy.get(0);
-        Set<Tile> rest = new HashSet<>(listCopy.subList(1, listCopy.size()));
+        ArrayList<Tile> rest = new ArrayList<>(listCopy.subList(1, listCopy.size()));
 
-        Set<Set<Tile>> combosWithoutFirst = getAllCombinations(rest);
+        Set<ArrayList<Tile>> combosWithoutFirst = getAllCombinations(rest);
 
-        for (Set<Tile> set : combosWithoutFirst) {
-            Set<Tile> comboWithFirst = new HashSet<>();
+        for (ArrayList<Tile> set : combosWithoutFirst) {
+            ArrayList<Tile> comboWithFirst = new ArrayList<>();
             comboWithFirst.add(head);
             comboWithFirst.addAll(set);
             toReturn.add(comboWithFirst);
@@ -556,19 +574,19 @@ public class MoveValidator {
      * @return a list of all the possible orders of the given list of tiles
      */
     @SuppressWarnings("SuspiciousListRemoveInLoop")
-    public List<List<Tile>> getAllPermutations(List<Tile> list) {
-        List<List<Tile>> toReturn = new ArrayList<>();
+    public List<ArrayList<Tile>> getAllPermutations(ArrayList<Tile> list) {
+        List<ArrayList<Tile>> toReturn = new ArrayList<>();
         if (list.size() == 1) {
             toReturn.add(list);
             return toReturn;
         }
         for (int i = 0; i < list.size(); i++) {
             Tile currentTile = list.get(i);
-            List<Tile> remainingTiles = new ArrayList<>(list);
+            ArrayList<Tile> remainingTiles = new ArrayList<>(list);
             remainingTiles.remove(i);
-            List<List<Tile>> permutations = getAllPermutations(remainingTiles);
-            for (List<Tile> permutation : permutations) {
-                List<Tile> newList = new ArrayList<>();
+            List<ArrayList<Tile>> permutations = getAllPermutations(remainingTiles);
+            for (ArrayList<Tile> permutation : permutations) {
+                ArrayList<Tile> newList = new ArrayList<>();
                 newList.add(currentTile);
                 newList.addAll(permutation);
                 toReturn.add(newList);

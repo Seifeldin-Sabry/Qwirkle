@@ -1,111 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fdd80d70-d918-4a56-b8aa-7e348c030f8e" name="Changes" comment="updated .gitignore">
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/Qwirkle_Beta_Version.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/lib/postgresql-42.3.3.jar" beforeDir="false" afterPath="$PROJECT_DIR$/lib/postgresql-42.3.3.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/icons/blue_circle.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/icons/blue_circle.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/icons/blue_clover.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/icons/blue_clover.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/icons/blue_diamond.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/icons/blue_diamond.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/icons/blue_eight_points_star.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/icons/blue_eight_points_star.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/icons/blue_four_points_star.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/icons/blue_four_points_star.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/icons/blue_square.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/icons/blue_square.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/icons/green_circle.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/icons/green_circle.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/icons/green_clover.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/icons/green_clover.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/icons/green_diamond.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/icons/green_diamond.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/icons/green_eight_points_star.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/icons/green_eight_points_star.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/icons/green_four_points_star.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/icons/green_four_points_star.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/icons/green_square.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/icons/green_square.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/icons/orange_circle.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/icons/orange_circle.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/icons/orange_clover.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/icons/orange_clover.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/icons/orange_diamond.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/icons/orange_diamond.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/icons/orange_eight_points_star.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/icons/orange_eight_points_star.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/icons/orange_four_points_star.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/icons/orange_four_points_star.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/icons/orange_square.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/icons/orange_square.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/icons/purple_circle.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/icons/purple_circle.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/icons/purple_clover.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/icons/purple_clover.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/icons/purple_diamond.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/icons/purple_diamond.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/icons/purple_eight_points_star.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/icons/purple_eight_points_star.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/icons/purple_four_points_star.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/icons/purple_four_points_star.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/icons/purple_square.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/icons/purple_square.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/icons/red_circle.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/icons/red_circle.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/icons/red_clover.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/icons/red_clover.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/icons/red_diamond.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/icons/red_diamond.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/icons/red_eight_points_star.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/icons/red_eight_points_star.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/icons/red_four_points_star.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/icons/red_four_points_star.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/icons/red_square.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/icons/red_square.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/icons/yellow_circle.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/icons/yellow_circle.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/icons/yellow_clover.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/icons/yellow_clover.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/icons/yellow_diamond.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/icons/yellow_diamond.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/icons/yellow_eight_points_star.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/icons/yellow_eight_points_star.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/icons/yellow_four_points_star.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/icons/yellow_four_points_star.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/icons/yellow_square.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/icons/yellow_square.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/images/empty.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/images/empty.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/images/empty_bag_min.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/images/empty_bag_min.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/images/full_bag_min.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/images/full_bag_min.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/images/gameover.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/images/gameover.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/images/gameover_min.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/images/gameover_min.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/images/graphs.jpg" beforeDir="false" afterPath="$PROJECT_DIR$/resources/images/graphs.jpg" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/images/graphs1.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/images/graphs1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/images/graphs1_op6.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/images/graphs1_op6.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/images/graphs2.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/images/graphs2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/images/graphs2_op6.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/images/graphs2_op6.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/images/graphs3.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/images/graphs3.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/images/graphs_min.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/images/graphs_min.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/images/hbvb2.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/images/hbvb2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/images/hbvb3_1.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/images/hbvb3_1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/images/hbvb3_2.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/images/hbvb3_2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/images/hbvb4_1.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/images/hbvb4_1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/images/hourglass.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/images/hourglass.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/images/logoMAX.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/images/logoMAX.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/images/placed_tiles_min.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/images/placed_tiles_min.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/images/postgresql.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/images/postgresql.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/images/qwirkle_bag_no_label_min.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/images/qwirkle_bag_no_label_min.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/images/qwirkle_monogram.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/images/qwirkle_monogram.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/images/tiles3D_line_op1.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/images/tiles3D_line_op1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/images/tiles3D_line_op6.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/images/tiles3D_line_op6.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/images/tiles3D_min.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/images/tiles3D_min.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/images/vb1_1.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/images/vb1_1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/images/vb1_2.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/images/vb1_2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/images/vbox4_1_2.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/images/vbox4_1_2.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/images/vbox4_2_1.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/images/vbox4_2_1.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/resources/style/style.css" beforeDir="false" afterPath="$PROJECT_DIR$/resources/style/style.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/src/qwirkle/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/src/qwirkle/data/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/data/Database.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/src/qwirkle/model/Bag.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/Bag.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/src/qwirkle/model/Deck.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/Deck.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/src/qwirkle/model/GameSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/GameSession.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/src/qwirkle/model/Grid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/Grid.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/src/qwirkle/model/Move.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/Move.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/src/qwirkle/model/MoveValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/MoveValidator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/src/qwirkle/model/Player.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/Player.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/src/qwirkle/model/PlayerSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/PlayerSession.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/src/qwirkle/model/Tile.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/Tile.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/src/qwirkle/model/Turn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/Turn.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/src/qwirkle/model/computer/Computer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/computer/Computer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/src/qwirkle/model/computer/ComputerAI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/computer/ComputerAI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/src/qwirkle/model/computer/ComputerEasy.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/computer/ComputerEasy.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/src/qwirkle/model/computer/QwirkleEngineAI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/computer/QwirkleEngineAI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/src/qwirkle/view/gamePlayFrame/GamePlayPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/gamePlayFrame/GamePlayPresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/src/qwirkle/view/gamePlayFrame/GamePlayView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/gamePlayFrame/GamePlayView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/src/qwirkle/view/gamePlayFrame/TileNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/gamePlayFrame/TileNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/src/qwirkle/view/introFrame/IntroView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/introFrame/IntroView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/src/qwirkle/view/loginFrame/DBLLoginPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/loginFrame/DBLLoginPresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/src/qwirkle/view/loginFrame/DBLoginView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/loginFrame/DBLoginView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/src/qwirkle/view/newGameFrame/NewGamePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/newGameFrame/NewGamePresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/src/qwirkle/view/newGameFrame/NewGameView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/newGameFrame/NewGameView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/src/qwirkle/view/popupFrame/PopupPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/popupFrame/PopupPresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/src/qwirkle/view/popupFrame/PopupView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/popupFrame/PopupView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/src/qwirkle/view/rulesFrame/RulesPresenterGP.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/rulesFrame/RulesPresenterGP.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/src/qwirkle/view/rulesFrame/RulesPresenterNG.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/rulesFrame/RulesPresenterNG.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/src/qwirkle/view/rulesFrame/RulesPresenterW.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/rulesFrame/RulesPresenterW.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/src/qwirkle/view/rulesFrame/RulesView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/rulesFrame/RulesView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/src/qwirkle/view/statisticsFrame/HoveredNode.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/statisticsFrame/HoveredNode.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/src/qwirkle/view/statisticsFrame/StatisticsPresenterGO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/statisticsFrame/StatisticsPresenterGO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/src/qwirkle/view/statisticsFrame/StatisticsPresenterW.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/statisticsFrame/StatisticsPresenterW.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/src/qwirkle/view/statisticsFrame/StatisticsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/statisticsFrame/StatisticsView.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/src/qwirkle/view/welcomeFrame/WelcomePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/welcomeFrame/WelcomePresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/QwirkleBetaVersion/src/qwirkle/view/welcomeFrame/WelcomeView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/welcomeFrame/WelcomeView.java" afterDir="false" />
+    <list default="true" id="fdd80d70-d918-4a56-b8aa-7e348c030f8e" name="Changes" comment="changed the MoveValidator to only use ArrayLists for indexing, and no randomising of the elements">
+      <change beforePath="$PROJECT_DIR$/src/qwirkle/model/GameSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/GameSession.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/qwirkle/model/MoveValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/MoveValidator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/qwirkle/view/gamePlayFrame/GamePlayPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/gamePlayFrame/GamePlayPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/qwirkle/view/statisticsFrame/StatisticsPresenterGO.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/statisticsFrame/StatisticsPresenterGO.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -137,28 +37,31 @@
   <component name="ProjectViewState">
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "jdk.selected.JAVA_MODULE": "17",
-    "last_opened_file_path": "/home/seif/Documents/integration-project-qwirkle-mainBranch",
-    "settings.editor.selected.configurable": "vcs.Git"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;17&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/seif/integration-project-qwirkle/src&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Global Libraries&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "postgresql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/src" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/Qwirkle Website" />
       <recent name="$PROJECT_DIR$/Qwirkle_Beta_Version" />
       <recent name="$PROJECT_DIR$/Qwirkle_Beta_Version/src" />
-      <recent name="$PROJECT_DIR$/Qwirkle/src/qwirkle" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/Qwirkle Website/CSS" />
@@ -451,7 +354,8 @@
     <MESSAGE value="AI working" />
     <MESSAGE value="fixed an issue where the ai would place an existing move" />
     <MESSAGE value="updated .gitignore" />
-    <option name="LAST_COMMIT_MESSAGE" value="updated .gitignore" />
+    <MESSAGE value="changed the MoveValidator to only use ArrayLists for indexing, and no randomising of the elements" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed the MoveValidator to only use ArrayLists for indexing, and no randomising of the elements" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
