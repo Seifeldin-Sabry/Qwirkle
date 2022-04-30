@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fdd80d70-d918-4a56-b8aa-7e348c030f8e" name="Changes" comment="changed my module javafx command">
-      <change beforePath="$PROJECT_DIR$/.idea/Integration 1.2 - Qwirkle.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Integration 1.2 - Qwirkle.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    <list default="true" id="fdd80d70-d918-4a56-b8aa-7e348c030f8e" name="Changes" comment="fixed an issue where some turns would be duplicated">
       <change beforePath="$PROJECT_DIR$/src/qwirkle/model/MoveValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/MoveValidator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/qwirkle/view/gamePlayFrame/GamePlayPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/gamePlayFrame/GamePlayPresenter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -40,7 +37,6 @@
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
     "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
     "jdk.selected.JAVA_MODULE": "17",
     "last_opened_file_path": "/home/seif/integration-project-qwirkle/src",
@@ -183,7 +179,7 @@
       <workItem from="1650120730932" duration="814000" />
       <workItem from="1650623931981" duration="33192000" />
       <workItem from="1650814610843" duration="5555000" />
-      <workItem from="1651335745387" duration="726000" />
+      <workItem from="1651335745387" duration="1808000" />
     </task>
     <task id="LOCAL-00001" summary="Added Java module">
       <created>1644572434802</created>
@@ -318,7 +314,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651336258039</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="fixed an issue where some turns would be duplicated">
+      <created>1651336880899</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1651336880899</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -388,7 +391,8 @@
     <MESSAGE value="changed the MoveValidator to only use ArrayLists for indexing, and no randomising of the elements" />
     <MESSAGE value="Fixed bug where computer wouldnt get the best move in the first turn" />
     <MESSAGE value="changed my module javafx command" />
-    <option name="LAST_COMMIT_MESSAGE" value="changed my module javafx command" />
+    <MESSAGE value="fixed an issue where some turns would be duplicated" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed an issue where some turns would be duplicated" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

@@ -526,8 +526,12 @@ public class MoveValidator {
         for (Tile tile : tilesInDeck) {
             ArrayList<Tile> tileShapeCombination = new ArrayList<>();
             ArrayList<Tile> tileColorCombination = new ArrayList<>();
-            tileColorCombination.add(tile);
-            tileShapeCombination.add(tile);
+            if(!tileColorCombination.contains(tile)){
+                tileColorCombination.add(tile);
+            }
+            if(!tileShapeCombination.contains(tile)){
+                tileShapeCombination.add(tile);
+            }
             for (Tile t : tilesInDeck) {
                 if (t.equals(tile)) {
                     continue;
