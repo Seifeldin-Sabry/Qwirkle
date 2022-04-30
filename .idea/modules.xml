@@ -3,8 +3,6 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/Integration 1.2 - Qwirkle.iml" filepath="$PROJECT_DIR$/.idea/Integration 1.2 - Qwirkle.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Qwirkle Website/Qwirkle Website.iml" filepath="$PROJECT_DIR$/Qwirkle Website/Qwirkle Website.iml" />
-      <module fileurl="file://$PROJECT_DIR$/Qwirkle_Beta_Version/Qwirkle_Beta_Version.iml" filepath="$PROJECT_DIR$/Qwirkle_Beta_Version/Qwirkle_Beta_Version.iml" />
     </modules>
   </component>
 </project>

@@ -41,21 +41,25 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
     }
 
     private Turn makeFirstTurn() {
-        Set<Set<Tile>> combos = getMoveValidator().getLargestCombinations();
-        Iterator<Set<Tile>> iterator = combos.iterator();
-        Set<Tile> selectedCombo = null;
+        Set<ArrayList<Tile>> combos = getMoveValidator().getLargestCombinations();
+        Iterator<ArrayList<Tile>> iterator = combos.iterator();
+        ArrayList<Tile> selectedCombo = null;
         while(iterator.hasNext()) {
-            Set<Tile> combo = iterator.next();
+            ArrayList<Tile> combo = iterator.next();
             //if(combo.size() == 5 || combo.size() < 3)
-            if(combo.size() == 5){
-                continue;
-            }
             if (combo.size() == 6) {
                 selectedCombo = combo;
                 break;
             }
-            selectedCombo = combo;
+            if ( selectedCombo == null || selectedCombo.isEmpty() ) {
+                selectedCombo = combo;
+            }
+
+            if (combo.size() >= selectedCombo.size()) {
+                selectedCombo = combo;
+            }
         }
+        assert selectedCombo != null;
         return firstTurnInRandomDirection(new ArrayList<>(selectedCombo));
     }
 
