@@ -4,6 +4,7 @@ import qwirkle.data.Database;
 import qwirkle.model.computer.Computer;
 
 import java.sql.*;
+import java.util.Set;
 
 /**
  * @author : Seifeldin Ismail
@@ -69,7 +70,6 @@ public class GameSession {
 
     public void setNextPlayerSession() {
         getActivePlayerSession().getPlayer().getDeck().refill(getBag());
-        getActivePlayerSession().getLastTurn().endTurn(getGrid());
         if (getActivePlayerSession().equals(playerHumanSession)) {
             playerComputerSession.setActive(true);
             playerHumanSession.setActive(false);
@@ -85,9 +85,7 @@ public class GameSession {
     }
 
     public boolean isGameOver() {
-        if (getBag().getAmountOfTilesLeft() == 0 && (getActivePlayerSession().getPlayer().getDeck().getTilesInDeck().size() == 0))
-            return true;
-        return false;
+        return getBag().getAmountOfTilesLeft() == 0 && getActivePlayerSession().getPlayer().getDeck().getTilesInDeck().size() == 0;
     }
 
 
@@ -106,16 +104,25 @@ public class GameSession {
             getComputerSession().getLastTurn().setPoints(computerPoints + 6);
         }
     }
+
     //It checks if there is a single valid move left
-      public boolean playerHaveNoValidMoves() {
+    public boolean hasNoMoreMoves(PlayerSession playerSession) {
         if (getBag().getAmountOfTilesLeft() == 0) {
-            return getPlayerSession().getPlayer().getMoveValidator().getAllValidMoves(getGrid()).isEmpty();
-        }
-        return false;
-    }
-    public boolean computerHasNoValidMoves() {
-        if (getBag().getAmountOfTilesLeft() == 0) {
-             return getComputerSession().getPlayer().getMoveValidator().getAllValidMoves(getGrid()).isEmpty();
+            Set<Move> allEdges = getGrid().getAllEdges();
+            for (Move move : allEdges) {
+                for (int side = 0; side < move.getCoordinate().getAdjacentCoords().length; side++) {
+                    final Move.Coordinate adjacentCoord = move.getCoordinate().getAdjacentCoords()[side];
+                    if (getGrid().isEmpty(adjacentCoord.getRow(), adjacentCoord.getColumn())) {
+                        for (Tile t : playerSession.getPlayer().getDeck().getTilesInDeck()) {
+                            Move possibleMove = new Move(t, adjacentCoord);
+                            if (getGrid().isValidMove(possibleMove)) {
+                                return false;
+                            }
+                        }
+                    }
+                }
+            }
+            return true;
         }
         return false;
     }
