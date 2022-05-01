@@ -246,7 +246,7 @@ public class GamePlayPresenter {
                 computerTurn.stop();
             }
             if (moves == null && model.getBag().getTiles().size() == 0) {
-                popupComputerPlayed(stage, "Computer has no move to play", "", 1.8);
+                popupComputerPlayed(stage, "Computer has no moves to play", "", 1.8);
                 iterateTurns(stage);
                 computerTurn.stop();
             }
@@ -265,7 +265,7 @@ public class GamePlayPresenter {
             placeTiles(playedTiles);
             iterateTurns(stage);
             int points = model.getComputerSession().getLastTurn().getPoints();
-            if (!model.isGameOver() && model.getComputerSession().getLastTurn().getPoints() > 0) {
+            if (model.getComputerSession().getLastTurn().getPoints() > 0) {
                 String pointsLabel;
                 if (model.getComputerSession().getLastTurn().getPoints() == 1) {
                     pointsLabel = " point";
@@ -362,14 +362,19 @@ public class GamePlayPresenter {
         }
         Database.getInstance().save(model);
         KeyFrame keyFrame1 = new KeyFrame(Duration.seconds(0));
+        double duration = 0;
         if (model.isGameOver()) {
             if (model.getPlayerSession().isActive()) {
                 keyFrame1 = new KeyFrame(Duration.seconds(1.2), e -> popupMessage(stage, "You got 6 extra points\n   for finishing first!", 1.8));
             } else if (model.getComputerSession().isActive()) {
-                keyFrame1 = new KeyFrame(Duration.seconds(1.2), e -> popupMessage(stage, "Computer got 6 bonus points\n   for finishing first!", 1.8));
+                keyFrame1 = new KeyFrame(Duration.seconds(1.2), e -> popupMessage(stage, "Computer got 6 bonus points\n      for finishing first!", 1.8));
             }
+            duration = 3.2;
         }
-        KeyFrame keyFrame2 = new KeyFrame(Duration.seconds(3.2), e -> {
+        if (!model.isGameOver()) {
+            duration = 2;
+        }
+        KeyFrame keyFrame2 = new KeyFrame(Duration.seconds(duration), e -> {
             view.getVb2().getChildren().clear();
             view.getActiveDeck().getChildren().clear();
             view.getVb2().getChildren().addAll(view.getHbScore(), view.getVBox());
@@ -378,6 +383,7 @@ public class GamePlayPresenter {
             } else {
                 view.getLabel().setText("You won!");
             }
+            zoomIn(view.getLabel(), 0, 500);
             zoomIn(view.getGameOverImage(), 0, 500);
             cancelButtons();
             view.makeTransparent();
@@ -801,7 +807,7 @@ public class GamePlayPresenter {
     private void iterateTurns(Stage stage) {
         playedTiles.clear();
         exchangedTiles.clear();
-//        if (model.getActivePlayerSession().getTurnsPlayed().size() > 2) {
+//        if (model.getActivePlayerSession().getTurnsPlayed().size() > 1) {
 //            model.getBag().getTiles().clear();
 //            updateView();
 //        }
@@ -810,8 +816,8 @@ public class GamePlayPresenter {
         KeyFrame kf2;
         if (!model.isGameOver()) {
             if (model.hasNoMoreMoves(model.getPlayerSession()) && model.hasNoMoreMoves(model.getComputerSession())) {
-                kf1 = new KeyFrame(Duration.seconds(1.5), e -> popupMessage(stage, "No more valid moves\nfor any of the players", 2));
-                kf2 = new KeyFrame(Duration.seconds(2.6), e -> {
+                kf1 = new KeyFrame(Duration.seconds(2), e -> popupMessage(stage, "No more valid moves\nfor any of the players", 2));
+                kf2 = new KeyFrame(Duration.seconds(2.2), e -> {
                     setGameOver(stage);
                 });
                 iterateTurnsTM = new Timeline(kf1, kf2);
@@ -822,13 +828,13 @@ public class GamePlayPresenter {
             updateView();
             if (model.getPlayerSession().isActive() && !model.hasNoMoreMoves(model.getComputerSession())) {
                 if (model.hasNoMoreMoves(model.getPlayerSession())) {
-                    kf1 = new KeyFrame(Duration.seconds(1.6), e -> {
-                        popupMessage(stage, "You have no possible\n   moves to play", 1.5);
+                    kf1 = new KeyFrame(Duration.seconds(2), e -> {
+                        popupMessage(stage, "You have no possible\n     moves to play", 2);
                     });
-                    kf2 = new KeyFrame(Duration.seconds(3.6), e -> {
+                    kf2 = new KeyFrame(Duration.seconds(4.2), e -> {
                         model.getActivePlayerSession().getLastTurn().endTurn(model.getGrid());
-                            model.setNextPlayerSession();
-                            playComputerMove(stage);
+                        model.setNextPlayerSession();
+                        playComputerMove(stage);
                     });
                     iterateTurnsTM = new Timeline(kf1, kf2);
                     iterateTurnsTM.play();

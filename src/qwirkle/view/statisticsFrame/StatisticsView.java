@@ -219,7 +219,7 @@ public class StatisticsView extends BorderPane {
 
 //        tabPane.getTabs().addAll(durationPerTurnTabLastGameSession, pointPerTurnTabLastGameSession, tileByColorTab, tileByShapeTab, durationPerSessionTab, averageScorePerSessionTab);
         tabPane1.getTabs().addAll(pointPerTurnLastGameSessionTab, durationPerTurnLastGameSessionTab);
-        tabPane1.getSelectionModel().select(durationPerTurnLastGameSessionTab);
+        tabPane1.getSelectionModel().select(pointPerTurnLastGameSessionTab);
         tabPane2.getTabs().addAll(bestScorePerSessionTab, durationPerSessionTab, averageScorePerSessionTab);
         tabPane2.getSelectionModel().select(bestScorePerSessionTab);
         lastGameButton = new Button("Last Game");

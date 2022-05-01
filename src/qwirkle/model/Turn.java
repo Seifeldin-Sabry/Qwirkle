@@ -299,7 +299,6 @@ public class Turn implements List<Move>{
             e.printStackTrace();
             System.out.println("Error while saving to int_turn");
         }
-//        System.out.println("Saved turnNo " +turn_no );
     }
 
     @Override

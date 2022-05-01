@@ -25,8 +25,6 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
      * @return the best turn respective of the level of difficulty, null if no turn can be made
      */
     public Turn makeTurn(int turnNo) {
-        System.out.println("Making turn");
-        System.out.println("Deck: "+getDeck().getTilesInDeck());
         boolean isFirstTurn = getBoard().getUsedSpaces().size() == 0;
         if (isFirstTurn){
             return makeFirstTurn();
@@ -34,17 +32,14 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
         HashMap<Move, Set<Turn>> allMoves = getMoveValidator().getAllValidMoves(getBoard());
         allMoves = clearAllEmptyTurns(allMoves);
         if (thereAreNoMoves(allMoves)) {
-            System.out.println("triggering trade 1");
             trade();
             return null;
         }
-        System.out.println("allMoves: "+allMoves);
         if (turnNo > 5 && getBag().getTiles().size() > 0) {
             allMoves = removeAllTurnsThatCanMakeOpponentQwirkle(allMoves);
             allMoves = removeAllTurnsThatContainLessThanScoreSix(allMoves);
         }
         if (thereAreNoMoves(allMoves)) {
-            System.out.println("triggering trade 2");
             trade();
             return null;
         }
@@ -251,7 +246,6 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
                 }
             }
         }
-        System.out.println(toReturn);
         return toReturn;
     }
 
@@ -327,7 +321,6 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
         if (sameColorCount.values().stream().allMatch(i -> i > 1)
                 && sameShapeCount.values().stream().allMatch(i -> i > 1)
                 && sameTileCount.values().stream().allMatch(i -> i > 1)) {
-            System.out.println("trade same tiles");
             ArrayList<Tile> tiles =
                     sameTileCount.entrySet()
                             .stream()

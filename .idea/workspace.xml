@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fdd80d70-d918-4a56-b8aa-7e348c030f8e" name="Changes" comment="Statistics now properly show the correct first y value">
+    <list default="true" id="fdd80d70-d918-4a56-b8aa-7e348c030f8e" name="Changes" comment="Database returns 50 sessions when all sessions need to be returned for statistics. &#10;Changed the labels at statistics view to correspond to the 50 games shown&#10;Turn includes Seif's fix of miscalculation of score when the computer was making a qwirkle with extra adjacent sets">
       <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/git_toolbox_prj.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/libraries/postgresql_42_3_3__2_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/qwirkle/data/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/data/Database.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/qwirkle/model/MoveValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/MoveValidator.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/qwirkle/model/Turn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/Turn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/qwirkle/model/computer/ComputerAI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/computer/ComputerAI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/qwirkle/model/computer/ComputerEasy.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/qwirkle/view/gamePlayFrame/GamePlayPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/gamePlayFrame/GamePlayPresenter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/qwirkle/view/statisticsFrame/StatisticsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/statisticsFrame/StatisticsView.java" afterDir="false" />
@@ -196,7 +197,8 @@
       <workItem from="1651053777290" duration="32701000" />
       <workItem from="1651160593478" duration="26851000" />
       <workItem from="1651214282622" duration="1683000" />
-      <workItem from="1651341137585" duration="17843000" />
+      <workItem from="1651341137585" duration="19298000" />
+      <workItem from="1651432313029" duration="5546000" />
     </task>
     <task id="LOCAL-00001" summary="Added Java module">
       <created>1644572434802</created>
@@ -345,7 +347,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651406064685</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="Database returns 50 sessions when all sessions need to be returned for statistics. &#10;Changed the labels at statistics view to correspond to the 50 games shown&#10;Turn includes Seif's fix of miscalculation of score when the computer was making a qwirkle with extra adjacent sets">
+      <created>1651418504681</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1651418504681</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -417,7 +426,8 @@
     <MESSAGE value="statistics presenter update" />
     <MESSAGE value="Applied Seif's changes in model. GamePresenter is set to reset the bag at the third move for testing the gameOver conditions. (comment/delete lines 804-807 in the GamePlayPresenter if you don't need to test it)&#10;Timers for events changed. Score displayed has been corrected. The bonus 6 points when finished first are also displayed correctly. IterateTurns method has new changes." />
     <MESSAGE value="Statistics now properly show the correct first y value" />
-    <option name="LAST_COMMIT_MESSAGE" value="Statistics now properly show the correct first y value" />
+    <MESSAGE value="Database returns 50 sessions when all sessions need to be returned for statistics. &#10;Changed the labels at statistics view to correspond to the 50 games shown&#10;Turn includes Seif's fix of miscalculation of score when the computer was making a qwirkle with extra adjacent sets" />
+    <option name="LAST_COMMIT_MESSAGE" value="Database returns 50 sessions when all sessions need to be returned for statistics. &#10;Changed the labels at statistics view to correspond to the 50 games shown&#10;Turn includes Seif's fix of miscalculation of score when the computer was making a qwirkle with extra adjacent sets" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
