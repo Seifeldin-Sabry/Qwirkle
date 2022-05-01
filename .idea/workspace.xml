@@ -1,21 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fdd80d70-d918-4a56-b8aa-7e348c030f8e" name="Changes" comment="statistics presenter update">
+    <list default="true" id="fdd80d70-d918-4a56-b8aa-7e348c030f8e" name="Changes" comment="Applied Seif's changes in model. GamePresenter is set to reset the bag at the third move for testing the gameOver conditions. (comment/delete lines 804-807 in the GamePlayPresenter if you don't need to test it)&#10;Timers for events changed. Score displayed has been corrected. The bonus 6 points when finished first are also displayed correctly. IterateTurns method has new changes.">
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/git_toolbox_prj.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/libraries/postgresql_42_3_3__2_.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Integration 1.2 - Qwirkle.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Integration 1.2 - Qwirkle.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/images/gameover_min.png" beforeDir="false" afterPath="$PROJECT_DIR$/resources/images/gameover_min.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/qwirkle/model/Deck.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/Deck.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/qwirkle/model/Grid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/Grid.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/qwirkle/model/MoveValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/MoveValidator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/qwirkle/model/PlayerSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/PlayerSession.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/qwirkle/model/computer/Computer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/computer/Computer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/qwirkle/model/computer/ComputerAI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/computer/ComputerAI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/qwirkle/model/computer/ComputerEasy.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/qwirkle/model/computer/QwirkleEngineAI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/computer/QwirkleEngineAI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/qwirkle/view/gamePlayFrame/GamePlayPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/gamePlayFrame/GamePlayPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/qwirkle/view/statisticsFrame/StatisticsPresenterW.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/statisticsFrame/StatisticsPresenterW.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -201,7 +193,7 @@
       <workItem from="1651053777290" duration="32701000" />
       <workItem from="1651160593478" duration="26851000" />
       <workItem from="1651214282622" duration="1683000" />
-      <workItem from="1651341137585" duration="8829000" />
+      <workItem from="1651341137585" duration="9929000" />
     </task>
     <task id="LOCAL-00001" summary="Added Java module">
       <created>1644572434802</created>
@@ -336,7 +328,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651328194345</updated>
     </task>
-    <option name="localTasksCounter" value="20" />
+    <task id="LOCAL-00020" summary="Applied Seif's changes in model. GamePresenter is set to reset the bag at the third move for testing the gameOver conditions. (comment/delete lines 804-807 in the GamePlayPresenter if you don't need to test it)&#10;Timers for events changed. Score displayed has been corrected. The bonus 6 points when finished first are also displayed correctly. IterateTurns method has new changes.">
+      <created>1651405121005</created>
+      <option name="number" value="00020" />
+      <option name="presentableId" value="LOCAL-00020" />
+      <option name="project" value="LOCAL" />
+      <updated>1651405121005</updated>
+    </task>
+    <option name="localTasksCounter" value="21" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -406,7 +405,8 @@
     <MESSAGE value="Test push" />
     <MESSAGE value="updated .gitignore" />
     <MESSAGE value="statistics presenter update" />
-    <option name="LAST_COMMIT_MESSAGE" value="statistics presenter update" />
+    <MESSAGE value="Applied Seif's changes in model. GamePresenter is set to reset the bag at the third move for testing the gameOver conditions. (comment/delete lines 804-807 in the GamePlayPresenter if you don't need to test it)&#10;Timers for events changed. Score displayed has been corrected. The bonus 6 points when finished first are also displayed correctly. IterateTurns method has new changes." />
+    <option name="LAST_COMMIT_MESSAGE" value="Applied Seif's changes in model. GamePresenter is set to reset the bag at the third move for testing the gameOver conditions. (comment/delete lines 804-807 in the GamePlayPresenter if you don't need to test it)&#10;Timers for events changed. Score displayed has been corrected. The bonus 6 points when finished first are also displayed correctly. IterateTurns method has new changes." />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
