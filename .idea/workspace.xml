@@ -1,9 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fdd80d70-d918-4a56-b8aa-7e348c030f8e" name="Changes" comment="ovverride the save method to save AI level of difficulty. block qwirkle method in progress. remove moves that contain qwirkles not confirmed working yet">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="fdd80d70-d918-4a56-b8aa-7e348c030f8e" name="Changes" comment="uploaded stupid workspace file" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -181,7 +179,7 @@
       <workItem from="1650623931981" duration="33192000" />
       <workItem from="1650814610843" duration="5555000" />
       <workItem from="1651335745387" duration="7805000" />
-      <workItem from="1651403198987" duration="812000" />
+      <workItem from="1651403198987" duration="1638000" />
     </task>
     <task id="LOCAL-00001" summary="Added Java module">
       <created>1644572434802</created>
@@ -351,7 +349,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651376972278</updated>
     </task>
-    <option name="localTasksCounter" value="25" />
+    <task id="LOCAL-00025" summary="uploaded stupid workspace file">
+      <created>1651409011928</created>
+      <option name="number" value="00025" />
+      <option name="presentableId" value="LOCAL-00025" />
+      <option name="project" value="LOCAL" />
+      <updated>1651409011928</updated>
+    </task>
+    <option name="localTasksCounter" value="26" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -426,7 +431,8 @@
     <MESSAGE value="removed ComputerEasy.java, added the overloaded makeTurn(int) method." />
     <MESSAGE value="few bug fixes. computer is pretty good now I think (i hope)" />
     <MESSAGE value="ovverride the save method to save AI level of difficulty. block qwirkle method in progress. remove moves that contain qwirkles not confirmed working yet" />
-    <option name="LAST_COMMIT_MESSAGE" value="ovverride the save method to save AI level of difficulty. block qwirkle method in progress. remove moves that contain qwirkles not confirmed working yet" />
+    <MESSAGE value="uploaded stupid workspace file" />
+    <option name="LAST_COMMIT_MESSAGE" value="uploaded stupid workspace file" />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>
