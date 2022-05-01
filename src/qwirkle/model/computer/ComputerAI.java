@@ -1,7 +1,10 @@
 package qwirkle.model.computer;
 
+import qwirkle.data.Database;
 import qwirkle.model.*;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -444,4 +447,22 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
         tradeTiles(tilesToTrade);
     }
 
+    @Override
+    public void save() {
+        try {
+            Connection conn = Database.getInstance().getConnection();
+            String sql = """
+                         INSERT INTO int_player(player_id, player_name, difficulty)
+                                 VALUES (nextval('player_id_seq'),?,?);
+                         """;
+            PreparedStatement ptsmt = conn.prepareStatement(sql);
+            ptsmt.setString(1,getName());
+            ptsmt.setString(2,getLevelOfDifficulty().toString());
+            ptsmt.executeUpdate();
+            ptsmt.close();
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("Error while saving to int_player");
+        }
+    }
 }

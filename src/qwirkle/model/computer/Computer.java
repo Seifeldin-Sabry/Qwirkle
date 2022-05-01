@@ -112,8 +112,12 @@ public class Computer extends Player {
         return new Turn(moves);
     }
 
-    public void setLevelOfDifficulty(LevelOfDifficulty levelOfDifficulty) {
+     void setLevelOfDifficulty(LevelOfDifficulty levelOfDifficulty) {
         this.levelOfDifficulty = levelOfDifficulty;
+    }
+
+     LevelOfDifficulty getLevelOfDifficulty() {
+        return levelOfDifficulty;
     }
 
     @Override
