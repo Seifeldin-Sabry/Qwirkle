@@ -6,11 +6,14 @@ import qwirkle.model.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Random;
+import java.util.Set;
 
 import static qwirkle.model.Grid.MID;
+import static qwirkle.model.computer.Computer.LevelOfDifficulty.EASY;
 
-public abstract class Computer extends Player {
+public class Computer extends Player {
 
     final Random randomTileChooser;
     private final LevelOfDifficulty levelOfDifficulty;
@@ -20,9 +23,9 @@ public abstract class Computer extends Player {
 
     }
 
-    public Computer(Bag bag, Grid grid, LevelOfDifficulty levelOfDifficulty) {
+    public Computer(Bag bag, Grid grid) {
         super("Computer", bag, grid);
-        this.levelOfDifficulty = levelOfDifficulty;
+        this.levelOfDifficulty = EASY;
         randomTileChooser = new Random();
     }
 
@@ -31,12 +34,44 @@ public abstract class Computer extends Player {
      *
      * @return the best turn respective of the level of difficulty, null if no turn can be made
      */
-    public abstract Turn makeTurn();
+    public Turn makeTurn() {
+        boolean firstTurn = getBoard().getUsedSpaces().isEmpty();
+        Turn turn;
+        if (firstTurn) {
+            turn = playFirstTurn();
+        } else {
+            turn = getRandomMove(getMoveValidator().getAllValidMoves(getBoard()));
+            if (turn == null) {
+                trade();
+                return null;
+            }
+        }
+        return turn;
+    }
+
+    private Turn playFirstTurn() {
+        Set<ArrayList<Tile>> tileCombos = getMoveValidator().getLargestCombinations();
+        //never empty in first turn
+        int randomCombo = randomTileChooser.nextInt(tileCombos.size());
+        ArrayList<Tile> tileCombo = new ArrayList<>(tileCombos.stream().toList().get(randomCombo));
+        return firstTurnInRandomDirection(tileCombo);
+    }
+
+    private Turn getRandomMove(HashMap<Move, Set<Turn>> allmoves) {
+        if (allmoves.isEmpty()) {
+            return null;
+        }
+        int randomMove = randomTileChooser.nextInt(allmoves.size());
+        int randomTurn = randomTileChooser.nextInt(allmoves.get(allmoves.keySet().stream().toList().get(randomMove)).size());
+        return allmoves.get(allmoves.keySet().stream().toList().get(randomMove)).stream().toList().get(randomTurn);
+    }
 
     /**
      * trades
      */
-    public abstract void trade();
+    public void trade(){
+        tradeRandomNumTiles();
+    }
 
     void tradeRandomNumTiles() {
         ArrayList<Tile> tilesToTrade = new ArrayList<>();

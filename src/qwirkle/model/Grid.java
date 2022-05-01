@@ -419,7 +419,7 @@ public class Grid {
      * @return all Tiles that are connected to the given coordinates coordinate
      * vertically
      */
-    ArrayList<Tile> getConnectedVerticalArray(Move.Coordinate coordinate) {
+    public ArrayList<Tile> getConnectedVerticalArray(Move.Coordinate coordinate) {
         ArrayList<Tile> tiles = new ArrayList<>();
         int row = coordinate.getRow();
         int column = coordinate.getColumn();

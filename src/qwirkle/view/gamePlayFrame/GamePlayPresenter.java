@@ -17,6 +17,7 @@ import javafx.util.Duration;
 import qwirkle.data.Database;
 import qwirkle.model.*;
 import qwirkle.model.computer.Computer;
+import qwirkle.model.computer.ComputerAI;
 import qwirkle.view.newGameFrame.NewGamePresenter;
 import qwirkle.view.newGameFrame.NewGameView;
 import qwirkle.view.rulesFrame.RulesPresenterGP;
@@ -235,7 +236,10 @@ public class GamePlayPresenter {
             iterateTurnsTM.stop();
         }
         Computer computer = (Computer) model.getComputerSession().getPlayer();
-        List<Move> moves = computer.makeTurn();
+        List<Move> moves = model.getComputerSession().getPlayer() instanceof ComputerAI ?
+                ((ComputerAI) model.getComputerSession().getPlayer()).makeTurn(model. getComputerSession().indexOf(model.getComputerSession().getLastTurn()) + 1)
+                : ((Computer) model.getComputerSession().getPlayer()).makeTurn();
+
         KeyFrame kf1 = new KeyFrame(Duration.seconds(0.1), e -> {
             if (moves == null && model.getBag().getTiles().size() > 0) {
                 popupComputerPlayed(stage, "Computer traded tiles", "", 1.8);
