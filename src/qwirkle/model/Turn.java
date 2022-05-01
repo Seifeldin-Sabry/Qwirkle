@@ -213,8 +213,9 @@ public class Turn implements List<Move>{
                 int sizeVertical = grid.getConnectedVerticalArray(getMoves().get(0).getCoordinate()).size();
                 if (sizeHorizontal >= 1  && sizeVertical >= 1) { // means that Tile is connected in both directions
                     if (sizeHorizontal == 5)score.addAndGet(12);
+                    else score.addAndGet(sizeHorizontal + 1);
                     if (sizeVertical == 5)score.addAndGet(12);
-                    else score.set(sizeHorizontal+sizeVertical+2);
+                    else score.addAndGet(sizeVertical + 1);
                 }
                 else if (sizeVertical >= 1 || sizeHorizontal >= 1){
                     boolean qwirkle = false;// tile connected to either direction
