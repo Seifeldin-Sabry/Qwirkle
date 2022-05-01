@@ -801,10 +801,10 @@ public class GamePlayPresenter {
     private void iterateTurns(Stage stage) {
         playedTiles.clear();
         exchangedTiles.clear();
-        if (model.getActivePlayerSession().getTurnsPlayed().size() > 2) {
-            model.getBag().getTiles().clear();
-            updateView();
-        }
+//        if (model.getActivePlayerSession().getTurnsPlayed().size() > 2) {
+//            model.getBag().getTiles().clear();
+//            updateView();
+//        }
         model.getActivePlayerSession().getLastTurn().endTurn(model.getGrid());
         KeyFrame kf1;
         KeyFrame kf2;

@@ -12,6 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.*;
+import java.util.Collections;
 
 /**
  * This is a @Singleton implementation
@@ -558,7 +559,8 @@ public class Database {
                           JOIN int_player i on i.player_id = ip.player_id
                           WHERE player_name in ('Computer')
                           group by game_id
-                          order by game_id
+                          order by game_id DESC
+                          LIMIT 50
                           """;
             ptsmt = connection.prepareStatement(sql);
             rs = ptsmt.executeQuery();
@@ -582,6 +584,7 @@ public class Database {
                 closePreparedStatementQuietly(ptsmt);
             }
         }
+        Collections.reverse(data);
         return data;
     }
 
@@ -599,7 +602,8 @@ public class Database {
                           JOIN int_player i on i.player_id = ip.player_id
                           WHERE player_name not in ('Computer')
                           group by game_id
-                          order by game_id
+                          order by game_id DESC
+                          LIMIT 50
                           """;
             ptsmt = connection.prepareStatement(sql);
             rs = ptsmt.executeQuery();
@@ -623,6 +627,7 @@ public class Database {
                 closePreparedStatementQuietly(ptsmt);
             }
         }
+        Collections.reverse(data);
         return data;
     }
 
@@ -640,7 +645,8 @@ public class Database {
                           JOIN int_player i on i.player_id = ip.player_id
                           WHERE player_name in ('Computer')
                           group by game_id
-                          order by game_id
+                          order by game_id DESC
+                          LIMIT 50
                           """;
             ptsmt = connection.prepareStatement(sql);
             rs = ptsmt.executeQuery();
@@ -664,6 +670,7 @@ public class Database {
                 closePreparedStatementQuietly(ptsmt);
             }
         }
+        Collections.reverse(data);
         return data;
     }
 
@@ -681,7 +688,8 @@ public class Database {
                           JOIN int_player i on i.player_id = ip.player_id
                           WHERE player_name not in ('Computer')
                           group by game_id
-                          order by game_id
+                          order by game_id DESC
+                          LIMIT 50
                           """;
             ptsmt = connection.prepareStatement(sql);
             rs = ptsmt.executeQuery();
@@ -705,6 +713,7 @@ public class Database {
                 closePreparedStatementQuietly(ptsmt);
             }
         }
+        Collections.reverse(data);
         return data;
     }
 
@@ -718,7 +727,8 @@ public class Database {
             String sql = """
                           SELECT game_duration as duration, game_id
                           FROM int_gamesession
-                          order by game_id
+                          order by game_id DESC
+                          LIMIT 50
                           """;
             ptsmt = connection.prepareStatement(sql);
             rs = ptsmt.executeQuery();
@@ -742,6 +752,7 @@ public class Database {
                 closePreparedStatementQuietly(ptsmt);
             }
         }
+        Collections.reverse(data);
         return data;
     }
 

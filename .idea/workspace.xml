@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fdd80d70-d918-4a56-b8aa-7e348c030f8e" name="Changes" comment="Applied Seif's changes in model. GamePresenter is set to reset the bag at the third move for testing the gameOver conditions. (comment/delete lines 804-807 in the GamePlayPresenter if you don't need to test it)&#10;Timers for events changed. Score displayed has been corrected. The bonus 6 points when finished first are also displayed correctly. IterateTurns method has new changes.">
+    <list default="true" id="fdd80d70-d918-4a56-b8aa-7e348c030f8e" name="Changes" comment="Statistics now properly show the correct first y value">
       <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/git_toolbox_prj.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/libraries/postgresql_42_3_3__2_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/qwirkle/data/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/data/Database.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/qwirkle/model/Turn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/Turn.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/qwirkle/model/computer/ComputerEasy.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/qwirkle/view/statisticsFrame/StatisticsPresenterW.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/statisticsFrame/StatisticsPresenterW.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/qwirkle/view/gamePlayFrame/GamePlayPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/gamePlayFrame/GamePlayPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/qwirkle/view/statisticsFrame/StatisticsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/statisticsFrame/StatisticsView.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -193,7 +196,7 @@
       <workItem from="1651053777290" duration="32701000" />
       <workItem from="1651160593478" duration="26851000" />
       <workItem from="1651214282622" duration="1683000" />
-      <workItem from="1651341137585" duration="9929000" />
+      <workItem from="1651341137585" duration="17843000" />
     </task>
     <task id="LOCAL-00001" summary="Added Java module">
       <created>1644572434802</created>
@@ -335,7 +338,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651405121005</updated>
     </task>
-    <option name="localTasksCounter" value="21" />
+    <task id="LOCAL-00021" summary="Statistics now properly show the correct first y value">
+      <created>1651406064685</created>
+      <option name="number" value="00021" />
+      <option name="presentableId" value="LOCAL-00021" />
+      <option name="project" value="LOCAL" />
+      <updated>1651406064685</updated>
+    </task>
+    <option name="localTasksCounter" value="22" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -406,7 +416,8 @@
     <MESSAGE value="updated .gitignore" />
     <MESSAGE value="statistics presenter update" />
     <MESSAGE value="Applied Seif's changes in model. GamePresenter is set to reset the bag at the third move for testing the gameOver conditions. (comment/delete lines 804-807 in the GamePlayPresenter if you don't need to test it)&#10;Timers for events changed. Score displayed has been corrected. The bonus 6 points when finished first are also displayed correctly. IterateTurns method has new changes." />
-    <option name="LAST_COMMIT_MESSAGE" value="Applied Seif's changes in model. GamePresenter is set to reset the bag at the third move for testing the gameOver conditions. (comment/delete lines 804-807 in the GamePlayPresenter if you don't need to test it)&#10;Timers for events changed. Score displayed has been corrected. The bonus 6 points when finished first are also displayed correctly. IterateTurns method has new changes." />
+    <MESSAGE value="Statistics now properly show the correct first y value" />
+    <option name="LAST_COMMIT_MESSAGE" value="Statistics now properly show the correct first y value" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
