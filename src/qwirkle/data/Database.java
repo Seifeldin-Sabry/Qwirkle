@@ -270,7 +270,7 @@ public class Database {
                                                                             REFERENCES int_playersession(playersession_id)
                                                                             ON DELETE CASCADE,
                                                             total_score INT,
-                                                            tot_time_spent_turns numeric(3),
+                                                            tot_time_spent_turns INT,
                                                             CONSTRAINT score_pkey PRIMARY KEY (playersession_id)
                     );
                     
