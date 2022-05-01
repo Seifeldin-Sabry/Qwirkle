@@ -1,9 +1,9 @@
 package qwirkle.model;
 
 import qwirkle.data.Database;
+import qwirkle.model.computer.Computer;
 import qwirkle.model.computer.Computer.LevelOfDifficulty;
 import qwirkle.model.computer.ComputerAI;
-import qwirkle.model.computer.ComputerEasy;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -33,7 +33,7 @@ public class PlayerSession implements List<Turn>{
 
     //Computer constructor
     public PlayerSession(Bag bag, Grid grid, LevelOfDifficulty difficulty, boolean isPlayerStarting) {
-        this.player = difficulty == LevelOfDifficulty.EASY ? new ComputerEasy(bag, grid) : new ComputerAI(bag, grid);
+        this.player = difficulty == LevelOfDifficulty.EASY ? new Computer(bag, grid) : new ComputerAI(bag, grid);
         this.isPlayerStarting = isPlayerStarting;
         this.isActive = isPlayerStarting;
         this.turnsPlayed = new LinkedList<>();

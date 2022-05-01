@@ -1,7 +1,10 @@
 package qwirkle.model.computer;
 
+import qwirkle.data.Database;
 import qwirkle.model.*;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -13,40 +16,92 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
 
 
     public ComputerAI(Bag bag, Grid grid) {
-        super(bag, grid, AI);
+        super(bag, grid);
+        setLevelOfDifficulty(AI);
+
     }
 
     /**
      * @return the best turn respective of the level of difficulty, null if no turn can be made
      */
-    @Override
-    public Turn makeTurn() {
+    public Turn makeTurn(int turnNo) {
+        System.out.println("Making turn");
+        System.out.println("Deck: "+getDeck().getTilesInDeck());
         boolean isFirstTurn = getBoard().getUsedSpaces().size() == 0;
         if (isFirstTurn){
             return makeFirstTurn();
         }
         HashMap<Move, Set<Turn>> allMoves = getMoveValidator().getAllValidMoves(getBoard());
+        allMoves = clearAllEmptyTurns(allMoves);
         if (thereAreNoMoves(allMoves)) {
+            System.out.println("triggering trade 1");
             trade();
             return null;
         }
-        allMoves = removeAllTurnsThatCanMakeOpponentQwirkle(allMoves);
-        allMoves = removeAllTurnsThatContainLessThanScoreFour(allMoves);
+        System.out.println("allMoves: "+allMoves);
+        if (turnNo > 5 && getBag().getTiles().size() > 0) {
+            allMoves = removeAllTurnsThatCanMakeOpponentQwirkle(allMoves);
+            allMoves = removeAllTurnsThatContainLessThanScoreSix(allMoves);
+        }
         if (thereAreNoMoves(allMoves)) {
+            System.out.println("triggering trade 2");
             trade();
             return null;
         }
+        HashMap<Move, Set<Turn>> multipleRowsOrColumnsTurns = getTurnsThatHaveMultipleRowsOrColumns(allMoves);
+        Turn highestAdjacentScoringTurn = getMostProfitableTurn(multipleRowsOrColumnsTurns);
+        Turn highestScoringTurn = getMostProfitableTurn(allMoves);
+        if (highestScoringTurn != null && highestAdjacentScoringTurn != null) {
+            return highestScoringTurn(highestScoringTurn, highestAdjacentScoringTurn);
+        }
+        else if (highestScoringTurn != null) {
+            return highestScoringTurn;
+        }
+        else if (highestAdjacentScoringTurn != null) {
+            return highestAdjacentScoringTurn;
+        }
+        trade();
+        return null;
 
-        return getMostProfitableTurn(allMoves);
+    }
+
+    private Turn highestScoringTurn(Turn highestScoringTurn, Turn highestAdjacentScoringTurn) {
+        Grid grid = getBoard().getDeepCopy();
+        for(Move move : highestScoringTurn) {
+            grid.boardAddMove(move);
+        }
+        int highestScoringTurnScore = highestScoringTurn.calcScore(grid);
+        grid = getBoard().getDeepCopy();
+        for (Move move : highestAdjacentScoringTurn) {
+            grid.boardAddMove(move);
+        }
+        int highestAdjacentScoringTurnScore = highestAdjacentScoringTurn.calcScore(grid);
+        if (highestScoringTurnScore > highestAdjacentScoringTurnScore) {
+            return highestScoringTurn;
+        }
+        return highestAdjacentScoringTurn;
+    }
+
+    private HashMap<Move, Set<Turn>> clearAllEmptyTurns(HashMap<Move, Set<Turn>> allMoves) {
+        HashMap<Move, Set<Turn>> newAllMoves = new HashMap<>();
+        for (Map.Entry<Move, Set<Turn>> entry : allMoves.entrySet()) {
+            Move move = entry.getKey();
+            Set<Turn> turns = entry.getValue();
+            for (Turn turn : turns) {
+                if(turn.size() > 0) {
+                    newAllMoves.put(move, turns);
+                }
+            }
+        }
+        return newAllMoves;
     }
 
     private Turn makeFirstTurn() {
-        Set<Set<Tile>> combos = getMoveValidator().getLargestCombinations();
-        Iterator<Set<Tile>> iterator = combos.iterator();
-        Set<Tile> selectedCombo = null;
+        Set<ArrayList<Tile>> combos = getMoveValidator().getLargestCombinations();
+        Iterator<ArrayList<Tile>> iterator = combos.iterator();
+        ArrayList<Tile> selectedCombo = null;
         while(iterator.hasNext()) {
-            Set<Tile> combo = iterator.next();
-            //if(combo.size() == 5 || combo.size() < 3)
+            ArrayList<Tile> combo = iterator.next();
             if(combo.size() == 5){
                 continue;
             }
@@ -54,8 +109,15 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
                 selectedCombo = combo;
                 break;
             }
-            selectedCombo = combo;
+            if ( selectedCombo == null || selectedCombo.isEmpty() ) {
+                selectedCombo = combo;
+            }
+
+            if (combo.size() >= selectedCombo.size()) {
+                selectedCombo = combo;
+            }
         }
+        assert selectedCombo != null;
         return firstTurnInRandomDirection(new ArrayList<>(selectedCombo));
     }
 
@@ -78,26 +140,60 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
     //working on it...
     @Override
     public HashMap<Move,Set<Turn>> removeAllTurnsThatCanMakeOpponentQwirkle(HashMap<Move, Set<Turn>> allMoves) {
-//        HashMap<Move, Set<Turn>> toReturn = new HashMap<>();
-//        for (Map.Entry<Move,Set<Turn>> entry: allMoves.entrySet()) {
-//            toReturn.computeIfAbsent(entry.getKey(), k -> new HashSet<>());
-//            Set<Turn> turns = entry.getValue();
-//            for (Turn turn : turns) {
-//                Grid grid = getBoard().getDeepCopy();
-//                for (Move move : turn){
-//                    grid.boardAddMove(move);
-//                }
-////                if(turn.calcScore(grid) != score){
-////                    toReturn.get(entry.getKey()).add(turn);
-////                }
-//            }
-//        }
-//        return toReturn;
-        return allMoves;
+        HashMap<Move, Set<Turn>> toReturn = new HashMap<>();
+        for (Map.Entry<Move,Set<Turn>> entry: allMoves.entrySet()) {
+            toReturn.computeIfAbsent(entry.getKey(), k -> new HashSet<>());
+            Set<Turn> turns = entry.getValue();
+            for (Turn turn : turns) {
+                Grid grid = getBoard().getDeepCopy();
+                for (Move move : turn){
+                    grid.boardAddMove(move);
+                }
+                switch (grid.determineDirection(turn)){
+                    case 0 -> {
+                        if(grid.getConnectedHorizontalArray(turn.get(0).getCoordinate()).size() != 5 && notVerticallyFiveConnected(grid,turn)) {
+                            toReturn.get(entry.getKey()).add(turn);
+                        }
+                    }
+                    case 1 -> {
+                        if(grid.getConnectedVerticalArray(turn.get(0).getCoordinate()).size() != 5 && notHorizontallyFiveConnected(grid, turn)) {
+                            toReturn.get(entry.getKey()).add(turn);
+                        }
+                    }
+                    case -1 -> {
+                        if(grid.getConnectedHorizontalArray(turn.get(0).getCoordinate()).size() != 5) {
+                            toReturn.get(entry.getKey()).add(turn);
+                        }
+                        if(grid.getConnectedVerticalArray(turn.get(0).getCoordinate()).size() != 5) {
+                            toReturn.get(entry.getKey()).add(turn);
+                        }
+                    }
+                }
+            }
+        }
+        return toReturn;
+    }
+
+    private boolean notHorizontallyFiveConnected(Grid grid, Turn turn) {
+        for (Move move : turn) {
+            if(grid.getConnectedHorizontalArray(move.getCoordinate()).size() == 5) {
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private boolean notVerticallyFiveConnected(Grid grid, Turn turn) {
+        for (Move move : turn) {
+            if (grid.getConnectedVerticalArray(move.getCoordinate()).size() == 5) {
+                return false;
+            }
+        }
+        return true;
     }
 
     @Override
-    public HashMap<Move, Set<Turn>> removeAllTurnsThatContainLessThanScoreFour(HashMap<Move, Set<Turn>> allMoves) {
+    public HashMap<Move, Set<Turn>> removeAllTurnsThatContainLessThanScoreSix(HashMap<Move, Set<Turn>> allMoves) {
         HashMap<Move, Set<Turn>> toReturn = new HashMap<>();
         for (Map.Entry<Move,Set<Turn>> entry: allMoves.entrySet()) {
             toReturn.computeIfAbsent(entry.getKey(), k -> new HashSet<>());
@@ -117,18 +213,62 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
     }
 
     @Override
-    public Turn getMostProfitableTurn(HashMap<Move, Set<Turn>> allMoves) {
-        Turn mostProfitable = null;
-        while(mostProfitable == null){
-            for (Map.Entry<Move,Set<Turn>> entry: allMoves.entrySet()) {
-                Set<Turn> turns = entry.getValue();
-                for (Turn turn : turns) {
-                    mostProfitable = turn;
-                    if (mostProfitable != null) {
-                        break;
+    public HashMap<Move, Set<Turn>> getTurnsThatHaveMultipleRowsOrColumns(HashMap<Move, Set<Turn>> allMoves) {
+        HashMap<Move, Set<Turn>> toReturn = new HashMap<>();
+        for (Map.Entry<Move,Set<Turn>> entry: allMoves.entrySet()) {
+            Set<Turn> turns = entry.getValue();
+            for (Turn turn : turns) {
+                Grid grid = getBoard().getDeepCopy();
+                for (Move move : turn){
+                    grid.boardAddMove(move);
+                }
+                int collisons = 0;
+                switch (grid.determineDirection(turn)){
+                    //horizontal
+                    case 0 -> {
+                        for (Move move : turn){
+                            if(grid.getConnectedVerticalArray(move.getCoordinate()).size() >= 1){
+                                collisons++;
+                            }
+                        }
+                    }
+                    case 1 -> {
+                        for (Move move : turn){
+                            if(grid.getConnectedHorizontalArray(move.getCoordinate()).size() >= 1){
+                                collisons++;
+                            }
+                        }
+                    }
+                    case -1 -> {
+                        if (grid.getConnectedVerticalArray(turn.get(0).getCoordinate()).size() >=1 && grid.getConnectedHorizontalArray(turn.get(0).getCoordinate()).size() >=1){
+                            collisons+=2;
+                        }
                     }
                 }
+                if(collisons >= 2){
+                    toReturn.computeIfAbsent(entry.getKey(), k -> new HashSet<>());
+                    toReturn.get(entry.getKey()).add(turn);
+                }
             }
+        }
+        System.out.println(toReturn);
+        return toReturn;
+    }
+
+    @Override
+    public Turn getMostProfitableTurn(HashMap<Move, Set<Turn>> allMoves) {
+        Turn mostProfitable = null;
+        for (Map.Entry<Move,Set<Turn>> entry: allMoves.entrySet()) {
+            Set<Turn> turns = entry.getValue();
+            for (Turn turn : turns) {
+                mostProfitable = turn;
+                if (mostProfitable != null) {
+                    break;
+                }
+            }
+        }
+        if (mostProfitable == null) {
+            return null;
         }
         Grid grid = getBoard().getDeepCopy();
         for (Move move : mostProfitable){
@@ -177,7 +317,6 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
                             .map(Map.Entry::getKey)
                             .collect(Collectors.toCollection(ArrayList::new));
             tiles.remove(sameTileCount.entrySet().stream().filter(e -> e.getValue() > 1).findFirst().get().getKey());
-            //for testing
             tradeTiles(tiles);
             return;
         }
@@ -308,5 +447,24 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
         tradeTiles(tilesToTrade);
     }
 
+    @Override
+    public void save() {
+        try {
+            Connection conn = Database.getInstance().getConnection();
+            String sql = """
+                         INSERT INTO int_player(player_id, player_name, difficulty)
+                                 VALUES (nextval('player_id_seq'),?,?);
+                         """;
+            PreparedStatement ptsmt = conn.prepareStatement(sql);
+            ptsmt.setString(1,getName());
+            ptsmt.setString(2,getLevelOfDifficulty().toString());
+            ptsmt.executeUpdate();
+            ptsmt.close();
+        }catch (Exception e){
+            e.printStackTrace();
+            System.out.println("Error while saving to int_player");
+        }
+    }
 }
+
 

@@ -17,6 +17,7 @@ import javafx.util.Duration;
 import qwirkle.data.Database;
 import qwirkle.model.*;
 import qwirkle.model.computer.Computer;
+import qwirkle.model.computer.ComputerAI;
 import qwirkle.view.newGameFrame.NewGamePresenter;
 import qwirkle.view.newGameFrame.NewGameView;
 import qwirkle.view.rulesFrame.RulesPresenterGP;
@@ -234,8 +235,10 @@ public class GamePlayPresenter {
         if (iterateTurnsTM != null) {
             iterateTurnsTM.stop();
         }
-        Computer computer = (Computer) model.getComputerSession().getPlayer();
-        List<Move> moves = computer.makeTurn();
+        List<Move> moves = model.getComputerSession().getPlayer() instanceof ComputerAI ?
+                ((ComputerAI) model.getComputerSession().getPlayer()).makeTurn(model. getComputerSession().indexOf(model.getComputerSession().getLastTurn()) + 1)
+                : ((Computer) model.getComputerSession().getPlayer()).makeTurn();
+
         KeyFrame kf1 = new KeyFrame(Duration.seconds(0.1), e -> {
             if (moves == null && model.getBag().getTiles().size() > 0) {
                 popupComputerPlayed(stage, "Computer traded tiles", "", 1.8);
@@ -307,9 +310,6 @@ public class GamePlayPresenter {
         int computerTotalScore;
         int playerTurnPoints;
         int playerTotalScore;
-        if (model.isGameOver()) {
-            model.addExtraPoints();
-        }
         //When PlayerSession is active
         if (model.getActivePlayerSession().equals(model.getPlayerSession())) {
             if (model.getPlayerSession().getTurnsPlayed().size() == 1 && model.getPlayerSession().getLastTurn().getPoints() == 0) {
@@ -317,6 +317,9 @@ public class GamePlayPresenter {
             } else {
                 playerTurnPoints = model.getPlayerSession().get(model.getPlayerSession().indexOf(model.getPlayerSession().getLastTurn()) - 1).getPoints();
                 playerTotalScore = model.getPlayerSession().getTotalScore();
+                if (model.isGameOver()) {
+                    playerTurnPoints += 6;
+                }
                 view.getPlayerScore().setText(String.format("Your score: %s (+%s)", playerTotalScore, playerTurnPoints));
             }
             if (model.getComputerSession().getTurnsPlayed().size() == 0) {
@@ -333,6 +336,9 @@ public class GamePlayPresenter {
             } else {
                 computerTurnPoints = model.getComputerSession().get(model.getComputerSession().indexOf(model.getComputerSession().getLastTurn()) - 1).getPoints();
                 computerTotalScore = model.getComputerSession().getTotalScore();
+                if (model.isGameOver()) {
+                    computerTurnPoints += 6;
+                }
                 view.getComputerScore().setText(String.format("Computer score: %s (+%s)", computerTotalScore, computerTurnPoints));
             }
             if (model.getPlayerSession().getTurnsPlayed().size() == 0) {
@@ -358,9 +364,9 @@ public class GamePlayPresenter {
         KeyFrame keyFrame1 = new KeyFrame(Duration.seconds(0));
         if (model.isGameOver()) {
             if (model.getPlayerSession().isActive()) {
-                keyFrame1 = new KeyFrame(Duration.seconds(1.6), e -> popupMessage(stage, "You got 6 extra points\n for finishing first!", 1.5));
+                keyFrame1 = new KeyFrame(Duration.seconds(1.2), e -> popupMessage(stage, "You got 6 extra points\n   for finishing first!", 1.8));
             } else if (model.getComputerSession().isActive()) {
-                keyFrame1 = new KeyFrame(Duration.seconds(1.6), e -> popupMessage(stage, "Computer got 6 bonus points\n   for finishing first!", 1.5));
+                keyFrame1 = new KeyFrame(Duration.seconds(1.2), e -> popupMessage(stage, "Computer got 6 bonus points\n   for finishing first!", 1.8));
             }
         }
         KeyFrame keyFrame2 = new KeyFrame(Duration.seconds(3.2), e -> {
@@ -500,9 +506,6 @@ public class GamePlayPresenter {
             pointsText = " point";
         } else {
             pointsText = " points";
-        }
-        if (model.isGameOver() && model.getPlayerSession().isActive()) {
-            score = score + 6;
         }
         new PopupPresenter(stage, view, "You got " + score + pointsText, 660, 300, 1.4, false);
     }
@@ -806,39 +809,34 @@ public class GamePlayPresenter {
         KeyFrame kf1;
         KeyFrame kf2;
         if (!model.isGameOver()) {
-            model.setNextPlayerSession();
-            updateView();
-            if (model.getPlayerSession().isActive()) {
-                if (model.hasNoMoreMoves(model.getPlayerSession())) {
-                    kf1 = new KeyFrame(Duration.seconds(2), e -> {
-                        popupMessage(stage, "You have no possible\n   moves to play", 1.5);
-                    });
-                    kf2 = new KeyFrame(Duration.seconds(4.1), e -> {
-                        model.getActivePlayerSession().getLastTurn().endTurn(model.getGrid());
-                        if (!model.hasNoMoreMoves(model.getComputerSession())) {
-                            System.out.println("Computer has move");
-                            System.out.println(model.getComputerSession().getPlayer().getDeck().getTilesInDeck());
-                            model.setNextPlayerSession();
-                            playComputerMove(stage);
-                        }
-                    });
-                    iterateTurnsTM = new Timeline(kf1, kf2);
-                    iterateTurnsTM.play();
-                    return;
-                }
-            }
             if (model.hasNoMoreMoves(model.getPlayerSession()) && model.hasNoMoreMoves(model.getComputerSession())) {
                 kf1 = new KeyFrame(Duration.seconds(1.5), e -> popupMessage(stage, "No more valid moves\nfor any of the players", 2));
-                kf2 = new KeyFrame(Duration.seconds(3.6), e -> {
+                kf2 = new KeyFrame(Duration.seconds(2.6), e -> {
                     setGameOver(stage);
                 });
                 iterateTurnsTM = new Timeline(kf1, kf2);
                 iterateTurnsTM.play();
                 return;
             }
+            model.setNextPlayerSession();
+            updateView();
+            if (model.getPlayerSession().isActive() && !model.hasNoMoreMoves(model.getComputerSession())) {
+                if (model.hasNoMoreMoves(model.getPlayerSession())) {
+                    kf1 = new KeyFrame(Duration.seconds(1.6), e -> {
+                        popupMessage(stage, "You have no possible\n   moves to play", 1.5);
+                    });
+                    kf2 = new KeyFrame(Duration.seconds(3.6), e -> {
+                        model.getActivePlayerSession().getLastTurn().endTurn(model.getGrid());
+                            model.setNextPlayerSession();
+                            playComputerMove(stage);
+                    });
+                    iterateTurnsTM = new Timeline(kf1, kf2);
+                    iterateTurnsTM.play();
+                }
+            }
         } else {
             kf1 = new KeyFrame(Duration.seconds(0));
-            kf2 = new KeyFrame(Duration.seconds(1.5), e -> {
+            kf2 = new KeyFrame(Duration.seconds(1), e -> {
                 setGameOver(stage);
             });
             iterateTurnsTM = new Timeline(kf1, kf2);
