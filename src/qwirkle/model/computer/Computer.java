@@ -16,7 +16,7 @@ import static qwirkle.model.computer.Computer.LevelOfDifficulty.EASY;
 public class Computer extends Player {
 
     final Random randomTileChooser;
-    private final LevelOfDifficulty levelOfDifficulty;
+    private LevelOfDifficulty levelOfDifficulty;
 
     public enum LevelOfDifficulty {
         EASY, AI
@@ -110,6 +110,10 @@ public class Computer extends Player {
             }
         }
         return new Turn(moves);
+    }
+
+    public void setLevelOfDifficulty(LevelOfDifficulty levelOfDifficulty) {
+        this.levelOfDifficulty = levelOfDifficulty;
     }
 
     @Override

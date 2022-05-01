@@ -1,14 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fdd80d70-d918-4a56-b8aa-7e348c030f8e" name="Changes" comment="fixed an issue where I dont check if a list contains a certain tile, and that leads to the possibility of null">
+    <list default="true" id="fdd80d70-d918-4a56-b8aa-7e348c030f8e" name="Changes" comment="removed ComputerEasy.java, added the overloaded makeTurn(int) method.">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/qwirkle/model/Grid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/Grid.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/qwirkle/model/PlayerSession.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/PlayerSession.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/qwirkle/model/computer/Computer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/computer/Computer.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/qwirkle/model/computer/ComputerAI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/computer/ComputerAI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/qwirkle/model/computer/ComputerEasy.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/qwirkle/model/computer/QwirkleEngineAI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/computer/QwirkleEngineAI.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/qwirkle/view/gamePlayFrame/GamePlayPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/gamePlayFrame/GamePlayPresenter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -186,7 +181,7 @@
       <workItem from="1650120730932" duration="814000" />
       <workItem from="1650623931981" duration="33192000" />
       <workItem from="1650814610843" duration="5555000" />
-      <workItem from="1651335745387" duration="6249000" />
+      <workItem from="1651335745387" duration="7318000" />
     </task>
     <task id="LOCAL-00001" summary="Added Java module">
       <created>1644572434802</created>
@@ -335,7 +330,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651338509190</updated>
     </task>
-    <option name="localTasksCounter" value="22" />
+    <task id="LOCAL-00022" summary="removed ComputerEasy.java, added the overloaded makeTurn(int) method.">
+      <created>1651375876033</created>
+      <option name="number" value="00022" />
+      <option name="presentableId" value="LOCAL-00022" />
+      <option name="project" value="LOCAL" />
+      <updated>1651375876033</updated>
+    </task>
+    <option name="localTasksCounter" value="23" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -407,7 +409,8 @@
     <MESSAGE value="changed my module javafx command" />
     <MESSAGE value="fixed an issue where some turns would be duplicated" />
     <MESSAGE value="fixed an issue where I dont check if a list contains a certain tile, and that leads to the possibility of null" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed an issue where I dont check if a list contains a certain tile, and that leads to the possibility of null" />
+    <MESSAGE value="removed ComputerEasy.java, added the overloaded makeTurn(int) method." />
+    <option name="LAST_COMMIT_MESSAGE" value="removed ComputerEasy.java, added the overloaded makeTurn(int) method." />
   </component>
   <component name="XDebuggerManager">
     <watches-manager>

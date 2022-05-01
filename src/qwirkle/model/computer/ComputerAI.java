@@ -5,6 +5,8 @@ import qwirkle.model.*;
 import java.util.*;
 import java.util.stream.Collectors;
 
+import static qwirkle.model.computer.Computer.LevelOfDifficulty.AI;
+
 @SuppressWarnings("OptionalGetWithoutIsPresent")
 public class ComputerAI extends Computer implements QwirkleEngineAI {
 
@@ -12,6 +14,7 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
 
     public ComputerAI(Bag bag, Grid grid) {
         super(bag, grid);
+        setLevelOfDifficulty(AI);
 
     }
 
@@ -235,7 +238,7 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
                     }
                     case -1 -> {
                         if (grid.getConnectedVerticalArray(turn.get(0).getCoordinate()).size() >=1 && grid.getConnectedHorizontalArray(turn.get(0).getCoordinate()).size() >=1){
-                            collisons++;
+                            collisons+=2;
                         }
                     }
                 }
