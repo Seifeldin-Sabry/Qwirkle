@@ -4,6 +4,8 @@ import javafx.stage.Stage;
 import qwirkle.view.newGameFrame.NewGamePresenter;
 import qwirkle.view.newGameFrame.NewGameView;
 
+import java.io.FileNotFoundException;
+
 
 public class RulesPresenterNG {
 
@@ -11,18 +13,18 @@ public class RulesPresenterNG {
     private boolean isPlayerStarting;
     private String name;
 
-    public RulesPresenterNG(Stage stage, RulesView view, boolean isPlayerStarting, String name){
+    public RulesPresenterNG(Stage stage, RulesView view, NewGameView newGameView, boolean isPlayerStarting, String name) {
         this.view = view;
         this.isPlayerStarting = isPlayerStarting;
         this.name = name;
-        addEventHandler(stage);
-    }
-    private void addEventHandler(Stage stage){
-        view.getBack().setOnAction(event -> setBack(stage));
+        addEventHandler(stage, newGameView);
     }
 
-    private void setBack(Stage stage){
-        NewGameView newGameView = new NewGameView();
+    private void addEventHandler(Stage stage, NewGameView newGameView) {
+        view.getBack().setOnAction(event -> setBack(stage, newGameView));
+    }
+
+    private void setBack(Stage stage, NewGameView newGameView) {
         NewGamePresenter newGamePresenter = new NewGamePresenter(stage, newGameView);
         newGamePresenter.setIsPlayerStarting(isPlayerStarting);
         newGamePresenter.setName(name);

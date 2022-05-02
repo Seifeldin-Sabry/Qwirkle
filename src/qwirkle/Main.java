@@ -31,9 +31,9 @@ public class Main extends Application {
         introScene.setFill(Color.TRANSPARENT);
         intro.setScene(introScene);
         intro.show();
-        DBLoginView dbLoginView = new DBLoginView();
-        new DBLLoginPresenter(dbLoginView);
         Stage loginStage = new Stage();
+        DBLoginView dbLoginView = new DBLoginView();
+        DBLLoginPresenter loginPresenter = new DBLLoginPresenter(dbLoginView, loginStage);
         Scene loginScene = new Scene(dbLoginView);
         loginScene.getStylesheets().add("style/style.css");
         loginStage.setScene(loginScene);
@@ -54,7 +54,8 @@ public class Main extends Application {
                                                      if (!Database.getInstance().createDatabase()) {
                                                          loginStage.show();
                                                          intro.close();
-                                                     } else {
+                                                     } else if (loginPresenter.isSaved()){
+                                                         timeline.setDelay(Duration.seconds(0.5));
                                                          Database.getInstance().logIn();
                                                          primaryStage.show();
                                                          welcomePresenter.addWindowEventHandlers(primaryStage);

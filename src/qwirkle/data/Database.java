@@ -7,12 +7,14 @@ import javafx.scene.chart.XYChart;
 import javafx.scene.chart.XYChart.Data;
 import qwirkle.model.GameSession;
 
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.sql.*;
 import java.util.Collections;
+import java.util.LinkedList;
+import java.util.Scanner;
 
 /**
  * This is a @Singleton implementation
@@ -24,12 +26,13 @@ public class Database {
     //Instance field
     private static Database instance = null;
     private static final String jdbc = "jdbc:postgresql://localhost:5432/qwirkledb";
-    private String username = "postgres";
-    private String password = "Student_1234";
+    private String username;
+    private String password;
     private Connection connection;
 
 
-    private Database(){}
+    private Database() {
+    }
 
     public static Database getInstance() {
         if (instance == null) instance = new Database();
@@ -37,55 +40,80 @@ public class Database {
     }
 
 
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-
-
-
-
-    //function to make a directory in root directory
-    public void makeDirectory(){
-        try {
-            Path path = Paths.get("/home/Documents/DB_AUTH/");
-            if (!Files.exists(path)) {
-                Files.createDirectory(path);
-            }
-            Path path2 = Paths.get("/home/Documents/DB_AUTH/credentials.txt");
-            if (!Files.exists(path2)) {
-                Files.createFile(path2);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+    public void setUsername(String text) {
+        if (getSavedCredentials() != null && getSavedCredentials().size() > 0) {
+            username = getSavedCredentials().getFirst();
+        } else {
+            username = text;
         }
     }
 
 
+    public void setPassword(String text) {
+        if (getSavedCredentials() != null && getSavedCredentials().size() > 0) {
+            password = getSavedCredentials().getLast();
+        } else {
+            password = text;
+        }
+    }
+
+
+    public String getUserName() {
+        if (getSavedCredentials() != null && getSavedCredentials().size() > 0) {
+            username = getSavedCredentials().getFirst();
+        }
+        return username;
+    }
+
+    public String getPassword() {
+        if (getSavedCredentials() != null && getSavedCredentials().size() > 0) {
+            password = getSavedCredentials().getLast();
+        }
+        return password;
+    }
+
+    //function to make a read credentials from a file
+
+    public LinkedList<String> getSavedCredentials() {
+        LinkedList<String> credentials = new LinkedList<>();
+        try {
+            Scanner scanner = new Scanner(new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/user-data/info.txt"))));
+            String savedFilePath = scanner.nextLine();
+            Scanner scanner1 = new Scanner(new File(savedFilePath));
+            for (int i = 0; i < 2; i ++) {
+                String text = scanner1.nextLine().substring(10);
+                credentials.add(text);
+            }
+            scanner.close();
+            scanner1.close();
+        } catch (FileNotFoundException ignored) {
+        }
+        if (credentials.size() > 1) {
+            credentials.subList(0, 2);
+            return credentials;
+        }
+        return null;
+    }
+
+
     /**
-     Creates the database in case it doesn't exist
+     * Creates the database in case it doesn't exist
+     *
      * @return if database successfully created
      */
-    public boolean createDatabase()  {
+    public boolean createDatabase() {
         ResultSet rs = null;
         Statement statement = null;
         try {
-            this.connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/", username, password);
+            this.connection = DriverManager.getConnection("jdbc:postgresql://localhost:5432/", getUserName(), getPassword());
             statement = connection.createStatement();
             rs = statement.executeQuery("SELECT FROM pg_database WHERE LOWER(datname) = 'qwirkledb';");
             if (!rs.next()) {
                 statement.executeUpdate("CREATE DATABASE qwirkledb;");
             }
-        }catch (SQLException e) {
+        } catch (SQLException e) {
             return false;
-        }
-        finally {
+        } finally {
             if (statement != null) {
                 closeStatementQuietly(statement);
             }
@@ -101,28 +129,25 @@ public class Database {
     }
 
 
-
     /**
-     Sets up postgres server connection
-     @return <code>Connection</code>
+     * Sets up postgres server connection
+     *
+     * @return <code>Connection</code>
      */
     public Connection setConnection() {
-        try  {
-            connection = DriverManager.getConnection(jdbc, username, password);
+        try {
+            connection = DriverManager.getConnection(jdbc, getUserName(), getPassword());
         } catch (SQLException e) {
             e.printStackTrace();
             return null;
         }
-//        System.out.println("Connected");
         return connection;
     }
 
 
-    public boolean logIn(){
+    public boolean logIn() {
         if (!createDatabase()) return false;
         createSaveGameTables();
-//        makeDirectory();
-//        saveCredentials();
         return true;
     }
 
@@ -144,7 +169,7 @@ public class Database {
                     TRUNCATE TABLE int_turn CASCADE;
                     TRUNCATE TABLE int_tile CASCADE;
                     TRUNCATE TABLE int_move CASCADE;
-                    
+                                        
                     ALTER SEQUENCE player_id_seq RESTART;
                     ALTER SEQUENCE game_id_seq RESTART;
                     ALTER SEQUENCE playersession_id_seq RESTART;
@@ -154,7 +179,7 @@ public class Database {
 
         } catch (SQLException e) {
             System.out.println("Error while trying to drop all tables and sequences.");
-        }finally {
+        } finally {
             if (stmt != null) {
                 closeStatementQuietly(stmt);
             }
@@ -165,8 +190,7 @@ public class Database {
     }
 
 
-
-    public boolean dropTable(){
+    public boolean dropTable() {
         Statement stmt = null;
         String CreateSql;
         this.connection = setConnection();
@@ -190,16 +214,16 @@ public class Database {
                     drop table if exists int_player cascade;
                                     
                     drop sequence if exists game_id_seq;
-                    
+                                        
                     drop sequence if exists player_id_seq;
                     drop sequence if exists playersession_id_seq;
                     """;
             stmt.executeUpdate(CreateSql);
 
-        } catch (SQLException e){
+        } catch (SQLException e) {
             e.printStackTrace();
             return false;
-        }finally {
+        } finally {
             if (stmt != null) {
                 closeStatementQuietly(stmt);
             }
@@ -209,6 +233,7 @@ public class Database {
         }
         return true;
     }
+
     /**
      * Creating all tables
      */
@@ -223,8 +248,8 @@ public class Database {
                         START WITH 1
                         INCREMENT BY 1
                         NO MAXVALUE;
-                    
-                    
+                                        
+                                        
                     CREATE SEQUENCE IF NOT EXISTS player_id_seq
                         START WITH 1
                         INCREMENT BY 1
@@ -234,7 +259,7 @@ public class Database {
                         START WITH 1
                         INCREMENT BY 1
                         NO MAXVALUE;
-                    
+                                        
                     create table if not exists int_gamesession
                     (
                         game_id       integer   not null primary key,
@@ -243,29 +268,29 @@ public class Database {
                         start_time    timestamp not null,
                         end_time      timestamp not null default now()
                     );
-                    
+                                        
                     CREATE TABLE IF NOT EXISTS int_player(
                                                              player_id INT PRIMARY KEY,
                                                              player_name VARCHAR(32) NOT NULL,
                                                              difficulty VARCHAR DEFAULT NULL
                     );
-                    
+                                        
                     CREATE TABLE IF NOT EXISTS int_playersession(
                         playersession_id INT NOT NULL UNIQUE ,
                         player_id INT REFERENCES INT_PLAYER ON DELETE CASCADE,
                         game_id INT REFERENCES INT_GAMESESSION ON DELETE CASCADE,
                         CONSTRAINT playersession_pkey PRIMARY KEY (playersession_id,player_id,game_id)
                     );
-                    
-                    
-                    
+                                        
+                                        
+                                        
                     CREATE TABLE IF NOT EXISTS int_tile(
                                                            tile_id INT PRIMARY KEY ,
                                                            shape VARCHAR(16),
                                                            color VARCHAR(16)
                     );
-                    
-                    
+                                        
+                                        
                     CREATE TABLE IF NOT EXISTS int_score(
                                                             playersession_id INT NOT NULL
                                                                             REFERENCES int_playersession(playersession_id)
@@ -274,7 +299,7 @@ public class Database {
                                                             tot_time_spent_turns numeric(3),
                                                             CONSTRAINT score_pkey PRIMARY KEY (playersession_id)
                     );
-                    
+                                        
                     CREATE TABLE IF NOT EXISTS int_turn(
                                                            playersession_id INT NOT NULL
                                                                             REFERENCES int_playersession(playersession_id)
@@ -285,7 +310,7 @@ public class Database {
                                                            time_of_play TIMESTAMP DEFAULT now(),
                                                            CONSTRAINT turn_pkey PRIMARY KEY (playersession_id,turn_no)
                     );
-                    
+                                        
                     create table if not exists int_move
                       (
                           playersession_id integer not null
@@ -311,7 +336,7 @@ public class Database {
             e.printStackTrace();
             System.out.println("Error while trying to create all tables");
             return false;
-        }finally {
+        } finally {
             if (stmt != null) {
                 closeStatementQuietly(stmt);
             }
@@ -323,7 +348,6 @@ public class Database {
     }
 
 
-
     public boolean save(GameSession session) {
         this.connection = setConnection();
         session.save();
@@ -331,8 +355,6 @@ public class Database {
         session.getComputerSession().save();
         return true;
     }
-
-
 
 
     public ObservableList<XYChart.Data> getDurationPerTurnLastGameSessionComputer() {
@@ -344,32 +366,32 @@ public class Database {
         try {
             stmt = connection.createStatement();
             String sql = """
-                         SELECT game_id
-                         FROM int_gamesession
-                         ORDER BY game_id DESC
-                         LIMIT 1
-                         """;
+                    SELECT game_id
+                    FROM int_gamesession
+                    ORDER BY game_id DESC
+                    LIMIT 1
+                    """;
             rs = stmt.executeQuery(sql);
             if (rs.next()) {
                 sql = """
-                          SELECT turn_no, time_spent, player_name
-                          FROM int_turn
-                          JOIN int_playersession ip on int_turn.playersession_id = ip.playersession_id
-                          JOIN int_player i on i.player_id = ip.player_id
-                          WHERE player_name in ('Computer')
-                          AND game_id = (SELECT max(game_id) from int_gamesession)
-                          ORDER BY turn_no
-                          """;
+                        SELECT turn_no, time_spent, player_name
+                        FROM int_turn
+                        JOIN int_playersession ip on int_turn.playersession_id = ip.playersession_id
+                        JOIN int_player i on i.player_id = ip.player_id
+                        WHERE player_name in ('Computer')
+                        AND game_id = (SELECT max(game_id) from int_gamesession)
+                        ORDER BY turn_no
+                        """;
                 ptsmt = connection.prepareStatement(sql);
 //                ptsmt.setInt(1, gameId);
                 rs = ptsmt.executeQuery();
-                while(rs.next()){
+                while (rs.next()) {
                     data.add(new XYChart.Data<>(rs.getInt("turn_no"), rs.getInt("time_spent")));
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (connection != null) {
                 closeConnectionQuietly(connection);
             }
@@ -387,7 +409,6 @@ public class Database {
     }
 
 
-
     public ObservableList<XYChart.Data> getDurationPerTurnLastGameSessionPlayer() {
         this.connection = setConnection();
         PreparedStatement ptsmt = null;
@@ -397,33 +418,33 @@ public class Database {
         try {
             stmt = connection.createStatement();
             String sql = """
-                         SELECT game_id
-                         FROM int_gamesession
-                         ORDER BY game_id DESC
-                         LIMIT 1
-                         """;
+                    SELECT game_id
+                    FROM int_gamesession
+                    ORDER BY game_id DESC
+                    LIMIT 1
+                    """;
             rs = stmt.executeQuery(sql);
             if (rs.next()) {
                 sql = """
-                          SELECT turn_no, time_spent, player_name
-                          FROM int_turn
-                          JOIN int_playersession ip on int_turn.playersession_id = ip.playersession_id
-                          JOIN int_player i on i.player_id = ip.player_id
-                          WHERE player_name not in ('Computer')
-                          AND game_id = (SELECT max(game_id) from int_gamesession)
-                          ORDER BY turn_no
-                          """;
+                        SELECT turn_no, time_spent, player_name
+                        FROM int_turn
+                        JOIN int_playersession ip on int_turn.playersession_id = ip.playersession_id
+                        JOIN int_player i on i.player_id = ip.player_id
+                        WHERE player_name not in ('Computer')
+                        AND game_id = (SELECT max(game_id) from int_gamesession)
+                        ORDER BY turn_no
+                        """;
                 ptsmt = connection.prepareStatement(sql);
 //                ptsmt.setInt(1, gameId);
                 rs = ptsmt.executeQuery();
-                while(rs.next()){
+                while (rs.next()) {
                     data.add(new XYChart.Data<>(rs.getInt("turn_no"), rs.getInt("time_spent")));
                 }
 
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (connection != null) {
                 closeConnectionQuietly(connection);
             }
@@ -449,33 +470,33 @@ public class Database {
         try {
             stmt = connection.createStatement();
             String sql = """
-                         SELECT game_id
-                         FROM int_gamesession
-                         ORDER BY game_id DESC
-                         LIMIT 1
-                         """;
+                    SELECT game_id
+                    FROM int_gamesession
+                    ORDER BY game_id DESC
+                    LIMIT 1
+                    """;
             rs = stmt.executeQuery(sql);
             if (rs.next()) {
 //                int gameId = rs.getInt("game_id");
                 sql = """
-                          SELECT turn_no, points, player_name
-                          FROM int_turn
-                          JOIN int_playersession ip on int_turn.playersession_id = ip.playersession_id
-                          JOIN int_player i on i.player_id = ip.player_id
-                          WHERE player_name in ('Computer')
-                          AND game_id = (SELECT max(game_id) from int_gamesession)
-                          ORDER BY turn_no
-                          """;
+                        SELECT turn_no, points, player_name
+                        FROM int_turn
+                        JOIN int_playersession ip on int_turn.playersession_id = ip.playersession_id
+                        JOIN int_player i on i.player_id = ip.player_id
+                        WHERE player_name in ('Computer')
+                        AND game_id = (SELECT max(game_id) from int_gamesession)
+                        ORDER BY turn_no
+                        """;
                 ptsmt = connection.prepareStatement(sql);
 //                ptsmt.setInt(1, gameId);
                 rs = ptsmt.executeQuery();
-                while(rs.next()){
+                while (rs.next()) {
                     data.add(new XYChart.Data<>(rs.getInt("turn_no"), rs.getInt("points")));
                 }
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (connection != null) {
                 closeConnectionQuietly(connection);
             }
@@ -501,34 +522,34 @@ public class Database {
         try {
             stmt = connection.createStatement();
             String sql = """
-                         SELECT game_id
-                         FROM int_gamesession
-                         ORDER BY game_id DESC
-                         LIMIT 1
-                         """;
+                    SELECT game_id
+                    FROM int_gamesession
+                    ORDER BY game_id DESC
+                    LIMIT 1
+                    """;
             rs = stmt.executeQuery(sql);
             if (rs.next()) {
 //                int gameId = rs.getInt("game_id");
                 sql = """
-                          SELECT turn_no, points, player_name
-                          FROM int_turn
-                          JOIN int_playersession ip on int_turn.playersession_id = ip.playersession_id
-                          JOIN int_player i on i.player_id = ip.player_id
-                          WHERE player_name not in ('Computer')
-                          AND game_id = (SELECT max(game_id) from int_gamesession)
-                          ORDER BY turn_no
-                          """;
+                        SELECT turn_no, points, player_name
+                        FROM int_turn
+                        JOIN int_playersession ip on int_turn.playersession_id = ip.playersession_id
+                        JOIN int_player i on i.player_id = ip.player_id
+                        WHERE player_name not in ('Computer')
+                        AND game_id = (SELECT max(game_id) from int_gamesession)
+                        ORDER BY turn_no
+                        """;
                 ptsmt = connection.prepareStatement(sql);
 //                ptsmt.setInt(1, gameId);
                 rs = ptsmt.executeQuery();
-                while(rs.next()){
+                while (rs.next()) {
                     data.add(new XYChart.Data<>(rs.getInt("turn_no"), rs.getInt("points")));
                 }
 
             }
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (connection != null) {
                 closeConnectionQuietly(connection);
             }
@@ -553,24 +574,24 @@ public class Database {
         ObservableList<XYChart.Data> data = FXCollections.observableArrayList();
         try {
             String sql = """
-                          SELECT max(points) as points, game_id
-                          FROM int_turn
-                          JOIN int_playersession ip on int_turn.playersession_id = ip.playersession_id
-                          JOIN int_player i on i.player_id = ip.player_id
-                          WHERE player_name in ('Computer')
-                          group by game_id
-                          order by game_id DESC
-                          LIMIT 50
-                          """;
+                    SELECT max(points) as points, game_id
+                    FROM int_turn
+                    JOIN int_playersession ip on int_turn.playersession_id = ip.playersession_id
+                    JOIN int_player i on i.player_id = ip.player_id
+                    WHERE player_name in ('Computer')
+                    group by game_id
+                    order by game_id DESC
+                    LIMIT 50
+                    """;
             ptsmt = connection.prepareStatement(sql);
             rs = ptsmt.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 data.add(new XYChart.Data<>(rs.getInt("game_id"), rs.getInt("points")));
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (connection != null) {
                 closeConnectionQuietly(connection);
             }
@@ -596,24 +617,24 @@ public class Database {
         ObservableList<XYChart.Data> data = FXCollections.observableArrayList();
         try {
             String sql = """
-                          SELECT max(points) as points, game_id
-                          FROM int_turn
-                          JOIN int_playersession ip on int_turn.playersession_id = ip.playersession_id
-                          JOIN int_player i on i.player_id = ip.player_id
-                          WHERE player_name not in ('Computer')
-                          group by game_id
-                          order by game_id DESC
-                          LIMIT 50
-                          """;
+                    SELECT max(points) as points, game_id
+                    FROM int_turn
+                    JOIN int_playersession ip on int_turn.playersession_id = ip.playersession_id
+                    JOIN int_player i on i.player_id = ip.player_id
+                    WHERE player_name not in ('Computer')
+                    group by game_id
+                    order by game_id DESC
+                    LIMIT 50
+                    """;
             ptsmt = connection.prepareStatement(sql);
             rs = ptsmt.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 data.add(new XYChart.Data<>(rs.getInt("game_id"), rs.getInt("points")));
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (connection != null) {
                 closeConnectionQuietly(connection);
             }
@@ -639,24 +660,24 @@ public class Database {
         ObservableList<XYChart.Data> data = FXCollections.observableArrayList();
         try {
             String sql = """
-                          SELECT avg(points) as points, game_id
-                          FROM int_turn
-                          JOIN int_playersession ip on int_turn.playersession_id = ip.playersession_id
-                          JOIN int_player i on i.player_id = ip.player_id
-                          WHERE player_name in ('Computer')
-                          group by game_id
-                          order by game_id DESC
-                          LIMIT 50
-                          """;
+                    SELECT avg(points) as points, game_id
+                    FROM int_turn
+                    JOIN int_playersession ip on int_turn.playersession_id = ip.playersession_id
+                    JOIN int_player i on i.player_id = ip.player_id
+                    WHERE player_name in ('Computer')
+                    group by game_id
+                    order by game_id DESC
+                    LIMIT 50
+                    """;
             ptsmt = connection.prepareStatement(sql);
             rs = ptsmt.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 data.add(new XYChart.Data<>(rs.getInt("game_id"), rs.getInt("points")));
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (connection != null) {
                 closeConnectionQuietly(connection);
             }
@@ -682,24 +703,24 @@ public class Database {
         ObservableList<XYChart.Data> data = FXCollections.observableArrayList();
         try {
             String sql = """
-                          SELECT avg(points) as points, game_id
-                          FROM int_turn
-                          JOIN int_playersession ip on int_turn.playersession_id = ip.playersession_id
-                          JOIN int_player i on i.player_id = ip.player_id
-                          WHERE player_name not in ('Computer')
-                          group by game_id
-                          order by game_id DESC
-                          LIMIT 50
-                          """;
+                    SELECT avg(points) as points, game_id
+                    FROM int_turn
+                    JOIN int_playersession ip on int_turn.playersession_id = ip.playersession_id
+                    JOIN int_player i on i.player_id = ip.player_id
+                    WHERE player_name not in ('Computer')
+                    group by game_id
+                    order by game_id DESC
+                    LIMIT 50
+                    """;
             ptsmt = connection.prepareStatement(sql);
             rs = ptsmt.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 data.add(new XYChart.Data<>(rs.getInt("game_id"), rs.getInt("points")));
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (connection != null) {
                 closeConnectionQuietly(connection);
             }
@@ -725,20 +746,20 @@ public class Database {
         ObservableList<XYChart.Data> data = FXCollections.observableArrayList();
         try {
             String sql = """
-                          SELECT game_duration as duration, game_id
-                          FROM int_gamesession
-                          order by game_id DESC
-                          LIMIT 50
-                          """;
+                    SELECT game_duration as duration, game_id
+                    FROM int_gamesession
+                    order by game_id DESC
+                    LIMIT 50
+                    """;
             ptsmt = connection.prepareStatement(sql);
             rs = ptsmt.executeQuery();
-            while(rs.next()){
+            while (rs.next()) {
                 data.add(new XYChart.Data<>(rs.getInt("game_id"), rs.getInt("duration")));
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (connection != null) {
                 closeConnectionQuietly(connection);
             }
@@ -755,7 +776,6 @@ public class Database {
         Collections.reverse(data);
         return data;
     }
-
 
 
     private void closeResultSetQuietly(ResultSet rs) {
@@ -775,7 +795,8 @@ public class Database {
     private void closeStatementQuietly(Statement stmt) {
         try {
             stmt.close();
-        }catch (SQLException ignored) {}
+        } catch (SQLException ignored) {
+        }
     }
 
     private void closePreparedStatementQuietly(PreparedStatement ptsmt) {
@@ -786,7 +807,7 @@ public class Database {
     }
 
 
-    public String getLastPlayerName(){
+    public String getLastPlayerName() {
         this.connection = setConnection();
         PreparedStatement ptsmt = null;
         Statement stmt = null;
@@ -795,14 +816,14 @@ public class Database {
         try {
             stmt = connection.createStatement();
             String sql = """
-                         SELECT player_name
-                         FROM int_gamesession
-                         JOIN int_playersession USING (game_id)
-                         JOIN int_player USING (player_id)
-                         WHERE player_name not in ('Computer')
-                         ORDER BY game_id DESC
-                         LIMIT 1
-                         """;
+                    SELECT player_name
+                    FROM int_gamesession
+                    JOIN int_playersession USING (game_id)
+                    JOIN int_player USING (player_id)
+                    WHERE player_name not in ('Computer')
+                    ORDER BY game_id DESC
+                    LIMIT 1
+                    """;
             rs = stmt.executeQuery(sql);
             if (rs.next()) {
                 return rs.getString("player_name");
@@ -810,7 +831,7 @@ public class Database {
             return "Player";
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (connection != null) {
                 closeConnectionQuietly(connection);
             }
@@ -827,7 +848,7 @@ public class Database {
         return data;
     }
 
-    public String getLastComputerMode(){
+    public String getLastComputerMode() {
         this.connection = setConnection();
         PreparedStatement ptsmt = null;
         Statement stmt = null;
@@ -836,14 +857,14 @@ public class Database {
         try {
             stmt = connection.createStatement();
             String sql = """
-                         SELECT difficulty
-                         FROM int_gamesession
-                         JOIN int_playersession USING (game_id)
-                         JOIN int_player USING (player_id)
-                         WHERE player_name in ('Computer')
-                         ORDER BY game_id DESC
-                         LIMIT 1
-                         """;
+                    SELECT difficulty
+                    FROM int_gamesession
+                    JOIN int_playersession USING (game_id)
+                    JOIN int_player USING (player_id)
+                    WHERE player_name in ('Computer')
+                    ORDER BY game_id DESC
+                    LIMIT 1
+                    """;
             rs = stmt.executeQuery(sql);
             if (rs.next()) {
                 return rs.getString("difficulty");
@@ -851,7 +872,7 @@ public class Database {
             return "";
         } catch (SQLException e) {
             e.printStackTrace();
-        }finally {
+        } finally {
             if (connection != null) {
                 closeConnectionQuietly(connection);
             }

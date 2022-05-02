@@ -236,7 +236,7 @@ public class GamePlayPresenter {
             iterateTurnsTM.stop();
         }
         List<Move> moves = model.getComputerSession().getPlayer() instanceof ComputerAI ?
-                ((ComputerAI) model.getComputerSession().getPlayer()).makeTurn(model. getComputerSession().indexOf(model.getComputerSession().getLastTurn()) + 1)
+                ((ComputerAI) model.getComputerSession().getPlayer()).makeTurn(model.getComputerSession().indexOf(model.getComputerSession().getLastTurn()) + 1)
                 : ((Computer) model.getComputerSession().getPlayer()).makeTurn();
 
         KeyFrame kf1 = new KeyFrame(Duration.seconds(0.1), e -> {

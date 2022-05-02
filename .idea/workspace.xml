@@ -1,17 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fdd80d70-d918-4a56-b8aa-7e348c030f8e" name="Changes" comment="Database returns 50 sessions when all sessions need to be returned for statistics. &#10;Changed the labels at statistics view to correspond to the 50 games shown&#10;Turn includes Seif's fix of miscalculation of score when the computer was making a qwirkle with extra adjacent sets">
+    <list default="true" id="fdd80d70-d918-4a56-b8aa-7e348c030f8e" name="Changes" comment="Deleted println from some classes.&#10;GamePlayPresenter had the timings of popups&#10;re-adjusted&#10;Statisticsview default tab has changed for the first tabPane">
       <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/git_toolbox_prj.xml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/.idea/libraries/postgresql_42_3_3__2_.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/resources/user-data/info.txt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/qwirkle/model/MoveValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/MoveValidator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/qwirkle/model/Turn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/Turn.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/qwirkle/model/computer/ComputerAI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/computer/ComputerAI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/qwirkle/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/qwirkle/data/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/data/Database.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/qwirkle/model/computer/ComputerEasy.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/qwirkle/view/gamePlayFrame/GamePlayPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/gamePlayFrame/GamePlayPresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/qwirkle/view/statisticsFrame/StatisticsView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/statisticsFrame/StatisticsView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/qwirkle/view/loginFrame/DBLLoginPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/loginFrame/DBLLoginPresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/qwirkle/view/newGameFrame/NewGamePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/newGameFrame/NewGamePresenter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/qwirkle/view/rulesFrame/RulesPresenterNG.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/rulesFrame/RulesPresenterNG.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/qwirkle/view/welcomeFrame/WelcomePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/welcomeFrame/WelcomePresenter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -199,6 +202,8 @@
       <workItem from="1651214282622" duration="1683000" />
       <workItem from="1651341137585" duration="19298000" />
       <workItem from="1651432313029" duration="5546000" />
+      <workItem from="1651440973274" duration="209000" />
+      <workItem from="1651441285648" duration="24953000" />
     </task>
     <task id="LOCAL-00001" summary="Added Java module">
       <created>1644572434802</created>
@@ -354,7 +359,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651418504681</updated>
     </task>
-    <option name="localTasksCounter" value="23" />
+    <task id="LOCAL-00023" summary="Deleted println from some classes.&#10;GamePlayPresenter had the timings of popups&#10;re-adjusted&#10;Statisticsview default tab has changed for the first tabPane">
+      <created>1651441122137</created>
+      <option name="number" value="00023" />
+      <option name="presentableId" value="LOCAL-00023" />
+      <option name="project" value="LOCAL" />
+      <updated>1651441122142</updated>
+    </task>
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -427,7 +439,9 @@
     <MESSAGE value="Applied Seif's changes in model. GamePresenter is set to reset the bag at the third move for testing the gameOver conditions. (comment/delete lines 804-807 in the GamePlayPresenter if you don't need to test it)&#10;Timers for events changed. Score displayed has been corrected. The bonus 6 points when finished first are also displayed correctly. IterateTurns method has new changes." />
     <MESSAGE value="Statistics now properly show the correct first y value" />
     <MESSAGE value="Database returns 50 sessions when all sessions need to be returned for statistics. &#10;Changed the labels at statistics view to correspond to the 50 games shown&#10;Turn includes Seif's fix of miscalculation of score when the computer was making a qwirkle with extra adjacent sets" />
-    <option name="LAST_COMMIT_MESSAGE" value="Database returns 50 sessions when all sessions need to be returned for statistics. &#10;Changed the labels at statistics view to correspond to the 50 games shown&#10;Turn includes Seif's fix of miscalculation of score when the computer was making a qwirkle with extra adjacent sets" />
+    <MESSAGE value="Deleted println from some classes.&#10;GamePlayPresenter had the timings of popups&#10;re-adjusted" />
+    <MESSAGE value="Deleted println from some classes.&#10;GamePlayPresenter had the timings of popups&#10;re-adjusted&#10;Statisticsview default tab has changed for the first tabPane" />
+    <option name="LAST_COMMIT_MESSAGE" value="Deleted println from some classes.&#10;GamePlayPresenter had the timings of popups&#10;re-adjusted&#10;Statisticsview default tab has changed for the first tabPane" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
