@@ -8,7 +8,7 @@ import java.sql.PreparedStatement;
 import java.util.*;
 import java.util.stream.Collectors;
 
-import static qwirkle.model.computer.Computer.LevelOfDifficulty.AI;
+import static qwirkle.model.computer.Computer.LevelOfDifficulty.*;
 
 @SuppressWarnings("OptionalGetWithoutIsPresent")
 public class ComputerAI extends Computer implements QwirkleEngineAI {
@@ -25,8 +25,6 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
      * @return the best turn respective of the level of difficulty, null if no turn can be made
      */
     public Turn makeTurn(int turnNo) {
-        System.out.println("Making turn");
-        System.out.println("Deck: "+getDeck().getTilesInDeck());
         boolean isFirstTurn = getBoard().getUsedSpaces().size() == 0;
         if (isFirstTurn){
             return makeFirstTurn();
@@ -34,17 +32,14 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
         HashMap<Move, Set<Turn>> allMoves = getMoveValidator().getAllValidMoves(getBoard());
         allMoves = clearAllEmptyTurns(allMoves);
         if (thereAreNoMoves(allMoves)) {
-            System.out.println("triggering trade 1");
             trade();
             return null;
         }
-        System.out.println("allMoves: "+allMoves);
         if (turnNo > 5 && getBag().getTiles().size() > 0) {
             allMoves = removeAllTurnsThatCanMakeOpponentQwirkle(allMoves);
             allMoves = removeAllTurnsThatContainLessThanScoreSix(allMoves);
         }
         if (thereAreNoMoves(allMoves)) {
-            System.out.println("triggering trade 2");
             trade();
             return null;
         }
@@ -251,25 +246,24 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
                 }
             }
         }
-        System.out.println(toReturn);
         return toReturn;
     }
 
     @Override
     public Turn getMostProfitableTurn(HashMap<Move, Set<Turn>> allMoves) {
         Turn mostProfitable = null;
-            for (Map.Entry<Move,Set<Turn>> entry: allMoves.entrySet()) {
-                Set<Turn> turns = entry.getValue();
-                for (Turn turn : turns) {
-                    mostProfitable = turn;
-                    if (mostProfitable != null) {
-                        break;
-                    }
+        for (Map.Entry<Move,Set<Turn>> entry: allMoves.entrySet()) {
+            Set<Turn> turns = entry.getValue();
+            for (Turn turn : turns) {
+                mostProfitable = turn;
+                if (mostProfitable != null) {
+                    break;
                 }
             }
-            if (mostProfitable == null) {
-                return null;
-            }
+        }
+        if (mostProfitable == null) {
+            return null;
+        }
         Grid grid = getBoard().getDeepCopy();
         for (Move move : mostProfitable){
             grid.boardAddMove(move);
@@ -327,7 +321,6 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
         if (sameColorCount.values().stream().allMatch(i -> i > 1)
                 && sameShapeCount.values().stream().allMatch(i -> i > 1)
                 && sameTileCount.values().stream().allMatch(i -> i > 1)) {
-            System.out.println("trade same tiles");
             ArrayList<Tile> tiles =
                     sameTileCount.entrySet()
                             .stream()
@@ -466,3 +459,5 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
         }
     }
 }
+
+

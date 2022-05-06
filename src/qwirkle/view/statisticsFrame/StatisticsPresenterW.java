@@ -145,7 +145,7 @@ public class StatisticsPresenterW {
         int i = 0;
         while (i < series.size()) {
             final XYChart.Data<Integer, Integer> data = new XYChart.Data<>(i + 1, Integer.parseInt(series.get(i).getYValue().toString()));
-            data.setNode(new HoveredNode((i == 0) ? 0 : (int) series.get(i).getYValue()));
+            data.setNode(new HoveredNode((int) series.get(i).getYValue()));
             dataset.add(data);
             i++;
         }

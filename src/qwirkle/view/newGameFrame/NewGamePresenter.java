@@ -2,17 +2,24 @@ package qwirkle.view.newGameFrame;
 
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
-import javafx.scene.control.RadioButton;
 import javafx.stage.Stage;
+import qwirkle.Main;
 import qwirkle.model.GameSession;
 import qwirkle.model.computer.Computer;
 import qwirkle.view.gamePlayFrame.GamePlayPresenter;
 import qwirkle.view.gamePlayFrame.GamePlayView;
+import qwirkle.view.popupFrame.PopupPresenter;
+import qwirkle.view.popupFrame.PopupView;
 import qwirkle.view.rulesFrame.RulesPresenterNG;
 import qwirkle.view.rulesFrame.RulesView;
 import qwirkle.view.welcomeFrame.WelcomePresenter;
 import qwirkle.view.welcomeFrame.WelcomeView;
 
+import java.io.*;
+import java.util.LinkedList;
+import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 public class NewGamePresenter {
@@ -38,15 +45,63 @@ public class NewGamePresenter {
         view.getRadioMode2().setOnAction(event -> difficultyLvl = Computer.LevelOfDifficulty.AI);
         view.getRules().setOnAction(event -> setRulesView(stage, isPlayerStarting, name));
         view.getPlay().setOnAction((ActionEvent event) -> {
-            name =  view.getRadioHPF1().getText();
+            name = view.getRadioHPF1().getText();
             setPLayView(stage, getIsPlayerStarting(), getName());
         });
-        view.getSubmit().setOnAction(event ->  {
+        view.getSubmit().setOnAction(event -> {
             if (!view.getPlaceholder().getText().isEmpty()) {
-                restoreNodes();
-                name = view.getPlaceholder().getText();
+                if (view.getPlaceholder().getText().length() > 12) {
+                    String text = """
+                            The maximum allowed
+                               characters is 11!""";
+                    PopupView view = new PopupView();
+                    new PopupPresenter(stage, view, text, 660, 300, 2);
+                    return;
+                } else {
+                    restoreNodes();
+                    name = view.getPlaceholder().getText();
+                    saveName();
+                }
             }
         });
+    }
+
+    private void saveName() {
+        try {
+            //Get the filepath
+            Scanner scanner = new Scanner(new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/user-data/info.txt"))));
+            String savedFilePath = scanner.nextLine();
+            String toAppend;
+            if (name != null && !name.equals("Player 1")) {
+                toAppend = name;
+            } else toAppend = "";
+            FileWriter fileWriter = new FileWriter(savedFilePath, true);
+            //Save the name
+            PrintWriter writer = new PrintWriter(fileWriter);
+            writer.println(toAppend);
+            writer.close();
+            fileWriter.close();
+            scanner.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
+
+        }
+    }
+
+    private String getSavedName() throws FileNotFoundException {
+        LinkedList<String> text = new LinkedList<>();
+        Scanner scanner = new Scanner(new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/user-data/info.txt"))));
+        String source = scanner.nextLine();
+        Scanner scanner1 = new Scanner(new File(source));
+        while (scanner1.hasNext()) {
+            text.add(scanner1.nextLine());
+        }
+        scanner.close();
+        scanner1.close();
+        if (text.size() > 3) {
+            return text.getLast();
+        }
+        return null;
     }
 
     private void setBackToWelcomeView(Stage stage) {
@@ -57,7 +112,7 @@ public class NewGamePresenter {
 
     private void setRulesView(Stage stage, boolean isPlayerStarting, String name) {
         RulesView rulesView = new RulesView();
-        new RulesPresenterNG(stage, rulesView, isPlayerStarting, name);
+        new RulesPresenterNG(stage, rulesView, view, isPlayerStarting, name);
         view.getScene().setRoot(rulesView);
     }
 
@@ -103,25 +158,37 @@ public class NewGamePresenter {
         view.getRadioHPF2().setStyle("-fx-text-fill: #fff;");
         view.getVbox1().getChildren().addAll(view.getWhoPlaysFirst(), view.getRadioHPF1(), view.getRadioHPF2());
     }
-    public void setIsPlayerStarting(boolean isPlayerStarting){
+
+    public void setIsPlayerStarting(boolean isPlayerStarting) {
         this.isPlayerStarting = isPlayerStarting;
     }
-    public void setName(String name){
+
+    public void setName(String name) {
         this.name = name;
     }
 
-    private boolean getIsPlayerStarting(){
+    private boolean getIsPlayerStarting() {
         return isPlayerStarting;
     }
-    private String getName(){
+
+    private String getName() {
         return name;
     }
-    private Computer.LevelOfDifficulty getDifficultyLvl(){
+
+    private Computer.LevelOfDifficulty getDifficultyLvl() {
         return difficultyLvl;
     }
 
-    private void updateView(){
-        name = view.getRadioHPF1().getText();
+    private void updateView() {
+        try {
+            if (getSavedName() != null) {
+                name = getSavedName();
+                view.getRadioHPF1().setText(getSavedName());
+            } else {
+                name = view.getRadioHPF1().getText();
+            }
+        } catch (FileNotFoundException e) {
+        }
         if (isPlayerStarting) {
             view.getGroup1().selectToggle(view.getRadioHPF1());
         } else view.getGroup1().selectToggle(view.getRadioHPF2());

@@ -12,3 +12,4 @@ public interface QwirkleEngineAI {
     HashMap<Move,Set<Turn>> getTurnsThatHaveMultipleRowsOrColumns(HashMap<Move, Set<Turn>> allMoves);
     Turn getMostProfitableTurn(HashMap<Move, Set<Turn>> allMoves);
 }
+

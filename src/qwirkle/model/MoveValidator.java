@@ -133,7 +133,6 @@ public class MoveValidator {
         toReturn = removeEmptyTurns(toReturn);
         toReturn = removeDuplicateTurns(toReturn);
 
-        System.out.println("valid moves: " + toReturn);
         return toReturn;
     }
 

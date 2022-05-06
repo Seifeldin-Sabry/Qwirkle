@@ -143,7 +143,7 @@ public class StatisticsView extends BorderPane {
         yAxisDuration = new NumberAxis();
         yAxisDuration.setLabel("Time (seconds)");
         xAxisGameNo = new NumberAxis();
-        xAxisGameNo.setLabel("Game No.");
+        xAxisGameNo.setLabel("Last 50 games");
         xAxisGameNo.setTickUnit(1);
         durationPerSession = new LineChart(xAxisGameNo, yAxisDuration);
         durationPerSession.setTitle("Duration per session");
@@ -163,7 +163,7 @@ public class StatisticsView extends BorderPane {
         yAxisAverageScore = new NumberAxis();
         yAxisAverageScore.setLabel("Score");
         xAxisGameNo2 = new NumberAxis();
-        xAxisGameNo2.setLabel("Game No.");
+        xAxisGameNo2.setLabel("Last 50 games");
         xAxisGameNo2.setTickUnit(1);
         averageScorePerSession = new LineChart(xAxisGameNo2, yAxisAverageScore);
         averageScorePerSession.setTitle("Average score per session");
@@ -182,7 +182,7 @@ public class StatisticsView extends BorderPane {
         yAxisScore = new NumberAxis();
         yAxisScore.setLabel("Score");
         xAxisGameNo3 = new NumberAxis();
-        xAxisGameNo3.setLabel("Game No.");
+        xAxisGameNo3.setLabel("Last 50 games");
         xAxisGameNo3.setTickUnit(1);
         bestScorePerSession = new LineChart(xAxisGameNo3, yAxisScore);
         bestScorePerSession.setTitle("Highest score in a turn per session");
@@ -218,8 +218,8 @@ public class StatisticsView extends BorderPane {
 //        tileByShapeTab.setContent(mostPlayedTilesByShape);
 
 //        tabPane.getTabs().addAll(durationPerTurnTabLastGameSession, pointPerTurnTabLastGameSession, tileByColorTab, tileByShapeTab, durationPerSessionTab, averageScorePerSessionTab);
-        tabPane1.getTabs().addAll(durationPerTurnLastGameSessionTab, pointPerTurnLastGameSessionTab);
-        tabPane1.getSelectionModel().select(durationPerTurnLastGameSessionTab);
+        tabPane1.getTabs().addAll(pointPerTurnLastGameSessionTab, durationPerTurnLastGameSessionTab);
+        tabPane1.getSelectionModel().select(pointPerTurnLastGameSessionTab);
         tabPane2.getTabs().addAll(bestScorePerSessionTab, durationPerSessionTab, averageScorePerSessionTab);
         tabPane2.getSelectionModel().select(bestScorePerSessionTab);
         lastGameButton = new Button("Last Game");

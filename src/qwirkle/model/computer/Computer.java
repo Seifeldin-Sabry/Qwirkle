@@ -11,7 +11,6 @@ import java.util.Random;
 import java.util.Set;
 
 import static qwirkle.model.Grid.MID;
-import static qwirkle.model.computer.Computer.LevelOfDifficulty.EASY;
 
 public class Computer extends Player {
 
@@ -25,7 +24,7 @@ public class Computer extends Player {
 
     public Computer(Bag bag, Grid grid) {
         super("Computer", bag, grid);
-        this.levelOfDifficulty = EASY;
+        this.levelOfDifficulty = LevelOfDifficulty.EASY;
         randomTileChooser = new Random();
     }
 
@@ -112,11 +111,11 @@ public class Computer extends Player {
         return new Turn(moves);
     }
 
-     void setLevelOfDifficulty(LevelOfDifficulty levelOfDifficulty) {
+    void setLevelOfDifficulty(LevelOfDifficulty levelOfDifficulty) {
         this.levelOfDifficulty = levelOfDifficulty;
     }
 
-     LevelOfDifficulty getLevelOfDifficulty() {
+    LevelOfDifficulty getLevelOfDifficulty() {
         return levelOfDifficulty;
     }
 
@@ -139,3 +138,4 @@ public class Computer extends Player {
         }
     }
 }
+
