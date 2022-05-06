@@ -357,12 +357,12 @@ public class Database {
     }
 
 
-    public ObservableList<Data> getDurationPerTurnLastGameSessionComputer() {
+    public ObservableList<XYChart.Data> getDurationPerTurnLastGameSessionComputer() {
         this.connection = setConnection();
         PreparedStatement ptsmt = null;
         Statement stmt = null;
         ResultSet rs = null;
-        ObservableList<Data> data = FXCollections.observableArrayList();
+        ObservableList<XYChart.Data> data = FXCollections.observableArrayList();
         try {
             stmt = connection.createStatement();
             String sql = """
@@ -386,7 +386,7 @@ public class Database {
 //                ptsmt.setInt(1, gameId);
                 rs = ptsmt.executeQuery();
                 while (rs.next()) {
-                    data.add(new Data<>(rs.getInt("turn_no"), rs.getInt("time_spent")));
+                    data.add(new XYChart.Data<>(rs.getInt("turn_no"), rs.getInt("time_spent")));
                 }
             }
         } catch (SQLException e) {
@@ -409,12 +409,12 @@ public class Database {
     }
 
 
-    public ObservableList<Data> getDurationPerTurnLastGameSessionPlayer() {
+    public ObservableList<XYChart.Data> getDurationPerTurnLastGameSessionPlayer() {
         this.connection = setConnection();
         PreparedStatement ptsmt = null;
         Statement stmt = null;
         ResultSet rs = null;
-        ObservableList<Data> data = FXCollections.observableArrayList();
+        ObservableList<XYChart.Data> data = FXCollections.observableArrayList();
         try {
             stmt = connection.createStatement();
             String sql = """
@@ -438,7 +438,7 @@ public class Database {
 //                ptsmt.setInt(1, gameId);
                 rs = ptsmt.executeQuery();
                 while (rs.next()) {
-                    data.add(new Data<>(rs.getInt("turn_no"), rs.getInt("time_spent")));
+                    data.add(new XYChart.Data<>(rs.getInt("turn_no"), rs.getInt("time_spent")));
                 }
 
             }
@@ -461,12 +461,12 @@ public class Database {
         return data;
     }
 
-    public ObservableList<Data> getPointsPerTurnLastGameSessionComputer() {
+    public ObservableList<XYChart.Data> getPointsPerTurnLastGameSessionComputer() {
         this.connection = setConnection();
         PreparedStatement ptsmt = null;
         Statement stmt = null;
         ResultSet rs = null;
-        ObservableList<Data> data = FXCollections.observableArrayList();
+        ObservableList<XYChart.Data> data = FXCollections.observableArrayList();
         try {
             stmt = connection.createStatement();
             String sql = """
@@ -491,7 +491,7 @@ public class Database {
 //                ptsmt.setInt(1, gameId);
                 rs = ptsmt.executeQuery();
                 while (rs.next()) {
-                    data.add(new Data<>(rs.getInt("turn_no"), rs.getInt("points")));
+                    data.add(new XYChart.Data<>(rs.getInt("turn_no"), rs.getInt("points")));
                 }
             }
         } catch (SQLException e) {
@@ -513,12 +513,12 @@ public class Database {
         return data;
     }
 
-    public ObservableList<Data> getPointsPerTurnLastGameSessionPlayer() {
+    public ObservableList<XYChart.Data> getPointsPerTurnLastGameSessionPlayer() {
         this.connection = setConnection();
         PreparedStatement ptsmt = null;
         Statement stmt = null;
         ResultSet rs = null;
-        ObservableList<Data> data = FXCollections.observableArrayList();
+        ObservableList<XYChart.Data> data = FXCollections.observableArrayList();
         try {
             stmt = connection.createStatement();
             String sql = """
@@ -543,7 +543,7 @@ public class Database {
 //                ptsmt.setInt(1, gameId);
                 rs = ptsmt.executeQuery();
                 while (rs.next()) {
-                    data.add(new Data<>(rs.getInt("turn_no"), rs.getInt("points")));
+                    data.add(new XYChart.Data<>(rs.getInt("turn_no"), rs.getInt("points")));
                 }
 
             }
@@ -566,12 +566,12 @@ public class Database {
         return data;
     }
 
-    public ObservableList<Data> getBestPointsPerSessionComputer() {
+    public ObservableList<XYChart.Data> getBestPointsPerSessionComputer() {
         this.connection = setConnection();
         PreparedStatement ptsmt = null;
         Statement stmt = null;
         ResultSet rs = null;
-        ObservableList<Data> data = FXCollections.observableArrayList();
+        ObservableList<XYChart.Data> data = FXCollections.observableArrayList();
         try {
             String sql = """
                     SELECT max(points) as points, game_id
@@ -586,7 +586,7 @@ public class Database {
             ptsmt = connection.prepareStatement(sql);
             rs = ptsmt.executeQuery();
             while (rs.next()) {
-                data.add(new Data<>(rs.getInt("game_id"), rs.getInt("points")));
+                data.add(new XYChart.Data<>(rs.getInt("game_id"), rs.getInt("points")));
             }
 
         } catch (SQLException e) {
@@ -609,12 +609,12 @@ public class Database {
         return data;
     }
 
-    public ObservableList<Data> getBestPointsPerSessionPlayer() {
+    public ObservableList<XYChart.Data> getBestPointsPerSessionPlayer() {
         this.connection = setConnection();
         PreparedStatement ptsmt = null;
         Statement stmt = null;
         ResultSet rs = null;
-        ObservableList<Data> data = FXCollections.observableArrayList();
+        ObservableList<XYChart.Data> data = FXCollections.observableArrayList();
         try {
             String sql = """
                     SELECT max(points) as points, game_id
@@ -629,7 +629,7 @@ public class Database {
             ptsmt = connection.prepareStatement(sql);
             rs = ptsmt.executeQuery();
             while (rs.next()) {
-                data.add(new Data<>(rs.getInt("game_id"), rs.getInt("points")));
+                data.add(new XYChart.Data<>(rs.getInt("game_id"), rs.getInt("points")));
             }
 
         } catch (SQLException e) {
@@ -652,12 +652,12 @@ public class Database {
         return data;
     }
 
-    public ObservableList<Data> getAvgPointsPerSessionComputer() {
+    public ObservableList<XYChart.Data> getAvgPointsPerSessionComputer() {
         this.connection = setConnection();
         PreparedStatement ptsmt = null;
         Statement stmt = null;
         ResultSet rs = null;
-        ObservableList<Data> data = FXCollections.observableArrayList();
+        ObservableList<XYChart.Data> data = FXCollections.observableArrayList();
         try {
             String sql = """
                     SELECT avg(points) as points, game_id
@@ -672,7 +672,7 @@ public class Database {
             ptsmt = connection.prepareStatement(sql);
             rs = ptsmt.executeQuery();
             while (rs.next()) {
-                data.add(new Data<>(rs.getInt("game_id"), rs.getInt("points")));
+                data.add(new XYChart.Data<>(rs.getInt("game_id"), rs.getInt("points")));
             }
 
         } catch (SQLException e) {
@@ -695,12 +695,12 @@ public class Database {
         return data;
     }
 
-    public ObservableList<Data> getAvgPointsPerSessionPlayer() {
+    public ObservableList<XYChart.Data> getAvgPointsPerSessionPlayer() {
         this.connection = setConnection();
         PreparedStatement ptsmt = null;
         Statement stmt = null;
         ResultSet rs = null;
-        ObservableList<Data> data = FXCollections.observableArrayList();
+        ObservableList<XYChart.Data> data = FXCollections.observableArrayList();
         try {
             String sql = """
                     SELECT avg(points) as points, game_id
@@ -715,7 +715,7 @@ public class Database {
             ptsmt = connection.prepareStatement(sql);
             rs = ptsmt.executeQuery();
             while (rs.next()) {
-                data.add(new Data<>(rs.getInt("game_id"), rs.getInt("points")));
+                data.add(new XYChart.Data<>(rs.getInt("game_id"), rs.getInt("points")));
             }
 
         } catch (SQLException e) {
@@ -738,12 +738,12 @@ public class Database {
         return data;
     }
 
-    public ObservableList<Data> getDurationPerSession() {
+    public ObservableList<XYChart.Data> getDurationPerSession() {
         this.connection = setConnection();
         PreparedStatement ptsmt = null;
         Statement stmt = null;
         ResultSet rs = null;
-        ObservableList<Data> data = FXCollections.observableArrayList();
+        ObservableList<XYChart.Data> data = FXCollections.observableArrayList();
         try {
             String sql = """
                     SELECT game_duration as duration, game_id
@@ -754,7 +754,7 @@ public class Database {
             ptsmt = connection.prepareStatement(sql);
             rs = ptsmt.executeQuery();
             while (rs.next()) {
-                data.add(new Data<>(rs.getInt("game_id"), rs.getInt("duration")));
+                data.add(new XYChart.Data<>(rs.getInt("game_id"), rs.getInt("duration")));
             }
 
         } catch (SQLException e) {

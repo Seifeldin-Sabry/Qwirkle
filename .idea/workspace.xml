@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fdd80d70-d918-4a56-b8aa-7e348c030f8e" name="Changes" comment="uploaded stupid workspace file" />
+    <list default="true" id="fdd80d70-d918-4a56-b8aa-7e348c030f8e" name="Changes" comment="Deleted println from some classes.&#10;GamePlayPresenter had the timings of popups&#10;re-adjusted&#10;Statisticsview default tab has changed for the first tabPane">
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -10,19 +12,22 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
-        <option value="Class" />
         <option value="Interface" />
+        <option value="Class" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="Website" />
+        <entry key="$PROJECT_DIR$" value="main" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
     <option name="RESET_MODE" value="HARD" />
+  </component>
+  <component name="GitToolBoxStore">
+    <option name="projectConfigVersion" value="5" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -34,11 +39,12 @@
   </component>
   <component name="PropertiesComponent">{
   &quot;keyToString&quot;: {
-    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
     &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
     &quot;jdk.selected.JAVA_MODULE&quot;: &quot;17&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/home/seif/integration-project-qwirkle/src&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/home/seif/Documents/integration-project-qwirkle-mainBranch&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Global Libraries&quot;,
     &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
     &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
     &quot;settings.editor.selected.configurable&quot;: &quot;preferences.pluginManager&quot;
@@ -51,11 +57,11 @@
 }</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/src" />
       <recent name="$PROJECT_DIR$" />
       <recent name="$PROJECT_DIR$/Qwirkle Website" />
       <recent name="$PROJECT_DIR$/Qwirkle_Beta_Version" />
       <recent name="$PROJECT_DIR$/Qwirkle_Beta_Version/src" />
+      <recent name="$PROJECT_DIR$/Qwirkle/src/qwirkle" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/Qwirkle Website/CSS" />
@@ -64,16 +70,12 @@
       <recent name="$PROJECT_DIR$/JavaFunctionalCode" />
       <recent name="$PROJECT_DIR$/JavaFunctionalCode/src" />
     </key>
-    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
-      <recent name="qwirkle.view.popupFrame" />
-      <recent name="qwirkle.view.popFrame" />
-    </key>
   </component>
-  <component name="RunManager" selected="Application.qwirkle.Main">
+  <component name="RunManager" selected="Application.Main">
     <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="qwirkle.Main" />
-      <module name="QirkleGameLogic" />
-      <option name="VM_PARAMETERS" value="   --module-path &quot;$PROJECT_DIR$/../lib/javafx-sdk-17.0.2/lib&quot; --add-modules javafx.controls,javafx.fxml" />
+      <module name="Integration 1.2 - Qwirkle" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;$USER_HOME$/Documents/javafx-sdk-17.0.2/lib&quot; --add-modules=javafx.controls,javafx.media" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="qwirkle.*" />
@@ -103,7 +105,7 @@
       <module name="Qwirkle_Beta_Version" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="qwirkle.model.computer.*" />
+          <option name="PATTERN" value="qwirkle.model.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -124,15 +126,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="qwirkle.Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="ALTERNATIVE_JRE_PATH" value="17" />
-      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
-      <option name="MAIN_CLASS_NAME" value="qwirkle.Main" />
-      <module name="Integration 1.2 - Qwirkle" />
-      <option name="VM_PARAMETERS" value="--module-path &quot;$PROJECT_DIR$/../Documents/lib/javafx-sdk-17.0.2/lib&quot; --add-modules javafx.controls,javafx.media" />
+    <configuration name="qwirkle.view.statisticsFrame.LineChartWithHover" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="qwirkle.view.statisticsFrame.LineChartWithHover" />
+      <module name="Qwirkle_Beta_Version" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;$PROJECT_DIR$/../javafx-sdk-17.0.2/lib&quot; --add-modules=javafx.controls,javafx.media" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="qwirkle.*" />
+          <option name="PATTERN" value="qwirkle.view.statisticsFrame.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -141,19 +141,19 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Application.Main" />
+      <item itemvalue="Application.qwirkle.view.statisticsFrame.LineChartWithHover" />
       <item itemvalue="Application.Test" />
-      <item itemvalue="Application.qwirkle.Main" />
+      <item itemvalue="Application.Main" />
       <item itemvalue="Application.Runner" />
       <item itemvalue="Application.Tester" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.qwirkle.Main" />
+        <item itemvalue="Application.Main" />
+        <item itemvalue="Application.qwirkle.view.statisticsFrame.LineChartWithHover" />
+        <item itemvalue="Application.Test" />
         <item itemvalue="Application.Tester" />
         <item itemvalue="Application.Runner" />
-        <item itemvalue="Application.Test" />
-        <item itemvalue="Application.qwirkle.Main" />
       </list>
     </recent_temporary>
   </component>
@@ -177,9 +177,21 @@
       <workItem from="1649510925901" duration="446000" />
       <workItem from="1650120730932" duration="814000" />
       <workItem from="1650623931981" duration="33192000" />
-      <workItem from="1650814610843" duration="5555000" />
-      <workItem from="1651335745387" duration="7805000" />
-      <workItem from="1651403198987" duration="1638000" />
+      <workItem from="1650772731233" duration="11571000" />
+      <workItem from="1650823470392" duration="7923000" />
+      <workItem from="1650872090208" duration="1243000" />
+      <workItem from="1650973645130" duration="65000" />
+      <workItem from="1650988536405" duration="7905000" />
+      <workItem from="1651004726819" duration="1093000" />
+      <workItem from="1651047390469" duration="91000" />
+      <workItem from="1651047491390" duration="5385000" />
+      <workItem from="1651053777290" duration="32701000" />
+      <workItem from="1651160593478" duration="26851000" />
+      <workItem from="1651214282622" duration="1683000" />
+      <workItem from="1651341137585" duration="19298000" />
+      <workItem from="1651432313029" duration="5546000" />
+      <workItem from="1651440973274" duration="209000" />
+      <workItem from="1651441285648" duration="24953000" />
     </task>
     <task id="LOCAL-00001" summary="Added Java module">
       <created>1644572434802</created>
@@ -272,91 +284,77 @@
       <option name="project" value="LOCAL" />
       <updated>1650685699540</updated>
     </task>
-    <task id="LOCAL-00014" summary="fixed an issue where the ai would place an existing move">
-      <created>1650797954673</created>
+    <task id="LOCAL-00014" summary="Computer:&#10;-MakeMove method renamed. &#10;&#10;GamePlayPresenter:&#10;-Removed unused class attributes.&#10;-Renamed some others.&#10;-Removed stage parameter from methods where it was no longer necessary to pass it.&#10;-Submit button has also a list of the tiles of the player included which pass to an extra validator in the GameSession.&#10;-Submit sequence of methods has been refactored. a new keyframe added to extract the playComputer from a (twice) nested timeline that was causing the &quot;bug&quot; with no draggable tiles after exchanging tiles.&#10;-AddExtraScore method of +6 points added and applied from within the setGameOver.&#10;-isGameOver is now enough as a checker to trigger gameoverView&#10;-playComputer method has its functions re-arranged and has been refactored.&#10;-UpdateScore method is applied correctly in both cases scenarios (player or computer playing)&#10;-Methods that include popups had some of their parameters inlined/hardcoded (with absolute values) within the methods and removed those from parameters since they were only applied once.&#10;-TileExchangeAnimation method had the playComputerMove extracted from for better performance and readability.&#10;&#10;GameSession:&#10;-isGameOver method has been refactor. It now includes all possible scenarios included there to trigger gameOver. (removed from the presenter)&#10;-New method moveLeft checks for a possible move using as parameter a list of tiles (player's or computer's) and returns a boolean.&#10;&#10;Move:&#10;-Equals simplified.&#10;-Hascode had tile added along with the coordinate&#10;&#10;PlayerSession:&#10;-getTotal methods with Optional-class-like included had the try/catch replaced by isPresent method.">
+      <created>1650795326920</created>
       <option name="number" value="00014" />
       <option name="presentableId" value="LOCAL-00014" />
       <option name="project" value="LOCAL" />
-      <updated>1650797954673</updated>
+      <updated>1650795326921</updated>
     </task>
-    <task id="LOCAL-00015" summary="updated .gitignore">
-      <created>1651235999904</created>
+    <task id="LOCAL-00015" summary="&#10;GamePlayPresenter:&#10;-iterateTurns method added&#10;&#10;Computer:&#10;-Seif's fix applied for allValidMoves method">
+      <created>1650826532242</created>
       <option name="number" value="00015" />
       <option name="presentableId" value="LOCAL-00015" />
       <option name="project" value="LOCAL" />
-      <updated>1651235999904</updated>
+      <updated>1650826532242</updated>
     </task>
-    <task id="LOCAL-00016" summary="changed the MoveValidator to only use ArrayLists for indexing, and no randomising of the elements">
-      <created>1651335895978</created>
+    <task id="LOCAL-00016" summary="Test push">
+      <created>1650973692671</created>
       <option name="number" value="00016" />
       <option name="presentableId" value="LOCAL-00016" />
       <option name="project" value="LOCAL" />
-      <updated>1651335895978</updated>
+      <updated>1650973692671</updated>
     </task>
-    <task id="LOCAL-00017" summary="Fixed bug where computer wouldnt get the best move in the first turn">
-      <created>1651336196361</created>
+    <task id="LOCAL-00017" summary="Test push">
+      <created>1650995772022</created>
       <option name="number" value="00017" />
       <option name="presentableId" value="LOCAL-00017" />
       <option name="project" value="LOCAL" />
-      <updated>1651336196361</updated>
+      <updated>1650995772022</updated>
     </task>
-    <task id="LOCAL-00018" summary="Fixed bug where computer wouldnt get the best move in the first turn">
-      <created>1651336227534</created>
+    <task id="LOCAL-00018" summary="statistics presenter update">
+      <created>1651243556594</created>
       <option name="number" value="00018" />
       <option name="presentableId" value="LOCAL-00018" />
       <option name="project" value="LOCAL" />
-      <updated>1651336227534</updated>
+      <updated>1651243556595</updated>
     </task>
-    <task id="LOCAL-00019" summary="changed my module javafx command">
-      <created>1651336258039</created>
+    <task id="LOCAL-00019" summary="statistics presenter update">
+      <created>1651328194345</created>
       <option name="number" value="00019" />
       <option name="presentableId" value="LOCAL-00019" />
       <option name="project" value="LOCAL" />
-      <updated>1651336258039</updated>
+      <updated>1651328194345</updated>
     </task>
-    <task id="LOCAL-00020" summary="fixed an issue where some turns would be duplicated">
-      <created>1651336880899</created>
+    <task id="LOCAL-00020" summary="Applied Seif's changes in model. GamePresenter is set to reset the bag at the third move for testing the gameOver conditions. (comment/delete lines 804-807 in the GamePlayPresenter if you don't need to test it)&#10;Timers for events changed. Score displayed has been corrected. The bonus 6 points when finished first are also displayed correctly. IterateTurns method has new changes.">
+      <created>1651405121005</created>
       <option name="number" value="00020" />
       <option name="presentableId" value="LOCAL-00020" />
       <option name="project" value="LOCAL" />
-      <updated>1651336880899</updated>
+      <updated>1651405121005</updated>
     </task>
-    <task id="LOCAL-00021" summary="fixed an issue where I dont check if a list contains a certain tile, and that leads to the possibility of null">
-      <created>1651338509190</created>
+    <task id="LOCAL-00021" summary="Statistics now properly show the correct first y value">
+      <created>1651406064685</created>
       <option name="number" value="00021" />
       <option name="presentableId" value="LOCAL-00021" />
       <option name="project" value="LOCAL" />
-      <updated>1651338509190</updated>
+      <updated>1651406064685</updated>
     </task>
-    <task id="LOCAL-00022" summary="removed ComputerEasy.java, added the overloaded makeTurn(int) method.">
-      <created>1651375876033</created>
+    <task id="LOCAL-00022" summary="Database returns 50 sessions when all sessions need to be returned for statistics. &#10;Changed the labels at statistics view to correspond to the 50 games shown&#10;Turn includes Seif's fix of miscalculation of score when the computer was making a qwirkle with extra adjacent sets">
+      <created>1651418504681</created>
       <option name="number" value="00022" />
       <option name="presentableId" value="LOCAL-00022" />
       <option name="project" value="LOCAL" />
-      <updated>1651375876033</updated>
+      <updated>1651418504681</updated>
     </task>
-    <task id="LOCAL-00023" summary="few bug fixes. computer is pretty good now I think (i hope)">
-      <created>1651376838098</created>
+    <task id="LOCAL-00023" summary="Deleted println from some classes.&#10;GamePlayPresenter had the timings of popups&#10;re-adjusted&#10;Statisticsview default tab has changed for the first tabPane">
+      <created>1651441122137</created>
       <option name="number" value="00023" />
       <option name="presentableId" value="LOCAL-00023" />
       <option name="project" value="LOCAL" />
-      <updated>1651376838098</updated>
+      <updated>1651441122142</updated>
     </task>
-    <task id="LOCAL-00024" summary="ovverride the save method to save AI level of difficulty. block qwirkle method in progress. remove moves that contain qwirkles not confirmed working yet">
-      <created>1651376972278</created>
-      <option name="number" value="00024" />
-      <option name="presentableId" value="LOCAL-00024" />
-      <option name="project" value="LOCAL" />
-      <updated>1651376972278</updated>
-    </task>
-    <task id="LOCAL-00025" summary="uploaded stupid workspace file">
-      <created>1651409011928</created>
-      <option name="number" value="00025" />
-      <option name="presentableId" value="LOCAL-00025" />
-      <option name="project" value="LOCAL" />
-      <updated>1651409011928</updated>
-    </task>
-    <option name="localTasksCounter" value="26" />
+    <option name="localTasksCounter" value="24" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -421,24 +419,54 @@
     <MESSAGE value="tweaked some methods added a &quot;complete&quot; validmoves method" />
     <MESSAGE value="Added allvalid moves method. added to string to turn for testing" />
     <MESSAGE value="AI working" />
-    <MESSAGE value="fixed an issue where the ai would place an existing move" />
+    <MESSAGE value="Computer:&#10;-MakeMove method renamed. &#10;&#10;GamePlayPresenter:&#10;-Removed unused class attributes.&#10;-Renamed some others.&#10;-Removed stage parameter from methods where it was no longer necessary to pass it.&#10;-Submit button has also a list of the tiles of the player included which pass to an extra validator in the GameSession.&#10;-Submit sequence of methods has been refactored. a new keyframe added to extract the playComputer from a (twice) nested timeline that was causing the &quot;bug&quot; with no draggable tiles after exchanging tiles.&#10;-AddExtraScore method of +6 points added and applied from within the setGameOver.&#10;-isGameOver is now enough as a checker to trigger gameoverView&#10;-playComputer method has its functions re-arranged and has been refactored.&#10;-UpdateScore method is applied correctly in both cases scenarios (player or computer playing)&#10;-Methods that include popups had some of their parameters inlined/hardcoded (with absolute values) within the methods and removed those from parameters since they were only applied once.&#10;-TileExchangeAnimation method had the playComputerMove extracted from for better performance and readability.&#10;&#10;GameSession:&#10;-isGameOver method has been refactor. It now includes all possible scenarios included there to trigger gameOver. (removed from the presenter)&#10;-New method moveLeft checks for a possible move using as parameter a list of tiles (player's or computer's) and returns a boolean.&#10;&#10;Move:&#10;-Equals simplified.&#10;-Hascode had tile added along with the coordinate&#10;&#10;PlayerSession:&#10;-getTotal methods with Optional-class-like included had the try/catch replaced by isPresent method." />
+    <MESSAGE value="&#10;GamePlayPresenter:&#10;-iterateTurns method added&#10;&#10;Computer:&#10;-Seif's fix applied for allValidMoves method" />
+    <MESSAGE value="Test push" />
     <MESSAGE value="updated .gitignore" />
-    <MESSAGE value="changed the MoveValidator to only use ArrayLists for indexing, and no randomising of the elements" />
-    <MESSAGE value="Fixed bug where computer wouldnt get the best move in the first turn" />
-    <MESSAGE value="changed my module javafx command" />
-    <MESSAGE value="fixed an issue where some turns would be duplicated" />
-    <MESSAGE value="fixed an issue where I dont check if a list contains a certain tile, and that leads to the possibility of null" />
-    <MESSAGE value="removed ComputerEasy.java, added the overloaded makeTurn(int) method." />
-    <MESSAGE value="few bug fixes. computer is pretty good now I think (i hope)" />
-    <MESSAGE value="ovverride the save method to save AI level of difficulty. block qwirkle method in progress. remove moves that contain qwirkles not confirmed working yet" />
-    <MESSAGE value="uploaded stupid workspace file" />
-    <option name="LAST_COMMIT_MESSAGE" value="uploaded stupid workspace file" />
+    <MESSAGE value="statistics presenter update" />
+    <MESSAGE value="Applied Seif's changes in model. GamePresenter is set to reset the bag at the third move for testing the gameOver conditions. (comment/delete lines 804-807 in the GamePlayPresenter if you don't need to test it)&#10;Timers for events changed. Score displayed has been corrected. The bonus 6 points when finished first are also displayed correctly. IterateTurns method has new changes." />
+    <MESSAGE value="Statistics now properly show the correct first y value" />
+    <MESSAGE value="Database returns 50 sessions when all sessions need to be returned for statistics. &#10;Changed the labels at statistics view to correspond to the 50 games shown&#10;Turn includes Seif's fix of miscalculation of score when the computer was making a qwirkle with extra adjacent sets" />
+    <MESSAGE value="Deleted println from some classes.&#10;GamePlayPresenter had the timings of popups&#10;re-adjusted" />
+    <MESSAGE value="Deleted println from some classes.&#10;GamePlayPresenter had the timings of popups&#10;re-adjusted&#10;Statisticsview default tab has changed for the first tabPane" />
+    <option name="LAST_COMMIT_MESSAGE" value="Deleted println from some classes.&#10;GamePlayPresenter had the timings of popups&#10;re-adjusted&#10;Statisticsview default tab has changed for the first tabPane" />
   </component>
   <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/Qwirkle_Beta_Version/src/qwirkle/model/computer/Computer.java</url>
+          <line>33</line>
+          <properties class="qwirkle.model.computer.Computer">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="9" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/Qwirkle_Beta_Version/src/qwirkle/model/computer/Computer.java</url>
+          <line>38</line>
+          <properties class="qwirkle.model.computer.Computer">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="11" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/Qwirkle_Beta_Version/src/qwirkle/view/statisticsFrame/StatisticsView.java</url>
+          <line>108</line>
+          <option name="timeStamp" value="12" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
     <watches-manager>
       <configuration name="Application">
         <watch expression="((HashSet)((HashMap.Node)allMoves.entrySet().toArray()[0]).getValue()).toArray()[73]" custom="java.util.HashSet,java.util.HashMap.Node" />
       </configuration>
     </watches-manager>
+  </component>
+  <component name="XSLT-Support.FileAssociations.UIState">
+    <expand />
+    <select />
   </component>
 </project>

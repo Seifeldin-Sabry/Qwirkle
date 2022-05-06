@@ -424,30 +424,21 @@ public class Grid {
         int row = coordinate.getRow();
         int column = coordinate.getColumn();
         int count = 1;
-        while (true) {
-            Tile tile = null;
-            try {
-                tile = getTile(row + count, column);
-            } catch (ArrayIndexOutOfBoundsException ignored) {
-            }
+        //Check vertically first downwards then upwards
+        for(; count < BOARD_SIZE - column; count++){
+            Tile tile = getTile(row + count, column);
             if (tile == null) {
                 break;
             }
             tiles.add(tile);
-            count++;
         }
         count = 1;
-        while (true) {
-            Tile tile = null;
-            try {
-                tile = getTile(row - count, column);
-            } catch (ArrayIndexOutOfBoundsException ignored) {
-            }
+        for (; count < column; count++){
+            Tile tile = getTile(row - count, column);
             if (tile == null) {
                 break;
             }
             tiles.add(tile);
-            count++;
         }
         return tiles;
     }
@@ -459,35 +450,24 @@ public class Grid {
      */
     public ArrayList<Tile> getConnectedHorizontalArray(Move.Coordinate coordinate) {
         ArrayList<Tile> tiles = new ArrayList<>();
-        int x = coordinate.getRow();
-        int y = coordinate.getColumn();
+        int row = coordinate.getRow();
+        int column = coordinate.getColumn();
+        //Check horizontally first forward then backwards
         int count = 1;
-        while (true) {
-            Tile tile = null;
-            try {
-                tile = getTile(x, y + count);
-            } catch (ArrayIndexOutOfBoundsException ignored) {
-                //we ignore this for the simple reason that we don't want to go out of bounds
-            }
+        for (; count < BOARD_SIZE - row; count++){
+            Tile tile = getTile(row, column + count);
             if (tile == null) {
                 break;
             }
             tiles.add(tile);
-            count++;
         }
         count = 1;
-        while (true) {
-            Tile tile = null;
-            try {
-                tile = getTile(x, y - count);
-            } catch (ArrayIndexOutOfBoundsException ignored) {
-                //we ignore this for the simple reason that we don't want to go out of bounds
-            }
+        for (; count < row; count++) {
+            Tile tile = getTile(row, column -count);
             if (tile == null) {
                 break;
             }
             tiles.add(tile);
-            count++;
         }
         return tiles;
     }
