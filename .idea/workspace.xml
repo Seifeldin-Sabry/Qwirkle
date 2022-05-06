@@ -2,19 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="fdd80d70-d918-4a56-b8aa-7e348c030f8e" name="Changes" comment="Deleted println from some classes.&#10;GamePlayPresenter had the timings of popups&#10;re-adjusted&#10;Statisticsview default tab has changed for the first tabPane">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/git_toolbox_prj.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/postgresql_42_3_3__2_.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/resources/user-data/info.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/qwirkle/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/qwirkle/data/Database.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/data/Database.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/qwirkle/model/computer/ComputerEasy.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/qwirkle/view/gamePlayFrame/GamePlayPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/gamePlayFrame/GamePlayPresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/qwirkle/view/loginFrame/DBLLoginPresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/loginFrame/DBLLoginPresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/qwirkle/view/newGameFrame/NewGamePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/newGameFrame/NewGamePresenter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/qwirkle/view/rulesFrame/RulesPresenterNG.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/rulesFrame/RulesPresenterNG.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/qwirkle/view/welcomeFrame/WelcomePresenter.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/view/welcomeFrame/WelcomePresenter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
