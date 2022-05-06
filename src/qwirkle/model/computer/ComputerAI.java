@@ -198,7 +198,7 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
                 for (Move move : turn){
                     grid.boardAddMove(move);
                 }
-                if(turn.calcScore(grid) > 3){
+                if(turn.calcScore(grid) > 5){
                     toReturn.get(entry.getKey()).add(turn);
                 }
             }
