@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fdd80d70-d918-4a56-b8aa-7e348c030f8e" name="Changes" comment="Deleted println from some classes.&#10;GamePlayPresenter had the timings of popups&#10;re-adjusted&#10;Statisticsview default tab has changed for the first tabPane">
-      <change afterPath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" afterDir="false" />
-    </list>
+    <list default="true" id="fdd80d70-d918-4a56-b8aa-7e348c030f8e" name="Changes" comment="changed the method to remove moves less than or equal 5 points" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="DarkyenusTimeTracker">
+    <option name="totalTimeSeconds" value="445" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -354,7 +355,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651441122142</updated>
     </task>
-    <option name="localTasksCounter" value="24" />
+    <task id="LOCAL-00024" summary="changed the method to remove moves less than or equal 5 points">
+      <created>1651843918482</created>
+      <option name="number" value="00024" />
+      <option name="presentableId" value="LOCAL-00024" />
+      <option name="project" value="LOCAL" />
+      <updated>1651843918482</updated>
+    </task>
+    <option name="localTasksCounter" value="25" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -429,7 +437,8 @@
     <MESSAGE value="Database returns 50 sessions when all sessions need to be returned for statistics. &#10;Changed the labels at statistics view to correspond to the 50 games shown&#10;Turn includes Seif's fix of miscalculation of score when the computer was making a qwirkle with extra adjacent sets" />
     <MESSAGE value="Deleted println from some classes.&#10;GamePlayPresenter had the timings of popups&#10;re-adjusted" />
     <MESSAGE value="Deleted println from some classes.&#10;GamePlayPresenter had the timings of popups&#10;re-adjusted&#10;Statisticsview default tab has changed for the first tabPane" />
-    <option name="LAST_COMMIT_MESSAGE" value="Deleted println from some classes.&#10;GamePlayPresenter had the timings of popups&#10;re-adjusted&#10;Statisticsview default tab has changed for the first tabPane" />
+    <MESSAGE value="changed the method to remove moves less than or equal 5 points" />
+    <option name="LAST_COMMIT_MESSAGE" value="changed the method to remove moves less than or equal 5 points" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
