@@ -461,34 +461,67 @@ public class Grid {
         ArrayList<Tile> tiles = new ArrayList<>();
         int x = coordinate.getRow();
         int y = coordinate.getColumn();
+        //Check horizontally first forward then backwards
         int count = 1;
-        while (true) {
-            Tile tile = null;
-            try {
-                tile = getTile(x, y + count);
-            } catch (ArrayIndexOutOfBoundsException ignored) {
-                //we ignore this for the simple reason that we don't want to go out of bounds
-            }
+        for (; count < BOARD_SIZE - x; count++){
+            Tile tile = getTile(x, y + count);
             if (tile == null) {
                 break;
             }
             tiles.add(tile);
-            count++;
         }
         count = 1;
-        while (true) {
-            Tile tile = null;
-            try {
-                tile = getTile(x, y - count);
-            } catch (ArrayIndexOutOfBoundsException ignored) {
-                //we ignore this for the simple reason that we don't want to go out of bounds
-            }
+        for (; count < x; count++) {
+            Tile tile = getTile(x, y -count);
             if (tile == null) {
                 break;
             }
             tiles.add(tile);
-            count++;
         }
+        count = 1;
+        //Check vertically first downwards then upwards
+        for(; count < BOARD_SIZE - y; count++){
+            Tile tile = getTile(x + count, y);
+            if (tile == null) {
+                break;
+            }
+            tiles.add(tile);
+        }
+        count = 1;
+        for (; count < y; count++){
+            Tile tile = getTile(x - count, y);
+            if (tile == null) {
+                break;
+            }
+            tiles.add(tile);
+        }
+//        while (true) {
+//            Tile tile = null;
+//            try {
+//                tile = getTile(x, y + count);
+//            } catch (ArrayIndexOutOfBoundsException ignored) {
+//                //we ignore this for the simple reason that we don't want to go out of bounds
+//            }
+//            if (tile == null) {
+//                break;
+//            }
+//            tiles.add(tile);
+//            count++;
+//        }
+//        count = 1;
+//        while (true) {
+//            Tile tile = null;
+//            try {
+//                tile = getTile(x, y - count);
+//            } catch (ArrayIndexOutOfBoundsException ignored) {
+//                //we ignore this for the simple reason that we don't want to go out of bounds
+//            }
+//            if (tile == null) {
+//                break;
+//            }
+//            tiles.add(tile);
+//            count++;
+//        }
         return tiles;
     }
 
