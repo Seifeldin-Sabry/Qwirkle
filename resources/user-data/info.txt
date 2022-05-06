@@ -1,1 +1,1 @@
-/Users/sakis/Downloads/.my_login_credentials.txt
+/home/seif/Documents/.my_login_credentials

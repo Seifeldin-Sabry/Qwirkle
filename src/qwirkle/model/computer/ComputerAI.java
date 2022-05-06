@@ -37,7 +37,7 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
         }
         if (turnNo > 5 && getBag().getTiles().size() > 0) {
             allMoves = removeAllTurnsThatCanMakeOpponentQwirkle(allMoves);
-            allMoves = removeAllTurnsThatContainLessThanScoreSix(allMoves);
+            allMoves = removeAllTurnsThatContainLessThanScoreFive(allMoves);
         }
         if (thereAreNoMoves(allMoves)) {
             trade();
@@ -188,7 +188,7 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
     }
 
     @Override
-    public HashMap<Move, Set<Turn>> removeAllTurnsThatContainLessThanScoreSix(HashMap<Move, Set<Turn>> allMoves) {
+    public HashMap<Move, Set<Turn>> removeAllTurnsThatContainLessThanScoreFive(HashMap<Move, Set<Turn>> allMoves) {
         HashMap<Move, Set<Turn>> toReturn = new HashMap<>();
         for (Map.Entry<Move,Set<Turn>> entry: allMoves.entrySet()) {
             toReturn.computeIfAbsent(entry.getKey(), k -> new HashSet<>());
@@ -198,7 +198,7 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
                 for (Move move : turn){
                     grid.boardAddMove(move);
                 }
-                if(turn.calcScore(grid) > 5){
+                if(turn.calcScore(grid) > 4){
                     toReturn.get(entry.getKey()).add(turn);
                 }
             }
