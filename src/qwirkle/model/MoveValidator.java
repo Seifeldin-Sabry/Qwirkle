@@ -2,6 +2,11 @@ package qwirkle.model;
 
 import java.util.*;
 
+import static qwirkle.model.MoveValidator.Direction.*;
+
+/**
+ * @author: Seifeldin Sabry
+ */
 public class MoveValidator {
     private final Deck deck;
 
@@ -42,75 +47,75 @@ public class MoveValidator {
                 boolean isEmptyDownOneAndOneRight = isEmptyDown && grid.isEmpty(row + 1, column + 1);
 
                 if (isEmptyUp) {
-                    scanUp(moves, combo, column, row, grid);
+                    scan(moves, combo, column, row, grid, UP);
                     AddTurnIfNotEmpty(validMoves, moves, edge);
                 }
 
                 if (isEmptyDown) {
-                    scanDown(moves, combo, column, row, grid);
+                    scan(moves,combo,column,row,grid,DOWN);
                     AddTurnIfNotEmpty(validMoves, moves, edge);
                 }
 
                 if (isEmptyLeft) {
-                    scanLeft(moves, combo, column, row, grid);
+                    scan(moves,combo,column,row,grid,LEFT);
                     AddTurnIfNotEmpty(validMoves, moves, edge);
                 }
 
                 if (isEmptyRight) {
-                    scanRight(moves, combo, column, row, grid);
+                    scan(moves,combo,column,row,grid,RIGHT);
                     AddTurnIfNotEmpty(validMoves, moves, edge);
                 }
 
                 if (isEmptyUpOneAndOneRight){
                     //for loop for 1up then right example: |->>>
-                    scanUpOneThenRight(moves, combo, column, row, grid);
+                    scan(moves,combo,column,row,grid,UPRIGHT);
                     AddTurnIfNotEmpty(validMoves, moves, edge);
                 }
 
 
                 if (isEmptyUpOneAndOneLeft){
                     //for loop for 1up then left example: |->>>
-                    scanUpOneThenLeft(moves, combo, column, row, grid);
+                    scan(moves,combo,column,row,grid,UPLEFT);
                     AddTurnIfNotEmpty(validMoves, moves, edge);
                 }
 
 
                 if (isEmptyLeftOneAndOneUp){
                     //for loop for 1left then up example: |->>>
-                    scanLeftOneThenUp(moves, combo, column, row, grid);
+                    scan(moves,combo,column,row,grid,LEFTUP);
                     AddTurnIfNotEmpty(validMoves, moves, edge);
                 }
 
                 if (isEmptyLeftOneAndOneDown){
                     //for loop for 1left then down example: |->>>
-                    scanLeftOneThenDown(moves, combo, column, row, grid);
+                    scan(moves,combo,column,row,grid,LEFTDOWN);
                     AddTurnIfNotEmpty(validMoves, moves, edge);
                 }
 
 
                 if (isEmptyRightAndOneUp){
                     //for loop for 1right then up example: |->>>
-                    scanRightOneThenUp(moves, combo, column, row, grid);
+                    scan(moves,combo,column,row,grid,RIGHTUP);
                     AddTurnIfNotEmpty(validMoves, moves, edge);
                 }
 
 
                 if (isEmptyRightOneAndOneDown){
                     //for loop for 1right then down example: |->>>
-                    scanRightOneThenDown(moves, combo, column, row, grid);
+                    scan(moves,combo,column,row,grid,RIGHTDOWN);
                     AddTurnIfNotEmpty(validMoves, moves, edge);
                 }
 
 
                 if (isEmptyDownOneAndOneLeft){
                     //for loop for 1down then left example: |->>>
-                    scanDownOneThenLeft(moves, combo, column, row, grid);
+                    scan(moves,combo,column,row,grid,DOWNLEFT);
                     AddTurnIfNotEmpty(validMoves, moves, edge);
                 }
 
                 if (isEmptyDownOneAndOneRight){
                     //for loop for 1down then right example: |->>>
-                    scanDownOneThenRight(moves, combo, column, row, grid);
+                    scan(moves,combo,column,row,grid,DOWNRIGHT);
                     AddTurnIfNotEmpty(validMoves, moves, edge);
                 }
 
@@ -177,329 +182,270 @@ public class MoveValidator {
         }
     }
 
-    private void scanUp(ArrayList<Move> moves, List<Tile> combo, int column, int row, Grid grid) {
-        int rowNewMove;
-        Grid gridCopy = grid;
-        gridCopy = gridCopy.getDeepCopy();
-        for (int i = 0; i < combo.size(); i++) {
-            rowNewMove = row - (i + 1);
-            Move.Coordinate newCoordinate = new Move.Coordinate(rowNewMove, column);
-            Move move = new Move(combo.get(i), newCoordinate);
-            moves.add(move);
-            if (!gridCopy.isValidMoves(moves) || gridCopy.isNotEmpty(rowNewMove, column)) {
-                moves.clear();
-                break;
-            }
-        }
-    }
 
-    private void scanDown(ArrayList<Move> moves, List<Tile> combo, int column, int row, Grid grid) {
-        int rowNewMove;
-        Grid gridCopy = grid;
-        gridCopy = gridCopy.getDeepCopy();
-        for (int i = 0; i < combo.size(); i++) {
-            rowNewMove = row + (i + 1);
-            Move.Coordinate newCoordinate = new Move.Coordinate(rowNewMove, column);
-            Move move = new Move(combo.get(i), newCoordinate);
-            moves.add(move);
-            if (!gridCopy.isValidMoves(moves) || gridCopy.isNotEmpty(rowNewMove, column)) {
-                moves.clear();
-                break;
-            }
-        }
-    }
-
-    private void scanLeft(ArrayList<Move> moves, List<Tile> combo, int column, int row, Grid grid) {
-        int columnNewMove;
-        Grid gridCopy = grid;
-        gridCopy = gridCopy.getDeepCopy();
-        for (int i = 0; i < combo.size(); i++) {
-            columnNewMove = column - (i + 1);
-            Move.Coordinate newCoordinate = new Move.Coordinate(row, columnNewMove);
-            Move move = new Move(combo.get(i), newCoordinate);
-            moves.add(move);
-            if (!gridCopy.isValidMoves(moves) || gridCopy.isNotEmpty(row, columnNewMove)) {
-                moves.clear();
-                break;
-            }
-        }
-    }
-
-    private void scanUpOneThenRight(ArrayList<Move> moves, List<Tile> combo, int column, int row, Grid grid) {
-        int columnNewMove;
-        int rowNewMove;
-        boolean firstTileFlag = true;
-        Grid gridCopy = grid;
-        gridCopy = gridCopy.getDeepCopy();
-        for (int i = 0; i < combo.size(); i++) {
-            rowNewMove = row - 1;
-            Move.Coordinate newCoordinate;
-            if (firstTileFlag) {
-                newCoordinate = new Move.Coordinate(rowNewMove, column);
-                Move move = new Move(combo.get(i), newCoordinate);
-                moves.add(move);
-                if (!gridCopy.isValidMoves(moves) || gridCopy.isNotEmpty(rowNewMove, column)) {
-                    moves.clear();
-                    break;
-                }
-                firstTileFlag = false;
-                continue;
-            }
-            columnNewMove = column + (i);
-            //not (i+1) because the first iteration is already done
-            newCoordinate = new Move.Coordinate(rowNewMove, columnNewMove);
-            Move move = new Move(combo.get(i), newCoordinate);
-            moves.add(move);
-            if (!gridCopy.isValidMoves(moves) || gridCopy.isNotEmpty(rowNewMove, columnNewMove)) {
-                moves.clear();
-                break;
-            }
-        }
-    }
-
-    private void scanUpOneThenLeft(ArrayList<Move> moves, List<Tile> combo, int column, int row, Grid grid) {
-        boolean firstTileFlag;
-        int rowNewMove;
-        int columnNewMove;
-        firstTileFlag = true;
-        Grid gridCopy = grid;
-        gridCopy = gridCopy.getDeepCopy();
-        for (int i = 0; i < combo.size(); i++) {
-            rowNewMove = row - 1;
-            Move.Coordinate newCoordinate;
-            if (firstTileFlag) {
-                newCoordinate = new Move.Coordinate(rowNewMove, column);
-                Move move = new Move(combo.get(i), newCoordinate);
-                moves.add(move);
-                if (!gridCopy.isValidMoves(moves) || gridCopy.isNotEmpty(rowNewMove, column)) {
-                    moves.clear();
-                    break;
-                }
-                firstTileFlag = false;
-                continue;
-            }
-            columnNewMove = column - (i);
-            //not (i+1) because the first iteration is already done
-            newCoordinate = new Move.Coordinate(rowNewMove, columnNewMove);
-            Move move = new Move(combo.get(i), newCoordinate);
-            moves.add(move);
-            if (!gridCopy.isValidMoves(moves) || gridCopy.isNotEmpty(rowNewMove, columnNewMove)) {
-                moves.clear();
-                break;
-            }
-        }
-    }
-
-    private void scanLeftOneThenUp(ArrayList<Move> moves, List<Tile> combo, int column, int row, Grid grid) {
-        boolean firstTileFlag;
-        int rowNewMove;
-        int columnNewMove;
-        firstTileFlag = true;
-        Grid gridCopy = grid;
-        gridCopy = gridCopy.getDeepCopy();
-        for (int i = 0; i < combo.size(); i++) {
-            columnNewMove = column - 1;
-            Move.Coordinate newCoordinate;
-            if (firstTileFlag) {
-                newCoordinate = new Move.Coordinate(row, columnNewMove);
-                Move move = new Move(combo.get(i), newCoordinate);
-                moves.add(move);
-                if (!gridCopy.isValidMoves(moves) || gridCopy.isNotEmpty(row, columnNewMove)) {
-                    moves.clear();
-                    break;
-                }
-                firstTileFlag = false;
-                continue;
-            }
-            rowNewMove = row - (i);
-            //not (i+1) because the first iteration is already done
-            newCoordinate = new Move.Coordinate(rowNewMove, columnNewMove);
-            Move move = new Move(combo.get(i), newCoordinate);
-            moves.add(move);
-            if (!gridCopy.isValidMoves(moves) || gridCopy.isNotEmpty(rowNewMove, columnNewMove)) {
-                moves.clear();
-                break;
-            }
-        }
-    }
-
-    private void scanLeftOneThenDown(ArrayList<Move> moves, List<Tile> combo, int column, int row, Grid grid) {
-        int columnNewMove;
-        boolean firstTileFlag;
-        int rowNewMove;
-        firstTileFlag = true;
-        Grid gridCopy = grid;
-        gridCopy = gridCopy.getDeepCopy();
-        for (int i = 0; i < combo.size(); i++) {
-            columnNewMove = column - 1;
-            Move.Coordinate newCoordinate;
-            if (firstTileFlag) {
-                newCoordinate = new Move.Coordinate(row, columnNewMove);
-                Move move = new Move(combo.get(i), newCoordinate);
-                moves.add(move);
-                if (!gridCopy.isValidMoves(moves) || gridCopy.isNotEmpty(row, columnNewMove)) {
-                    moves.clear();
-                    break;
-                }
-                firstTileFlag = false;
-                continue;
-            }
-            rowNewMove = row + (i);
-            //not (i+1) because the first iteration is already done
-            newCoordinate = new Move.Coordinate(rowNewMove, columnNewMove);
-            Move move = new Move(combo.get(i), newCoordinate);
-            moves.add(move);
-            if (!gridCopy.isValidMoves(moves) || gridCopy.isNotEmpty(rowNewMove, columnNewMove)) {
-                moves.clear();
-                break;
-            }
-        }
-    }
-
-    private void scanRightOneThenUp(ArrayList<Move> moves, List<Tile> combo, int column, int row, Grid grid) {
+    private void scan(ArrayList<Move> moves, List<Tile> combo, int column, int row, Grid grid, Direction direction){
         boolean firstTileFlag;
         int columnNewMove;
         int rowNewMove;
         firstTileFlag = true;
         Grid gridCopy = grid;
         gridCopy = gridCopy.getDeepCopy();
-        for (int i = 0; i < combo.size(); i++) {
-            columnNewMove = column + 1;
-            Move.Coordinate newCoordinate;
-            if (firstTileFlag) {
-                newCoordinate = new Move.Coordinate(row, columnNewMove);
-                Move move = new Move(combo.get(i), newCoordinate);
-                moves.add(move);
-                if (!gridCopy.isValidMoves(moves) || gridCopy.isNotEmpty(row, columnNewMove)) {
-                    moves.clear();
-                    break;
+        switch (direction){
+            case UP -> {
+                for (int i = 0; i < combo.size(); i++) {
+                    rowNewMove = row - (i + 1);
+                    Move.Coordinate newCoordinate = new Move.Coordinate(rowNewMove, column);
+                    Move move = new Move(combo.get(i), newCoordinate);
+                    moves.add(move);
+                    if (!gridCopy.isValidMoves(moves) || gridCopy.isNotEmpty(rowNewMove, column)) {
+                        moves.clear();
+                        break;
+                    }
                 }
-                firstTileFlag = false;
-                continue;
             }
-            rowNewMove = row - (i);
-            //not (i+1) because the first iteration is already done
-            newCoordinate = new Move.Coordinate(rowNewMove, columnNewMove);
-            Move move = new Move(combo.get(i), newCoordinate);
-            moves.add(move);
-            if (!gridCopy.isValidMoves(moves) || gridCopy.isNotEmpty(rowNewMove, columnNewMove)) {
-                moves.clear();
-                break;
-            }
-        }
-    }
-
-    private void scanRightOneThenDown(ArrayList<Move> moves, List<Tile> combo, int column, int row, Grid grid) {
-        int rowNewMove;
-        boolean firstTileFlag;
-        int columnNewMove;
-        firstTileFlag = true;
-        Grid gridCopy = grid;
-        gridCopy = gridCopy.getDeepCopy();
-        for (int i = 0; i < combo.size(); i++) {
-            Move.Coordinate newCoordinate;
-            columnNewMove = column + 1;
-            if (firstTileFlag) {
-                newCoordinate = new Move.Coordinate(row, columnNewMove);
-                Move move = new Move(combo.get(i), newCoordinate);
-                moves.add(move);
-                if (!gridCopy.isValidMoves(moves) || gridCopy.isNotEmpty(row, columnNewMove)) {
-                    moves.clear();
-                    break;
+            case UPRIGHT -> {
+                for (int i = 0; i < combo.size(); i++) {
+                    rowNewMove = row - 1;
+                    Move.Coordinate newCoordinate;
+                    if (firstTileFlag) {
+                        newCoordinate = new Move.Coordinate(rowNewMove, column);
+                        Move move = new Move(combo.get(i), newCoordinate);
+                        moves.add(move);
+                        if (!gridCopy.isValidMoves(moves) || gridCopy.isNotEmpty(rowNewMove, column)) {
+                            moves.clear();
+                            break;
+                        }
+                        firstTileFlag = false;
+                        continue;
+                    }
+                    columnNewMove = column + (i);
+                    //not (i+1) because the first iteration is already done
+                    newCoordinate = new Move.Coordinate(rowNewMove, columnNewMove);
+                    Move move = new Move(combo.get(i), newCoordinate);
+                    moves.add(move);
+                    if (!gridCopy.isValidMoves(moves) || gridCopy.isNotEmpty(rowNewMove, columnNewMove)) {
+                        moves.clear();
+                        break;
+                    }
                 }
-                firstTileFlag = false;
-                continue;
             }
-            rowNewMove = row + (i);
-            //not (i+1) because the first iteration is already done
-            newCoordinate = new Move.Coordinate(rowNewMove, columnNewMove);
-            Move move = new Move(combo.get(i), newCoordinate);
-            moves.add(move);
-            if (!gridCopy.isValidMoves(moves) || gridCopy.isNotEmpty(rowNewMove, columnNewMove)) {
-                moves.clear();
-                break;
-            }
-        }
-    }
-
-    private void scanDownOneThenRight(ArrayList<Move> moves, List<Tile> combo, int column, int row, Grid grid) {
-        int rowNewMove;
-        boolean firstTileFlag;
-        int columnNewMove;
-        firstTileFlag = true;
-        Grid gridCopy = grid;
-        gridCopy = gridCopy.getDeepCopy();
-        for (int i = 0; i < combo.size(); i++) {
-            Move.Coordinate newCoordinate;
-            rowNewMove = row - 1;
-            if (firstTileFlag) {
-                newCoordinate = new Move.Coordinate(rowNewMove, column);
-                Move move = new Move(combo.get(i), newCoordinate);
-                moves.add(move);
-                if (!gridCopy.isValidMoves(moves) || gridCopy.isNotEmpty(rowNewMove, column)) {
-                    moves.clear();
-                    break;
+            case UPLEFT -> {
+                for (int i = 0; i < combo.size(); i++) {
+                    rowNewMove = row - 1;
+                    Move.Coordinate newCoordinate;
+                    if (firstTileFlag) {
+                        newCoordinate = new Move.Coordinate(rowNewMove, column);
+                        Move move = new Move(combo.get(i), newCoordinate);
+                        moves.add(move);
+                        if (!gridCopy.isValidMoves(moves) || gridCopy.isNotEmpty(rowNewMove, column)) {
+                            moves.clear();
+                            break;
+                        }
+                        firstTileFlag = false;
+                        continue;
+                    }
+                    columnNewMove = column - (i);
+                    //not (i+1) because the first iteration is already done
+                    newCoordinate = new Move.Coordinate(rowNewMove, columnNewMove);
+                    Move move = new Move(combo.get(i), newCoordinate);
+                    moves.add(move);
+                    if (!gridCopy.isValidMoves(moves) || gridCopy.isNotEmpty(rowNewMove, columnNewMove)) {
+                        moves.clear();
+                        break;
+                    }
                 }
-                firstTileFlag = false;
-                continue;
             }
-            columnNewMove = column + (i);
-            //not (i+1) because the first iteration is already done
-            newCoordinate = new Move.Coordinate(rowNewMove, columnNewMove);
-            Move move = new Move(combo.get(i), newCoordinate);
-            moves.add(move);
-            if (!gridCopy.isValidMoves(moves)) {
-                moves.clear();
-                break;
-            }
-        }
-    }
-
-    private void scanDownOneThenLeft(ArrayList<Move> moves, List<Tile> combo, int column, int row, Grid grid) {
-        boolean firstTileFlag;
-        int columnNewMove;
-        int rowNewMove;
-        firstTileFlag = true;
-        Grid gridCopy = grid;
-        gridCopy = gridCopy.getDeepCopy();
-        for (int i = 0; i < combo.size(); i++) {
-            Move.Coordinate newCoordinate;
-            rowNewMove = row + 1;
-            if (firstTileFlag) {
-                newCoordinate = new Move.Coordinate(rowNewMove, column);
-                Move move = new Move(combo.get(i), newCoordinate);
-                moves.add(move);
-                if (!gridCopy.isValidMoves(moves) || gridCopy.isNotEmpty(rowNewMove, column)) {
-                    moves.clear();
-                    break;
+            case RIGHT -> {
+                for (int i = 0; i < combo.size(); i++) {
+                    columnNewMove = column + (i + 1);
+                    Move.Coordinate newCoordinate = new Move.Coordinate(row, columnNewMove);
+                    Move move = new Move(combo.get(i), newCoordinate);
+                    moves.add(move);
+                    if (!gridCopy.isValidMoves(moves) || gridCopy.isNotEmpty(row, columnNewMove)) {
+                        moves.clear();
+                        break;
+                    }
                 }
-                firstTileFlag = false;
-                continue;
             }
-            columnNewMove = column - (i);
-            //not (i+1) because the first iteration is already done
-            newCoordinate = new Move.Coordinate(rowNewMove, columnNewMove);
-            Move move = new Move(combo.get(i), newCoordinate);
-            moves.add(move);
-            if (!gridCopy.isValidMoves(moves) || gridCopy.isNotEmpty(rowNewMove, columnNewMove)) {
-                moves.clear();
-                break;
+            case RIGHTDOWN -> {
+                for (int i = 0; i < combo.size(); i++) {
+                    Move.Coordinate newCoordinate;
+                    columnNewMove = column + 1;
+                    if (firstTileFlag) {
+                        newCoordinate = new Move.Coordinate(row, columnNewMove);
+                        Move move = new Move(combo.get(i), newCoordinate);
+                        moves.add(move);
+                        if (!gridCopy.isValidMoves(moves) || gridCopy.isNotEmpty(row, columnNewMove)) {
+                            moves.clear();
+                            break;
+                        }
+                        firstTileFlag = false;
+                        continue;
+                    }
+                    rowNewMove = row + (i);
+                    //not (i+1) because the first iteration is already done
+                    newCoordinate = new Move.Coordinate(rowNewMove, columnNewMove);
+                    Move move = new Move(combo.get(i), newCoordinate);
+                    moves.add(move);
+                    if (!gridCopy.isValidMoves(moves) || gridCopy.isNotEmpty(rowNewMove, columnNewMove)) {
+                        moves.clear();
+                        break;
+                    }
+                }
             }
-        }
-    }
-
-    private void scanRight(ArrayList<Move> moves, List<Tile> combo, int column, int row, Grid grid) {
-        int columnNewMove;
-        Grid gridCopy = grid;
-        gridCopy = gridCopy.getDeepCopy();
-        for (int i = 0; i < combo.size(); i++) {
-            columnNewMove = column + (i + 1);
-            Move.Coordinate newCoordinate = new Move.Coordinate(row, columnNewMove);
-            Move move = new Move(combo.get(i), newCoordinate);
-            moves.add(move);
-            if (!gridCopy.isValidMoves(moves) || gridCopy.isNotEmpty(row, columnNewMove)) {
-                moves.clear();
-                break;
+            case RIGHTUP -> {
+                for (int i = 0; i < combo.size(); i++) {
+                    columnNewMove = column + 1;
+                    Move.Coordinate newCoordinate;
+                    if (firstTileFlag) {
+                        newCoordinate = new Move.Coordinate(row, columnNewMove);
+                        Move move = new Move(combo.get(i), newCoordinate);
+                        moves.add(move);
+                        if (!gridCopy.isValidMoves(moves) || gridCopy.isNotEmpty(row, columnNewMove)) {
+                            moves.clear();
+                            break;
+                        }
+                        firstTileFlag = false;
+                        continue;
+                    }
+                    rowNewMove = row - (i);
+                    //not (i+1) because the first iteration is already done
+                    newCoordinate = new Move.Coordinate(rowNewMove, columnNewMove);
+                    Move move = new Move(combo.get(i), newCoordinate);
+                    moves.add(move);
+                    if (!gridCopy.isValidMoves(moves) || gridCopy.isNotEmpty(rowNewMove, columnNewMove)) {
+                        moves.clear();
+                        break;
+                    }
+                }
+            }
+            case DOWN -> {
+                for (int i = 0; i < combo.size(); i++) {
+                    rowNewMove = row + (i + 1);
+                    Move.Coordinate newCoordinate = new Move.Coordinate(rowNewMove, column);
+                    Move move = new Move(combo.get(i), newCoordinate);
+                    moves.add(move);
+                    if (!gridCopy.isValidMoves(moves) || gridCopy.isNotEmpty(rowNewMove, column)) {
+                        moves.clear();
+                        break;
+                    }
+                }
+            }
+            case DOWNRIGHT -> {
+                for (int i = 0; i < combo.size(); i++) {
+                    Move.Coordinate newCoordinate;
+                    rowNewMove = row - 1;
+                    if (firstTileFlag) {
+                        newCoordinate = new Move.Coordinate(rowNewMove, column);
+                        Move move = new Move(combo.get(i), newCoordinate);
+                        moves.add(move);
+                        if (!gridCopy.isValidMoves(moves) || gridCopy.isNotEmpty(rowNewMove, column)) {
+                            moves.clear();
+                            break;
+                        }
+                        firstTileFlag = false;
+                        continue;
+                    }
+                    columnNewMove = column + (i);
+                    //not (i+1) because the first iteration is already done
+                    newCoordinate = new Move.Coordinate(rowNewMove, columnNewMove);
+                    Move move = new Move(combo.get(i), newCoordinate);
+                    moves.add(move);
+                    if (!gridCopy.isValidMoves(moves)) {
+                        moves.clear();
+                        break;
+                    }
+                }
+            }
+            case DOWNLEFT -> {
+                for (int i = 0; i < combo.size(); i++) {
+                    Move.Coordinate newCoordinate;
+                    rowNewMove = row + 1;
+                    if (firstTileFlag) {
+                        newCoordinate = new Move.Coordinate(rowNewMove, column);
+                        Move move = new Move(combo.get(i), newCoordinate);
+                        moves.add(move);
+                        if (!gridCopy.isValidMoves(moves) || gridCopy.isNotEmpty(rowNewMove, column)) {
+                            moves.clear();
+                            break;
+                        }
+                        firstTileFlag = false;
+                        continue;
+                    }
+                    columnNewMove = column - (i);
+                    //not (i+1) because the first iteration is already done
+                    newCoordinate = new Move.Coordinate(rowNewMove, columnNewMove);
+                    Move move = new Move(combo.get(i), newCoordinate);
+                    moves.add(move);
+                    if (!gridCopy.isValidMoves(moves) || gridCopy.isNotEmpty(rowNewMove, columnNewMove)) {
+                        moves.clear();
+                        break;
+                    }
+                }
+            }
+            case LEFT -> {
+                for (int i = 0; i < combo.size(); i++) {
+                    columnNewMove = column - (i + 1);
+                    Move.Coordinate newCoordinate = new Move.Coordinate(row, columnNewMove);
+                    Move move = new Move(combo.get(i), newCoordinate);
+                    moves.add(move);
+                    if (!gridCopy.isValidMoves(moves) || gridCopy.isNotEmpty(row, columnNewMove)) {
+                        moves.clear();
+                        break;
+                    }
+                }
+            }
+            case LEFTDOWN -> {
+                for (int i = 0; i < combo.size(); i++) {
+                    columnNewMove = column - 1;
+                    Move.Coordinate newCoordinate;
+                    if (firstTileFlag) {
+                        newCoordinate = new Move.Coordinate(row, columnNewMove);
+                        Move move = new Move(combo.get(i), newCoordinate);
+                        moves.add(move);
+                        if (!gridCopy.isValidMoves(moves) || gridCopy.isNotEmpty(row, columnNewMove)) {
+                            moves.clear();
+                            break;
+                        }
+                        firstTileFlag = false;
+                        continue;
+                    }
+                    rowNewMove = row + (i);
+                    //not (i+1) because the first iteration is already done
+                    newCoordinate = new Move.Coordinate(rowNewMove, columnNewMove);
+                    Move move = new Move(combo.get(i), newCoordinate);
+                    moves.add(move);
+                    if (!gridCopy.isValidMoves(moves) || gridCopy.isNotEmpty(rowNewMove, columnNewMove)) {
+                        moves.clear();
+                        break;
+                    }
+                }
+            }
+            case LEFTUP -> {
+                for (int i = 0; i < combo.size(); i++) {
+                    columnNewMove = column - 1;
+                    Move.Coordinate newCoordinate;
+                    if (firstTileFlag) {
+                        newCoordinate = new Move.Coordinate(row, columnNewMove);
+                        Move move = new Move(combo.get(i), newCoordinate);
+                        moves.add(move);
+                        if (!gridCopy.isValidMoves(moves) || gridCopy.isNotEmpty(row, columnNewMove)) {
+                            moves.clear();
+                            break;
+                        }
+                        firstTileFlag = false;
+                        continue;
+                    }
+                    rowNewMove = row - (i);
+                    //not (i+1) because the first iteration is already done
+                    newCoordinate = new Move.Coordinate(rowNewMove, columnNewMove);
+                    Move move = new Move(combo.get(i), newCoordinate);
+                    moves.add(move);
+                    if (!gridCopy.isValidMoves(moves) || gridCopy.isNotEmpty(rowNewMove, columnNewMove)) {
+                        moves.clear();
+                        break;
+                    }
+                }
             }
         }
     }
@@ -614,5 +560,17 @@ public class MoveValidator {
             }
         }
         return toReturn;
+    }
+
+    public enum Direction {
+        UP
+        ,RIGHT
+        ,LEFT
+        ,DOWN
+        ,UPRIGHT,UPLEFT
+        ,DOWNRIGHT, DOWNLEFT
+        ,RIGHTUP,RIGHTDOWN
+        ,LEFTUP,LEFTDOWN
+        //YES THEY ARE ALL DIFFERENT!
     }
 }

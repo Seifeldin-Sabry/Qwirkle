@@ -208,7 +208,7 @@ public class Turn implements List<Move>{
         boolean firstMoveFlag = false;
 
         switch (grid.determineDirection(this)){
-            case -1 ->{
+            case SINGLE ->{
                 int sizeHorizontal = grid.getConnectedHorizontalArray(getMoves().get(0).getCoordinate()).size();
                 int sizeVertical = grid.getConnectedVerticalArray(getMoves().get(0).getCoordinate()).size();
                 if (sizeHorizontal >= 1  && sizeVertical >= 1) { // means that Tile is connected in both directions
@@ -232,7 +232,7 @@ public class Turn implements List<Move>{
                 setPoints(score.get());
                 return score.get();
             }
-            case 0 ->{
+            case HORIZONTAL ->{
                 for (Move move:getMoves()) {
                     if (!firstMoveFlag){ // first move to calculate in the same direction line
                         List<Tile> tiles = grid.getConnectedHorizontalArray(move.getCoordinate());
@@ -252,7 +252,7 @@ public class Turn implements List<Move>{
                 setPoints(score.get());
                 return score.get();
             }
-            case 1 ->{
+            case VERTICAL ->{
                 for (Move move:getMoves()) {
                     if (!firstMoveFlag){
                         List<Tile> tiles = grid.getConnectedVerticalArray(move.getCoordinate());

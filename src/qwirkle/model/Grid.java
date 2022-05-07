@@ -2,6 +2,8 @@ package qwirkle.model;
 
 import java.util.*;
 
+import static qwirkle.model.Grid.MoveType.*;
+
 /**
  * @author Seifeldin Ismail
  */
@@ -105,9 +107,9 @@ public class Grid {
     }
 
     public boolean isValidMoves(Turn moveList) {
-        int direction = this.determineDirection(moveList);
+        MoveType direction = this.determineDirection(moveList);
         switch (direction) {
-            case 0 -> {
+            case HORIZONTAL -> {
                 //make sure the move is on the same row
                 int currentCoordRow = moveList.get(0).getCoordinate().getRow();
                 for (int coord : moveList.stream().map(Move::getCoordinate).map(Move.Coordinate::getRow).toList()) {
@@ -120,7 +122,7 @@ public class Grid {
                 }
 
             }
-            case 1 -> {
+            case VERTICAL -> {
                 //make sure the move is on the same column
                 int currentCoordColumn = moveList.get(0).getCoordinate().getColumn();
                 for (int coord : moveList.stream().map(Move::getCoordinate).map(Move.Coordinate::getColumn).toList()) {
@@ -132,14 +134,14 @@ public class Grid {
                     }
                 }
             }
-            case -1 -> {
+            case SINGLE -> {
                 if (foundEmptyTiles(moveList)){
                     return false;
                 }
                 return isValidMove(moveList.get(0));
             }
 
-            case -100, -2 -> {
+            case INVALID -> {
                 return false;
             }
         }
@@ -183,9 +185,9 @@ public class Grid {
     public boolean isValidMoves(List<Move> moveList) {
         Turn turn = new Turn();
         turn.addAll(moveList);
-        int direction = this.determineDirection(turn);
+        MoveType direction = this.determineDirection(turn);
         switch (direction) {
-            case 0 -> {
+            case HORIZONTAL -> {
                 //make sure the move is on the same row
                 int currentCoordRow = moveList.get(0).getCoordinate().getRow();
                 for (int coord : moveList.stream().map(Move::getCoordinate).map(Move.Coordinate::getRow).toList()) {
@@ -198,7 +200,7 @@ public class Grid {
                 }
 
             }
-            case 1 -> {
+            case VERTICAL -> {
                 //make sure the move is on the same column
                 int currentCoordColumn = moveList.get(0).getCoordinate().getColumn();
                 for (int coord : moveList.stream().map(Move::getCoordinate).map(Move.Coordinate::getColumn).toList()) {
@@ -210,14 +212,14 @@ public class Grid {
                     }
                 }
             }
-            case -1 -> {
+            case SINGLE -> {
                 if (foundEmptyTiles(turn)){
                     return false;
                 }
                 return isValidMove(moveList.get(0));
             }
 
-            case -100, -2 -> {
+            case INVALID -> {
                 return false;
             }
         }
@@ -294,23 +296,23 @@ public class Grid {
     /**
      * @return 0 if horizontal, 1 if vertical, -1 if 1 tile, -2 if no tiles, -100 if invalid(null)
      */
-    public int determineDirection(Turn turn) {
+    public MoveType determineDirection(Turn turn) {
         switch (turn.size()) {
             case 0 -> {
-                return -2;
+                return INVALID;
             }
             case 1 -> {
-                return -1;
+                return SINGLE;
             }
 
         }
         Move move1 = turn.get(0);
         Move move2 = turn.get(1);
-        if (move1.getCoordinate().getRow() == move2.getCoordinate().getRow()) return 0;
-        if (move1.getCoordinate().getColumn() == move2.getCoordinate().getColumn()) return 1;
+        if (move1.getCoordinate().getRow() == move2.getCoordinate().getRow()) return HORIZONTAL;
+        if (move1.getCoordinate().getColumn() == move2.getCoordinate().getColumn()) return VERTICAL;
 //        System.out.println("determineDirection: " + turn.size());
         //completely invalid move
-        return -100;
+        return INVALID;
     }
 
 
@@ -549,6 +551,10 @@ public class Grid {
             }
         }
         return false;
+    }
+
+    public enum MoveType{
+        VERTICAL,SINGLE,HORIZONTAL,INVALID
     }
 
 }

@@ -1,11 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fdd80d70-d918-4a56-b8aa-7e348c030f8e" name="Changes" comment="trash commit">
-      <change afterPath="$PROJECT_DIR$/resources/images/gameover_min.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Integration 1.2 - Qwirkle.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Integration 1.2 - Qwirkle.iml" afterDir="false" />
+    <list default="true" id="fdd80d70-d918-4a56-b8aa-7e348c030f8e" name="Changes" comment="fixed a bug where the computer can play a move that has already been placed, /spend 2h 40m">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/resources/user-data/info.txt" beforeDir="false" afterPath="$PROJECT_DIR$/resources/user-data/info.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/qwirkle/model/Grid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/Grid.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/qwirkle/model/MoveValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/MoveValidator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/qwirkle/model/Turn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/Turn.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/qwirkle/model/computer/Computer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/computer/Computer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/qwirkle/model/computer/ComputerAI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/computer/ComputerAI.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/qwirkle/model/computer/QwirkleEngineAI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/computer/QwirkleEngineAI.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -13,7 +16,7 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="DarkyenusTimeTracker">
-    <option name="totalTimeSeconds" value="1144" />
+    <option name="totalTimeSeconds" value="3817" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -26,7 +29,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="Sakis-Branch" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -378,7 +381,21 @@
       <option name="project" value="LOCAL" />
       <updated>1651862501770</updated>
     </task>
-    <option name="localTasksCounter" value="26" />
+    <task id="LOCAL-00026" summary="reverted to excpetion handling till further notice">
+      <created>1651918183090</created>
+      <option name="number" value="00026" />
+      <option name="presentableId" value="LOCAL-00026" />
+      <option name="project" value="LOCAL" />
+      <updated>1651918183090</updated>
+    </task>
+    <task id="LOCAL-00027" summary="fixed a bug where the computer can play a move that has already been placed, /spend 2h 40m">
+      <created>1651923681617</created>
+      <option name="number" value="00027" />
+      <option name="presentableId" value="LOCAL-00027" />
+      <option name="project" value="LOCAL" />
+      <updated>1651923681617</updated>
+    </task>
+    <option name="localTasksCounter" value="28" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -430,8 +447,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added Java module" />
-    <MESSAGE value="deleted modules" />
     <MESSAGE value="Added Two Projects, GUI and Functional" />
     <MESSAGE value="Added Game logic Module. Has tile validation logic and computer can make one random move (first move)" />
     <MESSAGE value="Completed Game logic (score count), completed Database." />
@@ -455,7 +470,9 @@
     <MESSAGE value="Deleted println from some classes.&#10;GamePlayPresenter had the timings of popups&#10;re-adjusted&#10;Statisticsview default tab has changed for the first tabPane" />
     <MESSAGE value="changed the method to remove moves less than or equal 5 points" />
     <MESSAGE value="trash commit" />
-    <option name="LAST_COMMIT_MESSAGE" value="trash commit" />
+    <MESSAGE value="reverted to excpetion handling till further notice" />
+    <MESSAGE value="fixed a bug where the computer can play a move that has already been placed, /spend 2h 40m" />
+    <option name="LAST_COMMIT_MESSAGE" value="fixed a bug where the computer can play a move that has already been placed, /spend 2h 40m" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -480,7 +497,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-method">
           <url>file://$PROJECT_DIR$/src/qwirkle/model/computer/ComputerAI.java</url>
-          <line>292</line>
+          <line>295</line>
           <properties class="qwirkle.model.computer.ComputerAI" method="trade">
             <option name="EMULATED" value="true" />
             <option name="WATCH_EXIT" value="false" />

@@ -10,6 +10,9 @@ import java.util.stream.Collectors;
 
 import static qwirkle.model.computer.Computer.LevelOfDifficulty.*;
 
+/**
+ * @author: Seifeldin Sabry
+ */
 @SuppressWarnings("OptionalGetWithoutIsPresent")
 public class ComputerAI extends Computer implements QwirkleEngineAI {
 
@@ -145,17 +148,17 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
                     grid.boardAddMove(move);
                 }
                 switch (grid.determineDirection(turn)){
-                    case 0 -> {
+                    case HORIZONTAL -> {
                         if(grid.getConnectedHorizontalArray(turn.get(0).getCoordinate()).size() != 5 && notVerticallyFiveConnected(grid,turn)) {
                             toReturn.get(entry.getKey()).add(turn);
                         }
                     }
-                    case 1 -> {
+                    case VERTICAL -> {
                         if(grid.getConnectedVerticalArray(turn.get(0).getCoordinate()).size() != 5 && notHorizontallyFiveConnected(grid, turn)) {
                             toReturn.get(entry.getKey()).add(turn);
                         }
                     }
-                    case -1 -> {
+                    case SINGLE -> {
                         if(grid.getConnectedHorizontalArray(turn.get(0).getCoordinate()).size() != 5) {
                             toReturn.get(entry.getKey()).add(turn);
                         }
@@ -220,21 +223,21 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
                 int collisons = 0;
                 switch (grid.determineDirection(turn)){
                     //horizontal
-                    case 0 -> {
+                    case HORIZONTAL -> {
                         for (Move move : turn){
                             if(grid.getConnectedVerticalArray(move.getCoordinate()).size() >= 1){
                                 collisons++;
                             }
                         }
                     }
-                    case 1 -> {
+                    case VERTICAL -> {
                         for (Move move : turn){
                             if(grid.getConnectedHorizontalArray(move.getCoordinate()).size() >= 1){
                                 collisons++;
                             }
                         }
                     }
-                    case -1 -> {
+                    case SINGLE -> {
                         if (grid.getConnectedVerticalArray(turn.get(0).getCoordinate()).size() >=1 && grid.getConnectedHorizontalArray(turn.get(0).getCoordinate()).size() >=1){
                             collisons+=2;
                         }
