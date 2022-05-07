@@ -161,7 +161,7 @@ public class GameSession {
             System.out.println("Error while saving to int_game-session");
             e.printStackTrace();
         }
-        System.out.println("Saved game-session");
+//        System.out.println("Saved game-session");
         if (!isTilesInDataBase) getBag().getDbTiles().forEach(Tile::save);
     }
 

@@ -1,22 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="fdd80d70-d918-4a56-b8aa-7e348c030f8e" name="Changes" comment="fixed a bug where the computer can play a move that has already been placed, /spend 2h 40m">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/qwirkle/model/Grid.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/Grid.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/qwirkle/model/MoveValidator.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/MoveValidator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/qwirkle/model/Turn.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/Turn.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/qwirkle/model/computer/Computer.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/computer/Computer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/qwirkle/model/computer/ComputerAI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/computer/ComputerAI.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/qwirkle/model/computer/QwirkleEngineAI.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/qwirkle/model/computer/QwirkleEngineAI.java" afterDir="false" />
-    </list>
+    <list default="true" id="fdd80d70-d918-4a56-b8aa-7e348c030f8e" name="Changes" comment="refactored code to use enums for scores and AI" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="DarkyenusTimeTracker">
-    <option name="totalTimeSeconds" value="3817" />
+    <option name="totalTimeSeconds" value="5266" />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -395,7 +387,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651923681617</updated>
     </task>
-    <option name="localTasksCounter" value="28" />
+    <task id="LOCAL-00028" summary="refactored code to use enums for scores and AI">
+      <created>1651926016374</created>
+      <option name="number" value="00028" />
+      <option name="presentableId" value="LOCAL-00028" />
+      <option name="project" value="LOCAL" />
+      <updated>1651926016374</updated>
+    </task>
+    <option name="localTasksCounter" value="29" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -447,7 +446,6 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
-    <MESSAGE value="Added Two Projects, GUI and Functional" />
     <MESSAGE value="Added Game logic Module. Has tile validation logic and computer can make one random move (first move)" />
     <MESSAGE value="Completed Game logic (score count), completed Database." />
     <MESSAGE value="minor adjustment to score method" />
@@ -472,7 +470,8 @@
     <MESSAGE value="trash commit" />
     <MESSAGE value="reverted to excpetion handling till further notice" />
     <MESSAGE value="fixed a bug where the computer can play a move that has already been placed, /spend 2h 40m" />
-    <option name="LAST_COMMIT_MESSAGE" value="fixed a bug where the computer can play a move that has already been placed, /spend 2h 40m" />
+    <MESSAGE value="refactored code to use enums for scores and AI" />
+    <option name="LAST_COMMIT_MESSAGE" value="refactored code to use enums for scores and AI" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
