@@ -74,6 +74,7 @@ public class Grid {
 
     public boolean isValidMove(Move theMove) {
         if (theMove != null && getUsedSpaces() != null) {
+            if(isNotEmpty(theMove.getCoordinate().getRow(), theMove.getCoordinate().getColumn())) return false;
             Move.Coordinate moveCoordinate = theMove.getCoordinate();
 
             if (isEmpty(MID, MID)) {
@@ -150,7 +151,9 @@ public class Grid {
         for (Move move : moveList) {
             int row = move.getCoordinate().getRow();
             int col = move.getCoordinate().getColumn();
-            if (grid.isNotEmpty(row, col)) {
+            Tile tile = move.getTile();
+            if (grid.isNotEmpty(row,col) && !tile.equals(grid.getTile(row,col))) return false;
+            else  {
                 grid.boardRemoveMove(move);
             }
         }
