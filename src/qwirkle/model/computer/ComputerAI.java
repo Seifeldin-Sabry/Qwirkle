@@ -16,6 +16,8 @@ import static qwirkle.model.computer.Computer.LevelOfDifficulty.*;
 @SuppressWarnings("OptionalGetWithoutIsPresent")
 public class ComputerAI extends Computer implements QwirkleEngineAI {
 
+    private int numberOfConsecutiveTrades = 0;
+
 
 
     public ComputerAI(Bag bag, Grid grid) {
@@ -38,12 +40,13 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
             trade();
             return null;
         }
-        if (turnNo > 5 && getBag().getTiles().size() > 0) {
+        if (turnNo > 5 && getBag().getTiles().size() > 0 && numberOfConsecutiveTrades <= 2) {
             allMoves = removeAllTurnsThatCanMakeOpponentQwirkle(allMoves);
             allMoves = removeAllTurnsThatContainLessThanScoreFive(allMoves);
         }
         if (thereAreNoMoves(allMoves)) {
             trade();
+            numberOfConsecutiveTrades++;
             return null;
         }
         HashMap<Move, Set<Turn>> multipleRowsOrColumnsTurns = getTurnsThatHaveMultipleRowsOrColumns(allMoves);
@@ -59,6 +62,7 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
             return highestAdjacentScoringTurn;
         }
         trade();
+        numberOfConsecutiveTrades++;
         return null;
 
     }
