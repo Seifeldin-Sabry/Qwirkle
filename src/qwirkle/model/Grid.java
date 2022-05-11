@@ -36,7 +36,7 @@ public class Grid {
     }
 
     public Tile getTile(int row, int col) {
-        if(row > BOARD_SIZE || col > BOARD_SIZE || row < 0 || col < 0) return null;
+        if (row >= BOARD_SIZE || col >= BOARD_SIZE || row < 0 || col < 0) return null;
         return grid[row][col];
     }
 
@@ -77,7 +77,7 @@ public class Grid {
 
     public boolean isValidMove(Move theMove) {
         if (theMove != null && getUsedSpaces() != null) {
-            if(isNotEmpty(theMove.getCoordinate().getRow(), theMove.getCoordinate().getColumn())) return false;
+            if (isNotEmpty(theMove.getCoordinate().getRow(), theMove.getCoordinate().getColumn())) return false;
             Move.Coordinate moveCoordinate = theMove.getCoordinate();
 
             if (isEmpty(MID, MID)) {
@@ -136,7 +136,7 @@ public class Grid {
                 }
             }
             case SINGLE -> {
-                if (foundEmptyTiles(moveList)){
+                if (foundEmptyTiles(moveList)) {
                     return false;
                 }
                 return isValidMove(moveList.get(0));
@@ -155,8 +155,8 @@ public class Grid {
             int row = move.getCoordinate().getRow();
             int col = move.getCoordinate().getColumn();
             Tile tile = move.getTile();
-            if (grid.isNotEmpty(row,col) && !tile.equals(grid.getTile(row,col))) return false;
-            else  {
+            if (grid.isNotEmpty(row, col) && !tile.equals(grid.getTile(row, col))) return false;
+            else {
                 grid.boardRemoveMove(move);
             }
         }
@@ -173,7 +173,9 @@ public class Grid {
     private boolean isNotConnected(Move move, Turn moveList) {
         boolean isConnected = false;
         Move.Coordinate[] moveAdjacents = move.getCoordinate().getAdjacentCoords();
-        Move.Coordinate[] moveListCoordinates = moveList.stream().map(Move::getCoordinate).toArray(Move.Coordinate[]::new);
+        Move.Coordinate[]
+                moveListCoordinates =
+                moveList.stream().map(Move::getCoordinate).toArray(Move.Coordinate[]::new);
         for (Move.Coordinate moveAdjacent : moveAdjacents) {
             for (Move.Coordinate moveListCoordinate : moveListCoordinates) {
                 isConnected = moveAdjacent.equals(moveListCoordinate);
@@ -214,7 +216,7 @@ public class Grid {
                 }
             }
             case SINGLE -> {
-                if (foundEmptyTiles(turn)){
+                if (foundEmptyTiles(turn)) {
                     return false;
                 }
                 return isValidMove(moveList.get(0));
@@ -536,8 +538,8 @@ public class Grid {
         return false;
     }
 
-    public enum MoveType{
-        VERTICAL,SINGLE,HORIZONTAL,INVALID
+    public enum MoveType {
+        VERTICAL, SINGLE, HORIZONTAL, INVALID
     }
 
 }
