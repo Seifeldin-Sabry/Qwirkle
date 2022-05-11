@@ -36,7 +36,7 @@ public class Grid {
     }
 
     public Tile getTile(int row, int col) {
-        if(row > BOARD_SIZE || col > BOARD_SIZE || row < 0 || col < 0) return null;
+        if(row >= BOARD_SIZE || col >= BOARD_SIZE || row < 0 || col < 0) return null;
         return grid[row][col];
     }
 
