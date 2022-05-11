@@ -268,7 +268,7 @@ public class Grid {
 
         if (tiles.size() > 5) return false;
         if (!tiles.isEmpty()) {
-            //check if the tiles are all the same shape but not the same color
+            //different case when its only 1 tile to compare too
             if (tiles.size() == 1) {
                 if (tileToCompare.isSameColor(tiles.get(0)) && tileToCompare.isSameShape(tiles.get(0))) {
                     return false;
@@ -280,6 +280,10 @@ public class Grid {
                     return true;
                 }
             }
+            //if more than 1 tile to compare to, determine the line type (color, or shape)
+            //if notsameshape line and not samecolor line, means that they are varied, normally this should never be true
+            //if notsame color and sameshape line, means that we have to check for different colors
+            //if same color and not same shape line, means that we have to check for different shapes
             boolean sameShapeLine = tiles.stream().map(Tile::getShape).distinct().count() == 1;
             boolean sameColorLine = tiles.stream().map(Tile::getColor).distinct().count() == 1;
             if (sameShapeLine && sameColorLine) {
