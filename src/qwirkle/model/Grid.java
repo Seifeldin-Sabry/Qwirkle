@@ -1,6 +1,7 @@
 package qwirkle.model;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
 import static qwirkle.model.Grid.MoveType.*;
 
@@ -267,30 +268,45 @@ public class Grid {
 
         if (tiles.size() > 5) return false;
         if (!tiles.isEmpty()) {
+            //check if the tiles are all the same shape but not the same color
+            if (tiles.size() == 1) {
+                if (tileToCompare.isSameColor(tiles.get(0)) && tileToCompare.isSameShape(tiles.get(0))) {
+                    return false;
+                }
+                else if (tileToCompare.isSameColor(tiles.get(0)) && !tileToCompare.isSameShape(tiles.get(0))) {
+                    return true;
+                }
+                else if (!tileToCompare.isSameColor(tiles.get(0)) && tileToCompare.isSameShape(tiles.get(0))) {
+                    return true;
+                }
+            }
+            boolean sameShapeLine = tiles.stream().map(Tile::getShape).distinct().count() == 1;
+            boolean sameColorLine = tiles.stream().map(Tile::getColor).distinct().count() == 1;
+            if (sameShapeLine && sameColorLine) {
+                return false;
+            }
+            if (!sameShapeLine && !sameColorLine) {
+                return false;
+            }
 
-            //if the tile to compare is not the same whether it is shape or color as the first tile in the list
-            //then the move is invalid
-            boolean sameShape = tiles.get(0).isSameShape(tileToCompare);
-            boolean sameColor = tiles.get(0).isSameColor(tileToCompare);
+            boolean isOnlySameColorLine = sameColorLine && !sameShapeLine;
+            boolean isOnlySameShapeLine = sameShapeLine && !sameColorLine;
 
-            if (sameShape && sameColor) return false;
-
-            //if either color or shape is used then
-            for (Tile tile : tiles) { //comparing every color or shape for matching condition
-                //if same color and same shape
-                if (tileToCompare.isSameColor(tile) && sameShape) return false;
-
-                //if not same color and not the same shape
-                if (!tileToCompare.isSameColor(tile) && !sameShape) {
+            for (Tile tile : tiles) {
+                if (tile.equals(tileToCompare)) {
                     return false;
                 }
 
-                if (tileToCompare.isSameShape(tile) && sameColor) return false;
-
-                if (!tileToCompare.isSameShape(tile) && !sameColor) {
-                    return false;
+                if (isOnlySameColorLine) {
+                    if (!tile.isSameColor(tileToCompare) && !tile.isSameShape(tileToCompare)) {
+                        return false;
+                    }
                 }
-
+                if (isOnlySameShapeLine) {
+                    if (!tile.isSameShape(tileToCompare) && !tile.isSameColor(tileToCompare)) {
+                        return false;
+                    }
+                }
             }
         }
         return true;
@@ -326,29 +342,44 @@ public class Grid {
 
         if (tiles.size() > 5) return false;
         if (!tiles.isEmpty()) {
+            if (tiles.size() == 1) {
+                if (tileToCompare.isSameColor(tiles.get(0)) && tileToCompare.isSameShape(tiles.get(0))) {
+                    return false;
+                }
+                else if (tileToCompare.isSameColor(tiles.get(0)) && !tileToCompare.isSameShape(tiles.get(0))) {
+                    return true;
+                }
+                else if (!tileToCompare.isSameColor(tiles.get(0)) && tileToCompare.isSameShape(tiles.get(0))) {
+                    return true;
+                }
+            }
+            boolean sameShapeLine = tiles.stream().map(Tile::getShape).distinct().count() == 1;
+            boolean sameColorLine = tiles.stream().map(Tile::getColor).distinct().count() == 1;
+            if (sameShapeLine && sameColorLine) {
+                return false;
+            }
+            if (!sameShapeLine && !sameColorLine) {
+                return false;
+            }
 
-            boolean sameShape = tiles.get(0).isSameShape(tileToCompare);
-            boolean sameColor = tiles.get(0).isSameColor(tileToCompare);
+            boolean isOnlySameColorLine = sameColorLine && !sameShapeLine;
+            boolean isOnlySameShapeLine = sameShapeLine && !sameColorLine;
 
-            if (sameShape && sameColor) return false;
-            //if either color or shape is used then
-            for (Tile tile : tiles) { //comparing every color or shape for matching condition
-                //if same color and same shape
-
-
-                if (tileToCompare.isSameColor(tile) && sameShape) return false;
-
-                //if not same color and not the same shape
-                if (!tileToCompare.isSameColor(tile) && !sameShape) {
+            for (Tile tile : tiles) {
+                if (tile.equals(tileToCompare)) {
                     return false;
                 }
 
-                if (tileToCompare.isSameShape(tile) && sameColor) return false;
-
-                if (!tileToCompare.isSameShape(tile) && !sameColor) {
-                    return false;
+                if (isOnlySameColorLine) {
+                    if (!tile.isSameColor(tileToCompare) && !tile.isSameShape(tileToCompare)) {
+                        return false;
+                    }
                 }
-
+                if (isOnlySameShapeLine) {
+                    if (!tile.isSameShape(tileToCompare) && !tile.isSameColor(tileToCompare)) {
+                        return false;
+                    }
+                }
             }
         }
         return true;
