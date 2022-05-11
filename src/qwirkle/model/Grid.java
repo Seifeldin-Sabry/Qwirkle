@@ -36,6 +36,7 @@ public class Grid {
     }
 
     public Tile getTile(int row, int col) {
+        if(row > BOARD_SIZE || col > BOARD_SIZE || row < 0 || col < 0) return null;
         return grid[row][col];
     }
 
@@ -430,11 +431,7 @@ public class Grid {
         int column = coordinate.getColumn();
         int count = 1;
         while (true) {
-            Tile tile = null;
-            try {
-                tile = getTile(row + count, column);
-            } catch (ArrayIndexOutOfBoundsException ignored) {
-            }
+            Tile tile = getTile(row + count, column);
             if (tile == null) {
                 break;
             }
@@ -444,11 +441,7 @@ public class Grid {
 
         count = 1;
         while (true) {
-            Tile tile = null;
-            try {
-                tile = getTile(row - count, column);
-            } catch (ArrayIndexOutOfBoundsException ignored) {
-            }
+            Tile tile = getTile(row - count, column);
             if (tile == null) {
                 break;
             }
@@ -471,12 +464,7 @@ public class Grid {
         //Check horizontally first forward then backwards
         int count = 1;
         while (true) {
-            Tile tile = null;
-            try {
-                tile = getTile(row, column + count);
-            } catch (ArrayIndexOutOfBoundsException ignored) {
-                //we ignore this for the simple reason that we don't want to go out of bounds
-            }
+            Tile tile = getTile(row, column + count);
             if (tile == null) {
                 break;
             }
@@ -486,12 +474,7 @@ public class Grid {
 
         count = 1;
         while (true) {
-            Tile tile = null;
-            try {
-                tile = getTile(row, column - count);
-            } catch (ArrayIndexOutOfBoundsException ignored) {
-                //we ignore this for the simple reason that we don't want to go out of bounds
-            }
+            Tile tile = getTile(row, column - count);
             if (tile == null) {
                 break;
             }
