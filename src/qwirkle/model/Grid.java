@@ -302,12 +302,12 @@ public class Grid {
                 }
 
                 if (isOnlySameColorLine) {
-                    if (!tile.isSameColor(tileToCompare) && !tile.isSameShape(tileToCompare)) {
+                    if (!tile.isSameColor(tileToCompare)) {
                         return false;
                     }
                 }
                 if (isOnlySameShapeLine) {
-                    if (!tile.isSameShape(tileToCompare) && !tile.isSameColor(tileToCompare)) {
+                    if (!tile.isSameShape(tileToCompare)) {
                         return false;
                     }
                 }
@@ -375,12 +375,12 @@ public class Grid {
                 }
 
                 if (isOnlySameColorLine) {
-                    if (!tile.isSameColor(tileToCompare) && !tile.isSameShape(tileToCompare)) {
+                    if (!tile.isSameColor(tileToCompare)) {
                         return false;
                     }
                 }
                 if (isOnlySameShapeLine) {
-                    if (!tile.isSameShape(tileToCompare) && !tile.isSameColor(tileToCompare)) {
+                    if (!tile.isSameShape(tileToCompare)) {
                         return false;
                     }
                 }
