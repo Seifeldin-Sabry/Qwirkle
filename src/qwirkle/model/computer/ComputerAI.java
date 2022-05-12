@@ -35,6 +35,7 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
             return makeFirstTurn();
         }
         HashMap<Move, Set<Turn>> allMoves = getMoveValidator().getAllValidMoves(getBoard());
+        HashMap<Move, Set<Turn>> allMovesCopy = new HashMap<>(allMoves);
         allMoves = clearAllEmptyTurns(allMoves);
         if (thereAreNoMoves(allMoves)) {
             trade();
@@ -45,10 +46,17 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
             allMoves = removeAllTurnsThatContainLessThanScoreFive(allMoves);
         }
         if (thereAreNoMoves(allMoves)) {
-            trade();
-            numberOfConsecutiveTrades++;
-            return null;
+            return getHighestScoringTurn(allMovesCopy);
         }
+        Turn highestScoringTurn = getHighestScoringTurn(allMoves);
+        if (highestScoringTurn != null) return highestScoringTurn;
+        trade();
+        numberOfConsecutiveTrades++;
+        return null;
+
+    }
+
+    private Turn getHighestScoringTurn(HashMap<Move, Set<Turn>> allMoves) {
         HashMap<Move, Set<Turn>> multipleRowsOrColumnsTurns = getTurnsThatHaveMultipleRowsOrColumns(allMoves);
         Turn highestAdjacentScoringTurn = getMostProfitableTurn(multipleRowsOrColumnsTurns);
         Turn highestScoringTurn = getMostProfitableTurn(allMoves);
@@ -64,10 +72,7 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
             numberOfConsecutiveTrades = 0;
             return highestAdjacentScoringTurn;
         }
-        trade();
-        numberOfConsecutiveTrades++;
         return null;
-
     }
 
     private Turn highestScoringTurn(Turn highestScoringTurn, Turn highestAdjacentScoringTurn) {
