@@ -53,12 +53,15 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
         Turn highestAdjacentScoringTurn = getMostProfitableTurn(multipleRowsOrColumnsTurns);
         Turn highestScoringTurn = getMostProfitableTurn(allMoves);
         if (highestScoringTurn != null && highestAdjacentScoringTurn != null) {
+            numberOfConsecutiveTrades = 0;
             return highestScoringTurn(highestScoringTurn, highestAdjacentScoringTurn);
         }
         else if (highestScoringTurn != null) {
+            numberOfConsecutiveTrades = 0;
             return highestScoringTurn;
         }
         else if (highestAdjacentScoringTurn != null) {
+            numberOfConsecutiveTrades = 0;
             return highestAdjacentScoringTurn;
         }
         trade();
