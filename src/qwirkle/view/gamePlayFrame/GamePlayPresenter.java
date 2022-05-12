@@ -171,7 +171,6 @@ public class GamePlayPresenter {
             iterateTurnsTM.stop();
         }
         if (playedTiles.size() > 0 && exchangedTiles.size() == 0) {
-            playedTiles.forEach(this::makeUnDraggable);
             KeyFrame keyFrame1 = new KeyFrame(Duration.seconds(0.05), e -> {
                 iterateTurns(stage);
                 popupPlayerPlayed(stage);
@@ -490,12 +489,6 @@ public class GamePlayPresenter {
         }
     }
 
-    private void makeUnDraggable(TileNode tileNode) {
-        if (exchangedTiles.size() > 0) return;
-        if ((tileNode.getParent() instanceof GridPane)) {
-            tileNode.setOnDragDetected(null);
-        }
-    }
 
     private void popupWhoPlaysFirst(Stage stage, String text) {
         PopupView view = new PopupView();
@@ -768,6 +761,7 @@ public class GamePlayPresenter {
     private void resetGridTileAnimation(TileNode tile) {
         tile.setOnMouseExited(null);
         tile.setOnMouseEntered(null);
+        tile.setOnDragDetected(null);
     }
 
     private void bounceNode(Node node, double startTime) {
