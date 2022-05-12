@@ -171,6 +171,7 @@ public class GamePlayPresenter {
             iterateTurnsTM.stop();
         }
         if (playedTiles.size() > 0 && exchangedTiles.size() == 0) {
+            playedTiles.forEach(this::makeUnDraggable);
             KeyFrame keyFrame1 = new KeyFrame(Duration.seconds(0.05), e -> {
                 iterateTurns(stage);
                 popupPlayerPlayed(stage);
@@ -486,6 +487,13 @@ public class GamePlayPresenter {
 
                 e.consume();
             });
+        }
+    }
+
+    private void makeUnDraggable(TileNode tileNode) {
+        if (exchangedTiles.size() > 0) return;
+        if ((tileNode.getParent() instanceof GridPane)) {
+            tileNode.setOnDragDetected(null);
         }
     }
 
