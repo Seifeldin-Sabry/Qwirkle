@@ -73,15 +73,15 @@ public class StatisticsView extends BorderPane {
     private NumberAxis xAxisGameNo2;
     private XYChart.Series seriesBestScorePlayer;
     private XYChart.Series seriesBestScoreComputerAI;
+    private XYChart.Series seriesBestScoreComputerEASY;
 
     //average score perturn per session
     private LineChart averageScorePerSession;
     private NumberAxis yAxisAverageScore;
     private NumberAxis xAxisGameNo3;
     private XYChart.Series seriesAverageScorePlayer;
-    private XYChart.Series seriesAverageScoreComputer;
-    private XYChart.Series seriesBestScoreComputerEASY;
-
+    private XYChart.Series seriesAverageScoreComputerAI;
+    private XYChart.Series seriesAverageScoreComputerEASY;
 
 
 
@@ -152,8 +152,10 @@ public class StatisticsView extends BorderPane {
         //LineChartS OVERALL Average Score
         seriesAverageScorePlayer = new XYChart.Series<>();
         seriesAverageScorePlayer.setName("Player");
-        seriesAverageScoreComputer = new XYChart.Series<>();
-        seriesAverageScoreComputer.setName("Computer");
+        seriesAverageScoreComputerAI = new XYChart.Series<>();
+        seriesAverageScoreComputerAI.setName("Computer AI");
+        seriesAverageScoreComputerEASY = new XYChart.Series<>();
+        seriesAverageScoreComputerEASY.setName("Computer EASY");
 
         yAxisAverageScore = new NumberAxis();
         yAxisAverageScore.setLabel("Score");
@@ -366,8 +368,8 @@ public class StatisticsView extends BorderPane {
     }
 
 
-    XYChart.Series getSeriesAverageScoreComputer() {
-        return seriesAverageScoreComputer;
+    XYChart.Series getSeriesAverageScoreComputerAI() {
+        return seriesAverageScoreComputerAI;
     }
 
 
@@ -445,5 +447,9 @@ public class StatisticsView extends BorderPane {
 
     public NumberAxis getxAxisGameNo3() {
         return xAxisGameNo3;
+    }
+
+    public XYChart.Series getSeriesAverageScoreComputerEASY() {
+        return seriesAverageScoreComputerEASY;
     }
 }

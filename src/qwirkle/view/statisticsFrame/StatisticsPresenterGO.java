@@ -43,7 +43,7 @@ public class StatisticsPresenterGO {
         view.getSeriesPointsPerTurnLastGameSessionComputer().getNode().getStyleClass().add("computer-label");
         view.getSeriesBestScoreComputerAI().getNode().getStyleClass().addAll("computer-axis-line");
         view.getSeriesPointsPerTurnLastGameSessionComputer().getNode().getStyleClass().addAll("computer-axis-line");
-        view.getSeriesAverageScoreComputer().getNode().getStyleClass().addAll("computer-axis-line");
+        view.getSeriesAverageScoreComputerAI().getNode().getStyleClass().addAll("computer-axis-line");
     }
 
     private void addEventHandler() {
@@ -96,12 +96,12 @@ public class StatisticsPresenterGO {
         ObservableList<XYChart.Data> data = FXCollections.observableArrayList();
         data.add(new XYChart.Data<>(0, 0));
         data.addAll(mouseOverChart(database.getAvgPointsPerSessionComputer()));
-        view.getSeriesAverageScoreComputer().getData().addAll(data);
+        view.getSeriesAverageScoreComputerAI().getData().addAll(data);
         data.clear();
         data.add(new XYChart.Data<>(0, 0));
         data.addAll(mouseOverChart(database.getAvgPointsPerSessionPlayer()));
         view.getSeriesAverageScorePlayer().getData().addAll(data);
-        view.getAverageScorePerSession().getData().addAll(List.of(view.getSeriesAverageScorePlayer(), view.getSeriesAverageScoreComputer()));
+        view.getAverageScorePerSession().getData().addAll(List.of(view.getSeriesAverageScorePlayer(), view.getSeriesAverageScoreComputerAI()));
     }
 
     private void loadDurationPerSession() {
