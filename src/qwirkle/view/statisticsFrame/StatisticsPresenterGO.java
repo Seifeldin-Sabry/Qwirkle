@@ -2,14 +2,9 @@ package qwirkle.view.statisticsFrame;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.event.EventHandler;
-import javafx.scene.Cursor;
 import javafx.scene.chart.XYChart;
-import javafx.scene.control.Label;
-import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.StackPane;
-import javafx.stage.Stage;
 import qwirkle.data.Database;
+import qwirkle.model.computer.Computer;
 import qwirkle.view.gamePlayFrame.GamePlayView;
 
 import java.util.List;
@@ -46,7 +41,7 @@ public class StatisticsPresenterGO {
         view.getxAxisTurnNo2().setAutoRanging(false);
         view.getSeriesPointsPerTurnLastGameSessionComputer().setName("Computer " + Database.getInstance().getLastComputerMode());
         view.getSeriesPointsPerTurnLastGameSessionComputer().getNode().getStyleClass().add("computer-label");
-        view.getSeriesBestScoreComputer().getNode().getStyleClass().addAll("computer-axis-line");
+        view.getSeriesBestScoreComputerAI().getNode().getStyleClass().addAll("computer-axis-line");
         view.getSeriesPointsPerTurnLastGameSessionComputer().getNode().getStyleClass().addAll("computer-axis-line");
         view.getSeriesAverageScoreComputer().getNode().getStyleClass().addAll("computer-axis-line");
     }
@@ -88,13 +83,13 @@ public class StatisticsPresenterGO {
     private void loadBestPointsPerSession() {
         ObservableList<XYChart.Data> data = FXCollections.observableArrayList();
         data.add(new XYChart.Data<>(0, 0));
-        data.addAll(mouseOverChart(database.getBestPointsPerSessionComputer()));
-        view.getSeriesBestScoreComputer().getData().addAll(data);
+        data.addAll(mouseOverChart(database.getBestPointsPerSessionComputer(Computer.LevelOfDifficulty.AI)));
+        view.getSeriesBestScoreComputerAI().getData().addAll(data);
         data.clear();
         data.add(new XYChart.Data<>(0, 0));
         data.addAll(mouseOverChart(database.getBestPointsPerSessionPlayer()));
         view.getSeriesBestScorePlayer().getData().addAll(data);
-        view.getBestScorePerSession().getData().addAll(List.of(view.getSeriesBestScorePlayer(), view.getSeriesBestScoreComputer()));
+        view.getBestScorePerSession().getData().addAll(List.of(view.getSeriesBestScorePlayer(), view.getSeriesBestScoreComputerAI()));
     }
 
     private void loadAvgPointsPerSession() {

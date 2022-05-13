@@ -6,6 +6,7 @@ import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
+import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
@@ -67,11 +68,11 @@ public class StatisticsView extends BorderPane {
     private XYChart.Series seriesDurationPerGameSession;
 
     //player and computer score persession
-    private LineChart bestScorePerSession;
+    private AreaChart bestScorePerSession;
     private NumberAxis yAxisScore;
     private NumberAxis xAxisGameNo2;
     private XYChart.Series seriesBestScorePlayer;
-    private XYChart.Series seriesBestScoreComputer;
+    private XYChart.Series seriesBestScoreComputerAI;
 
     //average score perturn per session
     private LineChart averageScorePerSession;
@@ -79,6 +80,9 @@ public class StatisticsView extends BorderPane {
     private NumberAxis xAxisGameNo3;
     private XYChart.Series seriesAverageScorePlayer;
     private XYChart.Series seriesAverageScoreComputer;
+    private XYChart.Series seriesBestScoreComputerEASY;
+
+
 
 
     public StatisticsView() {
@@ -93,15 +97,6 @@ public class StatisticsView extends BorderPane {
         back = new Button("Back");
         back.getStyleClass().add("stat-backBtn");
         playerName = Database.getInstance().getLastPlayerName();
-
-//        //PIECHARTS
-//        mostPlayedTilesByColor = new PieChart();
-//        mostPlayedTilesByColor.setTitle("Your Most Played Tiles By Color");
-//        mostPlayedTilesByColor.setLegendSide(Side.LEFT);
-//
-//        mostPlayedTilesByShape = new PieChart();
-//        mostPlayedTilesByShape.setTitle("Your Most Played Tiles By Shape");
-//        mostPlayedTilesByShape.setLegendSide(Side.LEFT);
 
 
         //LineChartS GAMESESSION
@@ -176,15 +171,17 @@ public class StatisticsView extends BorderPane {
         //LineChartS OVERALL Best Score Per Session
         seriesBestScorePlayer = new XYChart.Series<>();
         seriesBestScorePlayer.setName("Player");
-        seriesBestScoreComputer = new XYChart.Series<>();
-        seriesBestScoreComputer.setName("Computer");
+        seriesBestScoreComputerEASY = new XYChart.Series<>();
+        seriesBestScoreComputerEASY.setName("Computer Easy");
+        seriesBestScoreComputerAI = new XYChart.Series<>();
+        seriesBestScoreComputerAI.setName("Computer AI");
 
         yAxisScore = new NumberAxis();
         yAxisScore.setLabel("Score");
         xAxisGameNo3 = new NumberAxis();
         xAxisGameNo3.setLabel("Last 50 games");
         xAxisGameNo3.setTickUnit(1);
-        bestScorePerSession = new LineChart(xAxisGameNo3, yAxisScore);
+        bestScorePerSession = new AreaChart(xAxisGameNo3, yAxisScore);
         bestScorePerSession.setTitle("Highest score in a turn per session");
         bestScorePerSession.setVerticalGridLinesVisible(false);
         bestScorePerSession.setHorizontalGridLinesVisible(false);
@@ -211,13 +208,7 @@ public class StatisticsView extends BorderPane {
         bestScorePerSessionTab.setContent(bestScorePerSession);
 
 
-//        tileByColorTab = new Tab("TilesByColor");
-//        tileByColorTab.setContent(mostPlayedTilesByColor);
-//
-//        tileByShapeTab = new Tab("TilesByShape");
-//        tileByShapeTab.setContent(mostPlayedTilesByShape);
 
-//        tabPane.getTabs().addAll(durationPerTurnTabLastGameSession, pointPerTurnTabLastGameSession, tileByColorTab, tileByShapeTab, durationPerSessionTab, averageScorePerSessionTab);
         tabPane1.getTabs().addAll(pointPerTurnLastGameSessionTab, durationPerTurnLastGameSessionTab);
         tabPane1.getSelectionModel().select(pointPerTurnLastGameSessionTab);
         tabPane2.getTabs().addAll(bestScorePerSessionTab, durationPerSessionTab, averageScorePerSessionTab);
@@ -351,7 +342,7 @@ public class StatisticsView extends BorderPane {
     }
 
 
-    LineChart getBestScorePerSession() {
+    AreaChart getBestScorePerSession() {
         return bestScorePerSession;
     }
 
@@ -360,8 +351,8 @@ public class StatisticsView extends BorderPane {
         return seriesBestScorePlayer;
     }
 
-    XYChart.Series getSeriesBestScoreComputer() {
-        return seriesBestScoreComputer;
+    XYChart.Series getSeriesBestScoreComputerAI() {
+        return seriesBestScoreComputerAI;
     }
 
 
@@ -410,6 +401,9 @@ public class StatisticsView extends BorderPane {
         return seriesPointsPerTurnLastGameSessionComputer;
     }
 
+    public XYChart.Series getSeriesBestScoreComputerEASY() {
+        return seriesBestScoreComputerEASY;
+    }
     //Axis getters
 
 
