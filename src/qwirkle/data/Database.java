@@ -2,16 +2,11 @@ package qwirkle.data;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
-import javafx.scene.chart.PieChart;
 import javafx.scene.chart.XYChart;
-import javafx.scene.chart.XYChart.Data;
 import qwirkle.model.GameSession;
 import qwirkle.model.computer.Computer;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.sql.*;
 import java.util.Collections;
 import java.util.LinkedList;
@@ -78,7 +73,7 @@ public class Database {
     public LinkedList<String> getSavedCredentials() {
         LinkedList<String> credentials = new LinkedList<>();
         try {
-            Scanner scanner = new Scanner(new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/user-data/info.txt"))));
+            Scanner scanner = new Scanner(new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/user-data/local_file_path.txt"))));
             String savedFilePath = scanner.nextLine();
             Scanner scanner1 = new Scanner(new File(savedFilePath));
             for (int i = 0; i < 2; i ++) {

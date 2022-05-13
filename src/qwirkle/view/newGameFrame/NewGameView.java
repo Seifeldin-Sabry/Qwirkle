@@ -30,7 +30,6 @@ public class NewGameView extends BorderPane {
     private TextArea placeholder;
     private Button submit;
     private VBox vbox2_1;
-    private TextArea textArea;
     private ToggleGroup group1;
     private ToggleGroup group2;
     private Image background;
@@ -53,7 +52,6 @@ public class NewGameView extends BorderPane {
         quit = new Button("Back");
         whoPlaysFirst = new Label("Who plays first?");
         gameMode = new Label("Game Mode");
-        textArea = new TextArea("");
         radioHPF1 = new RadioButton("Player 1");
         radioHPF2 = new RadioButton("Computer");
         radioMode1 = new RadioButton("Easy");
@@ -172,10 +170,6 @@ public class NewGameView extends BorderPane {
         return quit;
     }
 
-    TextArea getTextArea() {
-        return textArea;
-    }
-
     RadioButton getRadioHPF1() {
         return radioHPF1;
     }
@@ -186,10 +180,6 @@ public class NewGameView extends BorderPane {
 
     ToggleGroup getGroup1() {
         return group1;
-    }
-
-    ToggleGroup getGroup2() {
-        return group2;
     }
 
     CheckBox getChangeName() {
@@ -214,22 +204,6 @@ public class NewGameView extends BorderPane {
 
     TextArea getPlaceholder() {
         return placeholder;
-    }
-
-    HBox getHboxCenter() {
-        return hboxCenter;
-    }
-
-    VBox getVbox2() {
-        return vbox2;
-    }
-
-    VBox getVbox2_1() {
-        return vbox2_1;
-    }
-
-    VBox getVbox3() {
-        return vbox3;
     }
 
     Button getSubmit() {

@@ -161,12 +161,27 @@
     -fx-fill: #FF5733;
 }
 
-.computer-axis-line {
+.computerAI-axis-line, .computer-axis-line {
     -fx-stroke: BLUE;
 }
+.computerEASY-axis-line {
+    -fx-stroke: #11de00;
+}
 
-.computer-label {
-    -fx-text-fill: BLUE;
+.default-color0.chart-line-symbol {
+    -fx-background-color: #FF5733;
+}
+.default-color1.chart-line-symbol {
+    -fx-background-color: BLUE;
+}
+.default-color2.chart-line-symbol {
+    -fx-background-color: #11de00;
+}
+.chart {
+    -fx-padding: 20px;
+}
+.chart-content {
+    -fx-padding: 10 40 10 0;
 }
 /***********************************************/
 /**********************RULES VIEW*************************/

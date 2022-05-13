@@ -13,6 +13,10 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.util.Duration;
 
+//Serves as a popup used for messages and warnings from within the GamePlayPresenter and the NewGamePresenter
+//Timeline duration serves always as its starting time. Depending on the keyFrame its is included, the name of the variable...
+//...is startTime or duration for readability.
+//All popups have 250 milliseconds fadeIn/fadeOut (0,5 secs in total)
 
 public class PopupPresenter {
 
@@ -21,20 +25,16 @@ public class PopupPresenter {
     private Timeline rotation;
     private SequentialTransition seq;
 
-
+    //Standard popup messages
     public PopupPresenter(Stage stage, PopupView view, String text, double width, double height, double startTime) {
         this.view = view;
         updateView(text);
         popup(stage, width, height, startTime);
     }
-
+    //Used before the Computer makes a move (Different keyFrames/animation)
     public PopupPresenter(Stage stage, PopupView view, String text, double width, double height, double duration, boolean calculatingMove) {
         this.view = view;
-        if (calculatingMove) {
-            updateView(text, true);
-        } else {
-            updateView(text);
-        }
+        updateViewComputerOnly(text);
         popup(stage, width, height, duration);
     }
 
@@ -50,24 +50,17 @@ public class PopupPresenter {
         stage.setScene(scene);
         stage.setAlwaysOnTop(true);
         stage.initOwner(primaryStage);
+        //Prevent any interaction with the buttons or any other nodes of the mainStage while popup stage is active
         stage.initModality(Modality.APPLICATION_MODAL);
         stage.show();
         double primaryStageHeight = primaryStage.getHeight();
-        stage.setY((primaryStageHeight - stage.getHeight())/2);
+        stage.setY((primaryStageHeight - stage.getHeight()) / 2);
         KeyFrame firstKeyFrame = new KeyFrame(Duration.seconds(duration - 0.25),
-                event -> {
-                    try {
-                        fadeOut(view);
-                    } catch (NullPointerException ignored) {
-                    }
-                });
+                event -> fadeOut(view));
         KeyFrame secondKeyFrame = new KeyFrame(Duration.seconds(duration),
                 event -> {
-                    try {
-                        stage.close();
-                        timeline.stop();
-                    } catch (NullPointerException ignored) {
-                    }
+                    stage.close();
+                    timeline.stop();
                 });
         timeline = new Timeline(firstKeyFrame, secondKeyFrame);
         fadeIn(view);
@@ -79,8 +72,9 @@ public class PopupPresenter {
     private void updateView(String text) {
         view.getLabel().setText(text);
     }
-    private void updateView(String text, boolean calculatingMove) {
-        KeyValue kv1 = new KeyValue(view.getImageView().rotateProperty(),360);
+
+    private void updateViewComputerOnly(String text) {
+        KeyValue kv1 = new KeyValue(view.getImageView().rotateProperty(), 360);
         KeyFrame kf1 = new KeyFrame(Duration.millis(1750), kv1);
         KeyFrame kf2 = new KeyFrame(Duration.millis(2000), e -> {
             seq.stop();
@@ -94,16 +88,17 @@ public class PopupPresenter {
         seq.play();
     }
 
-    private void fadeIn(Pane object){
+    private void fadeIn(Pane object) {
         KeyValue kv1 = new KeyValue(object.opacityProperty(), 1);
-        Timeline scaling = new Timeline( new KeyFrame(Duration.millis(250), kv1));
+        Timeline scaling = new Timeline(new KeyFrame(Duration.millis(250), kv1));
         seq = new SequentialTransition(scaling);
         object.setOpacity(0);
         seq.play();
     }
-    private void fadeOut(Pane object){
+
+    private void fadeOut(Pane object) {
         KeyValue kv1 = new KeyValue(object.opacityProperty(), 0);
-        Timeline scaling = new Timeline( new KeyFrame(Duration.millis(250), kv1));
+        Timeline scaling = new Timeline(new KeyFrame(Duration.millis(250), kv1));
         seq = new SequentialTransition(scaling);
         object.setOpacity(1);
         seq.play();

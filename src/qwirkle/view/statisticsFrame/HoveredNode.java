@@ -6,6 +6,8 @@ import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.StackPane;
 
+//Helper class that adds a view on statistics mouseOver values with the actual value. It extends StackPane to allow its...
+//...positioning at the center of the Node that triggers it.
 class HoveredNode extends StackPane {
 
     HoveredNode(int value) {

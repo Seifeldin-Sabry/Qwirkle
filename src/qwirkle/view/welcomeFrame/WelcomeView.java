@@ -1,6 +1,5 @@
 package qwirkle.view.welcomeFrame;
 
-import javafx.animation.KeyValue;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;

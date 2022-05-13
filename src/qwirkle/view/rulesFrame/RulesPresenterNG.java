@@ -19,15 +19,14 @@ public class RulesPresenterNG {
         this.name = name;
         addEventHandler(stage, newGameView);
     }
-
+    //Back to NewGameView
     private void addEventHandler(Stage stage, NewGameView newGameView) {
-        view.getBack().setOnAction(event -> setBack(stage, newGameView));
+        view.getBack().setOnAction(event -> {
+            NewGamePresenter newGamePresenter = new NewGamePresenter(stage, newGameView);
+            newGamePresenter.setIsPlayerStarting(isPlayerStarting);
+            newGamePresenter.setName(name);
+            view.getScene().setRoot(newGameView);
+        });
     }
 
-    private void setBack(Stage stage, NewGameView newGameView) {
-        NewGamePresenter newGamePresenter = new NewGamePresenter(stage, newGameView);
-        newGamePresenter.setIsPlayerStarting(isPlayerStarting);
-        newGamePresenter.setName(name);
-        view.getScene().setRoot(newGameView);
-    }
 }

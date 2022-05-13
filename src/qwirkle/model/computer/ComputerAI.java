@@ -10,15 +10,10 @@ import java.util.stream.Collectors;
 
 import static qwirkle.model.computer.Computer.LevelOfDifficulty.*;
 
-/**
- * @author: Seifeldin Sabry
- */
 @SuppressWarnings("OptionalGetWithoutIsPresent")
 public class ComputerAI extends Computer implements QwirkleEngineAI {
 
     private int numberOfConsecutiveTrades = 0;
-
-
 
     public ComputerAI(Bag bag, Grid grid) {
         super(bag, grid);
@@ -31,11 +26,10 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
      */
     public Turn makeTurn(int turnNo) {
         boolean isFirstTurn = getBoard().getUsedSpaces().size() == 0;
-        if (isFirstTurn){
+        if (isFirstTurn) {
             return makeFirstTurn();
         }
         HashMap<Move, Set<Turn>> allMoves = getMoveValidator().getAllValidMoves(getBoard());
-        HashMap<Move, Set<Turn>> allMovesCopy = new HashMap<>(allMoves);
         allMoves = clearAllEmptyTurns(allMoves);
         if (thereAreNoMoves(allMoves)) {
             trade();
@@ -46,38 +40,31 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
             allMoves = removeAllTurnsThatContainLessThanScoreFive(allMoves);
         }
         if (thereAreNoMoves(allMoves)) {
-            return getHighestScoringTurn(allMovesCopy);
+            trade();
+            return null;
         }
-        Turn highestScoringTurn = getHighestScoringTurn(allMoves);
-        if (highestScoringTurn != null) return highestScoringTurn;
-        trade();
-        numberOfConsecutiveTrades++;
-        return null;
-
-    }
-
-    private Turn getHighestScoringTurn(HashMap<Move, Set<Turn>> allMoves) {
         HashMap<Move, Set<Turn>> multipleRowsOrColumnsTurns = getTurnsThatHaveMultipleRowsOrColumns(allMoves);
         Turn highestAdjacentScoringTurn = getMostProfitableTurn(multipleRowsOrColumnsTurns);
         Turn highestScoringTurn = getMostProfitableTurn(allMoves);
         if (highestScoringTurn != null && highestAdjacentScoringTurn != null) {
             numberOfConsecutiveTrades = 0;
             return highestScoringTurn(highestScoringTurn, highestAdjacentScoringTurn);
-        }
-        else if (highestScoringTurn != null) {
+        } else if (highestScoringTurn != null) {
             numberOfConsecutiveTrades = 0;
             return highestScoringTurn;
-        }
-        else if (highestAdjacentScoringTurn != null) {
+        } else if (highestAdjacentScoringTurn != null) {
             numberOfConsecutiveTrades = 0;
             return highestAdjacentScoringTurn;
         }
+        trade();
+        numberOfConsecutiveTrades++;
         return null;
+
     }
 
     private Turn highestScoringTurn(Turn highestScoringTurn, Turn highestAdjacentScoringTurn) {
         Grid grid = getBoard().getDeepCopy();
-        for(Move move : highestScoringTurn) {
+        for (Move move : highestScoringTurn) {
             grid.boardAddMove(move);
         }
         int highestScoringTurnScore = highestScoringTurn.calcScore(grid);
@@ -98,7 +85,7 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
             Move move = entry.getKey();
             Set<Turn> turns = entry.getValue();
             for (Turn turn : turns) {
-                if(turn.size() > 0) {
+                if (turn.size() > 0) {
                     newAllMoves.put(move, turns);
                 }
             }
@@ -110,16 +97,16 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
         Set<ArrayList<Tile>> combos = getMoveValidator().getLargestCombinations();
         Iterator<ArrayList<Tile>> iterator = combos.iterator();
         ArrayList<Tile> selectedCombo = null;
-        while(iterator.hasNext()) {
+        while (iterator.hasNext()) {
             ArrayList<Tile> combo = iterator.next();
-            if(combo.size() == 5){
+            if (combo.size() == 5) {
                 continue;
             }
             if (combo.size() == 6) {
                 selectedCombo = combo;
                 break;
             }
-            if ( selectedCombo == null || selectedCombo.isEmpty() ) {
+            if (selectedCombo == null || selectedCombo.isEmpty()) {
                 selectedCombo = combo;
             }
 
@@ -132,12 +119,10 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
     }
 
 
-
-
     private boolean thereAreNoMoves(HashMap<Move, Set<Turn>> allMoves) {
         for (Set<Turn> turns : allMoves.values()) {
             for (Turn turn : turns) {
-                if(turn.size() > 0) {
+                if (turn.size() > 0) {
                     return false;
                 }
             }
@@ -146,35 +131,34 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
     }
 
 
-
     //working on it...
     @Override
-    public HashMap<Move,Set<Turn>> removeAllTurnsThatCanMakeOpponentQwirkle(HashMap<Move, Set<Turn>> allMoves) {
+    public HashMap<Move, Set<Turn>> removeAllTurnsThatCanMakeOpponentQwirkle(HashMap<Move, Set<Turn>> allMoves) {
         HashMap<Move, Set<Turn>> toReturn = new HashMap<>();
-        for (Map.Entry<Move,Set<Turn>> entry: allMoves.entrySet()) {
+        for (Map.Entry<Move, Set<Turn>> entry : allMoves.entrySet()) {
             toReturn.computeIfAbsent(entry.getKey(), k -> new HashSet<>());
             Set<Turn> turns = entry.getValue();
             for (Turn turn : turns) {
                 Grid grid = getBoard().getDeepCopy();
-                for (Move move : turn){
+                for (Move move : turn) {
                     grid.boardAddMove(move);
                 }
-                switch (grid.determineDirection(turn)){
+                switch (grid.determineDirection(turn)) {
                     case HORIZONTAL -> {
-                        if(grid.getConnectedHorizontalArray(turn.get(0).getCoordinate()).size() != 5 && notVerticallyFiveConnected(grid,turn)) {
+                        if (grid.getConnectedHorizontalArray(turn.get(0).getCoordinate()).size() != 4 && notVerticallyFiveConnected(grid, turn)) {
                             toReturn.get(entry.getKey()).add(turn);
                         }
                     }
                     case VERTICAL -> {
-                        if(grid.getConnectedVerticalArray(turn.get(0).getCoordinate()).size() != 5 && notHorizontallyFiveConnected(grid, turn)) {
+                        if (grid.getConnectedVerticalArray(turn.get(0).getCoordinate()).size() != 4 && notHorizontallyFiveConnected(grid, turn)) {
                             toReturn.get(entry.getKey()).add(turn);
                         }
                     }
                     case SINGLE -> {
-                        if(grid.getConnectedHorizontalArray(turn.get(0).getCoordinate()).size() != 5) {
+                        if (grid.getConnectedHorizontalArray(turn.get(0).getCoordinate()).size() != 4) {
                             toReturn.get(entry.getKey()).add(turn);
                         }
-                        if(grid.getConnectedVerticalArray(turn.get(0).getCoordinate()).size() != 5) {
+                        if (grid.getConnectedVerticalArray(turn.get(0).getCoordinate()).size() != 4) {
                             toReturn.get(entry.getKey()).add(turn);
                         }
                     }
@@ -186,7 +170,7 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
 
     private boolean notHorizontallyFiveConnected(Grid grid, Turn turn) {
         for (Move move : turn) {
-            if(grid.getConnectedHorizontalArray(move.getCoordinate()).size() == 5) {
+            if (grid.getConnectedHorizontalArray(move.getCoordinate()).size() == 4) {
                 return false;
             }
         }
@@ -195,7 +179,7 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
 
     private boolean notVerticallyFiveConnected(Grid grid, Turn turn) {
         for (Move move : turn) {
-            if (grid.getConnectedVerticalArray(move.getCoordinate()).size() == 5) {
+            if (grid.getConnectedVerticalArray(move.getCoordinate()).size() == 4) {
                 return false;
             }
         }
@@ -205,15 +189,15 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
     @Override
     public HashMap<Move, Set<Turn>> removeAllTurnsThatContainLessThanScoreFive(HashMap<Move, Set<Turn>> allMoves) {
         HashMap<Move, Set<Turn>> toReturn = new HashMap<>();
-        for (Map.Entry<Move,Set<Turn>> entry: allMoves.entrySet()) {
+        for (Map.Entry<Move, Set<Turn>> entry : allMoves.entrySet()) {
             toReturn.computeIfAbsent(entry.getKey(), k -> new HashSet<>());
             Set<Turn> turns = entry.getValue();
             for (Turn turn : turns) {
                 Grid grid = getBoard().getDeepCopy();
-                for (Move move : turn){
+                for (Move move : turn) {
                     grid.boardAddMove(move);
                 }
-                if(turn.calcScore(grid) > 4){
+                if (turn.calcScore(grid) > 4) {
                     toReturn.get(entry.getKey()).add(turn);
                 }
             }
@@ -225,37 +209,38 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
     @Override
     public HashMap<Move, Set<Turn>> getTurnsThatHaveMultipleRowsOrColumns(HashMap<Move, Set<Turn>> allMoves) {
         HashMap<Move, Set<Turn>> toReturn = new HashMap<>();
-        for (Map.Entry<Move,Set<Turn>> entry: allMoves.entrySet()) {
+        for (Map.Entry<Move, Set<Turn>> entry : allMoves.entrySet()) {
             Set<Turn> turns = entry.getValue();
             for (Turn turn : turns) {
                 Grid grid = getBoard().getDeepCopy();
-                for (Move move : turn){
+                for (Move move : turn) {
                     grid.boardAddMove(move);
                 }
                 int collisons = 0;
-                switch (grid.determineDirection(turn)){
+                switch (grid.determineDirection(turn)) {
                     //horizontal
                     case HORIZONTAL -> {
-                        for (Move move : turn){
-                            if(grid.getConnectedVerticalArray(move.getCoordinate()).size() >= 1){
+                        for (Move move : turn) {
+                            if (grid.getConnectedVerticalArray(move.getCoordinate()).size() >= 1) {
                                 collisons++;
                             }
                         }
                     }
                     case VERTICAL -> {
-                        for (Move move : turn){
-                            if(grid.getConnectedHorizontalArray(move.getCoordinate()).size() >= 1){
+                        for (Move move : turn) {
+                            if (grid.getConnectedHorizontalArray(move.getCoordinate()).size() >= 1) {
                                 collisons++;
                             }
                         }
                     }
                     case SINGLE -> {
-                        if (grid.getConnectedVerticalArray(turn.get(0).getCoordinate()).size() >=1 && grid.getConnectedHorizontalArray(turn.get(0).getCoordinate()).size() >=1){
-                            collisons+=2;
+                        if (grid.getConnectedVerticalArray(turn.get(0).getCoordinate()).size() >= 1
+                                && grid.getConnectedHorizontalArray(turn.get(0).getCoordinate()).size() >= 1) {
+                            collisons += 2;
                         }
                     }
                 }
-                if(collisons >= 2){
+                if (collisons >= 2) {
                     toReturn.computeIfAbsent(entry.getKey(), k -> new HashSet<>());
                     toReturn.get(entry.getKey()).add(turn);
                 }
@@ -267,7 +252,7 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
     @Override
     public Turn getMostProfitableTurn(HashMap<Move, Set<Turn>> allMoves) {
         Turn mostProfitable = null;
-        for (Map.Entry<Move,Set<Turn>> entry: allMoves.entrySet()) {
+        for (Map.Entry<Move, Set<Turn>> entry : allMoves.entrySet()) {
             Set<Turn> turns = entry.getValue();
             for (Turn turn : turns) {
                 mostProfitable = turn;
@@ -280,25 +265,24 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
             return null;
         }
         Grid grid = getBoard().getDeepCopy();
-        for (Move move : mostProfitable){
+        for (Move move : mostProfitable) {
             grid.boardAddMove(move);
         }
         int scoreMostProfitable = mostProfitable.calcScore(grid);
-        for (Map.Entry<Move,Set<Turn>> entry: allMoves.entrySet()) {
+        for (Map.Entry<Move, Set<Turn>> entry : allMoves.entrySet()) {
             Set<Turn> turns = entry.getValue();
             for (Turn turn : turns) {
                 grid = getBoard().getDeepCopy();
-                for (Move move : turn){
+                for (Move move : turn) {
                     grid.boardAddMove(move);
                 }
-                if(turn.calcScore(grid) > scoreMostProfitable){
+                if (turn.calcScore(grid) > scoreMostProfitable) {
                     mostProfitable = turn;
                 }
             }
         }
         return mostProfitable;
     }
-
 
 
     /**
@@ -310,10 +294,10 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
         HashMap<Tile.TileColor, Integer> sameColorCount = new HashMap<>();
         HashMap<Tile.TileShape, Integer> sameShapeCount = new HashMap<>();
 
-        for (Tile tile: getDeck().getTilesInDeck()) {
+        for (Tile tile : getDeck().getTilesInDeck()) {
             sameTileCount.put(tile, getDeck().getTilesInDeck().stream().filter(t -> t.equals(tile)).toList().size());
-            sameColorCount.put(tile.getColor(),getDeck().getTilesInDeck().stream().filter(t -> t.isSameColor(tile)).toList().size());
-            sameShapeCount.put(tile.getShape(),getDeck().getTilesInDeck().stream().filter(t -> t.isSameShape(tile)).toList().size());
+            sameColorCount.put(tile.getColor(), getDeck().getTilesInDeck().stream().filter(t -> t.isSameColor(tile)).toList().size());
+            sameShapeCount.put(tile.getShape(), getDeck().getTilesInDeck().stream().filter(t -> t.isSameShape(tile)).toList().size());
         }
 
 
@@ -329,7 +313,6 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
             tradeTiles(tiles);
             return;
         }
-
 
 
         //if all maps have same value, and value more than 1, then trade same tiles
@@ -349,7 +332,7 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
 
         //if color frequency and shape frequency are the same, pick a random number to trade color or shape
         //if random number is 0, then trade shape, if 1, then trade color
-        if(sameColorCount.values().stream().allMatch(i -> Objects.equals(i, sameShapeCount.values()
+        if (sameColorCount.values().stream().allMatch(i -> Objects.equals(i, sameShapeCount.values()
                 .stream()
                 .findFirst()
                 .get()))
@@ -360,8 +343,7 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
             int random = randomTileChooser.nextInt(2);
             if (random == 0) {
                 tradeLeastOccurringShapes(sameShapeCount);
-            }
-            else {
+            } else {
                 tradeLeastOccurringColors(sameColorCount);
             }
             return;
@@ -378,7 +360,6 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
             tradeLeastOccurringShapes(sameShapeCount);
             return;
         }
-
 
 
         //if color frequency max is greater than shape frequency max, then trade least common shapes
@@ -448,6 +429,7 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
     /**
      * Trade tiles with same shape
      * these are the least common tiles in the deck
+     *
      * @param leastCommonShape the least common shape
      */
     private void tradeLeastCommonShape(Tile.TileShape leastCommonShape) {
@@ -460,15 +442,15 @@ public class ComputerAI extends Computer implements QwirkleEngineAI {
         try {
             Connection conn = Database.getInstance().getConnection();
             String sql = """
-                         INSERT INTO int_player(player_id, player_name, difficulty)
-                                 VALUES (nextval('player_id_seq'),?,?);
-                         """;
+                    INSERT INTO int_player(player_id, player_name, difficulty)
+                            VALUES (nextval('player_id_seq'),?,?);
+                    """;
             PreparedStatement ptsmt = conn.prepareStatement(sql);
-            ptsmt.setString(1,getName());
-            ptsmt.setString(2,getLevelOfDifficulty().toString());
+            ptsmt.setString(1, getName());
+            ptsmt.setString(2, getLevelOfDifficulty().toString());
             ptsmt.executeUpdate();
             ptsmt.close();
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             System.out.println("Error while saving to int_player");
         }

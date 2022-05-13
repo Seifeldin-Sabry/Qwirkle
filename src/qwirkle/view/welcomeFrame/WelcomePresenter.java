@@ -29,13 +29,13 @@ public class WelcomePresenter {
         this.view.getQuit().setOnAction(event -> quitApplication(event, stage));
         this.view.getRules().setOnAction(event -> setRulesView(stage));
     }
-
+    //Swapping to NewGameView
     private void setNewGameView(Stage stage) {
         NewGameView newGameView = new NewGameView();
         new NewGamePresenter(stage, newGameView);
         view.getScene().setRoot(newGameView);
     }
-
+    //Swapping to StatisticsView
     private void setStatisticsView(Stage stage) {
         StatisticsView statisticsView = new StatisticsView();
         new StatisticsPresenterW(statisticsView, stage);
@@ -47,12 +47,11 @@ public class WelcomePresenter {
         new RulesPresenterW(stage, rulesView);
         view.getScene().setRoot(rulesView);
     }
-
+    //WindowEvent when the user presses the x icon after exiting the fullscreen mode to quit the application.
     public void addWindowEventHandlers(Stage stage) {
         view.getScene().getWindow().setOnCloseRequest(event -> closeApplication(event, stage));
-        view.getQuit().setOnAction(e -> quitApplication(e, stage));
     }
-
+    //WindowEvent triggering an alarm to confirm exiting the application when closing the window (see addWindowEventHandlers method line 51)
     private void closeApplication(WindowEvent event, Stage stage) {
         Alert alert = new Alert(Alert.AlertType.NONE);
         alert.setHeaderText("You are about to quit the game!");
@@ -71,7 +70,7 @@ public class WelcomePresenter {
             System.exit(0);
         }
     }
-
+    //ActionEvent assigned to "Quit" button
     private void quitApplication(ActionEvent event, Stage stage) {
         Alert alert = new Alert(Alert.AlertType.NONE);
         alert.setHeaderText("You are about to quit the game!");

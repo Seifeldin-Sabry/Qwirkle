@@ -12,9 +12,6 @@ import java.util.Set;
 
 import static qwirkle.model.Grid.MID;
 
-/**
- * @author: Seifeldin Sabry
- */
 public class Computer extends Player {
 
     final Random randomTileChooser;

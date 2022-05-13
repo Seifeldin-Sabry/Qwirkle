@@ -21,7 +21,7 @@ import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-
+//From this class the difficulty level of the computer and the chosen user name are passed to the GamePlayPresenter
 public class NewGamePresenter {
     private NewGameView view;
     private boolean isPlayerStarting;
@@ -33,7 +33,7 @@ public class NewGamePresenter {
         isPlayerStarting = true;
         difficultyLvl = Computer.LevelOfDifficulty.EASY;
         addEventHandler(stage);
-        updateView();
+        updateView(stage);
     }
 
     private void addEventHandler(Stage stage) {
@@ -49,48 +49,62 @@ public class NewGamePresenter {
             setPLayView(stage, getIsPlayerStarting(), getName());
         });
         view.getSubmit().setOnAction(event -> {
-            if (!view.getPlaceholder().getText().isEmpty()) {
-                if (view.getPlaceholder().getText().length() > 12) {
-                    String text = """
-                            The maximum allowed
-                               characters is 11!""";
-                    PopupView view = new PopupView();
-                    new PopupPresenter(stage, view, text, 660, 300, 2);
-                    return;
-                } else {
-                    restoreNodes();
-                    name = view.getPlaceholder().getText();
-                    saveName();
-                }
+            if (view.getPlaceholder().getText().length() > 12) {
+                String text = """
+                        The maximum allowed
+                           characters is 11!""";
+                PopupView view = new PopupView();
+                new PopupPresenter(stage, view, text, 660, 300, 2);
+                return;
+            }
+            if (view.getPlaceholder().getText().length() == 0) {
+                String text = """
+                        Please insert a name!""";
+                PopupView view = new PopupView();
+                new PopupPresenter(stage, view, text, 660, 300, 2);
+                return;
+            }
+            if (view.getPlaceholder().getText().length() > 1 && view.getPlaceholder().getText().length() < 12) {
+                restoreNodes();
+                name = view.getPlaceholder().getText();
+                saveName(stage);
             }
         });
     }
-
-    private void saveName() {
+    //Saves the name in the local file if the user chooses a custom name
+    private void saveName(Stage stage) {
         try {
-            //Get the filepath
-            Scanner scanner = new Scanner(new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/user-data/info.txt"))));
+            //Get the filepath of the saved file
+            Scanner scanner = new Scanner(new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/user-data/local_file_path.txt"))));
             String savedFilePath = scanner.nextLine();
             String toAppend;
+            //Default "Player 1" name gets excluded
             if (name != null && !name.equals("Player 1")) {
                 toAppend = name;
             } else toAppend = "";
+            //Save the name on a new line under credentials and at the end of the file under previous chosen names
             FileWriter fileWriter = new FileWriter(savedFilePath, true);
-            //Save the name
             PrintWriter writer = new PrintWriter(fileWriter);
             writer.println(toAppend);
             writer.close();
             fileWriter.close();
             scanner.close();
         } catch (IOException ex) {
+            String text = """
+                    There was an error while
+                        saving your name.
+                        Please try again""";
+            PopupView view = new PopupView();
+            new PopupPresenter(stage, view, text, 660, 300, 2);
             Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
 
         }
     }
-
+    //It retrieves the last chosen userName from the local file if set
     private String getSavedName() throws FileNotFoundException {
         LinkedList<String> text = new LinkedList<>();
-        Scanner scanner = new Scanner(new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/user-data/info.txt"))));
+        //Get the link of the saved file
+        Scanner scanner = new Scanner(new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/user-data/local_file_path.txt"))));
         String source = scanner.nextLine();
         Scanner scanner1 = new Scanner(new File(source));
         while (scanner1.hasNext()) {
@@ -98,7 +112,9 @@ public class NewGamePresenter {
         }
         scanner.close();
         scanner1.close();
+        //First 2 lines contain login username/password
         if (text.size() > 3) {
+            //From the third line and below the last chosen name is returned
             return text.getLast();
         }
         return null;
@@ -122,7 +138,7 @@ public class NewGamePresenter {
         new GamePlayPresenter(stage, gamePlayView, newGameSession);
         view.getScene().setRoot(gamePlayView);
     }
-
+    //Changes the area of the left field of choices
     private void replaceNodes() {
         view.getRadioHPF1().setStyle("-fx-opacity: 0;");
         view.getRadioHPF2().setStyle("-fx-opacity: 0;");
@@ -131,7 +147,7 @@ public class NewGamePresenter {
         view.getVbox1().getChildren().set(1, view.getPlaceholder());
         view.getVbox1().getChildren().set(2, view.getSubmit());
     }
-
+    //It restores the previous view of that field without the choice to change the name and with the chosen new name shown
     private void restoreNodes() {
         view.getRadioHPF1().setStyle("-fx-opacity: 1;");
         view.getRadioHPF2().setStyle("-fx-opacity: 1;");
@@ -174,20 +190,24 @@ public class NewGamePresenter {
     private String getName() {
         return name;
     }
-
+    //Difficulty level set already and when chosen it passes to the model on the GamePlayPresenter once "play" button is pressed
     private Computer.LevelOfDifficulty getDifficultyLvl() {
         return difficultyLvl;
     }
 
-    private void updateView() {
+    private void updateView(Stage stage) {
         try {
+            //Retrieve the last chosen name from the local file if ever set
             if (getSavedName() != null) {
                 name = getSavedName();
                 view.getRadioHPF1().setText(getSavedName());
             } else {
                 name = view.getRadioHPF1().getText();
             }
-        } catch (FileNotFoundException e) {
+        } catch (FileNotFoundException ex) {
+            String text = "No saved name found";
+            PopupView view = new PopupView();
+            new PopupPresenter(stage, view, text, 660, 300, 2);
         }
         if (isPlayerStarting) {
             view.getGroup1().selectToggle(view.getRadioHPF1());

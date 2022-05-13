@@ -1,12 +1,8 @@
 package qwirkle.model;
 
 import java.util.*;
-
 import static qwirkle.model.MoveValidator.Direction.*;
 
-/**
- * @author: Seifeldin Sabry
- */
 public class MoveValidator {
     private final Deck deck;
 

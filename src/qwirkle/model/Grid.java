@@ -1,7 +1,6 @@
 package qwirkle.model;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
 import static qwirkle.model.Grid.MoveType.*;
 
@@ -37,8 +36,7 @@ public class Grid {
     }
 
     public Tile getTile(int row, int col) {
-        if (row >= BOARD_SIZE || col >= BOARD_SIZE || row < 0 || col < 0) return null;
-        return grid[row][col];
+        return row >= BOARD_SIZE || col >= BOARD_SIZE || row < 0 || col < 0 ? null : grid[row][col];
     }
 
 
@@ -174,9 +172,7 @@ public class Grid {
     private boolean isNotConnected(Move move, Turn moveList) {
         boolean isConnected = false;
         Move.Coordinate[] moveAdjacents = move.getCoordinate().getAdjacentCoords();
-        Move.Coordinate[]
-                moveListCoordinates =
-                moveList.stream().map(Move::getCoordinate).toArray(Move.Coordinate[]::new);
+        Move.Coordinate[] moveListCoordinates = moveList.stream().map(Move::getCoordinate).toArray(Move.Coordinate[]::new);
         for (Move.Coordinate moveAdjacent : moveAdjacents) {
             for (Move.Coordinate moveListCoordinate : moveListCoordinates) {
                 isConnected = moveAdjacent.equals(moveListCoordinate);
@@ -227,6 +223,7 @@ public class Grid {
                 return false;
             }
         }
+//        direction = this.determineDirection(moveList);
         for (Move move : moveList) {
             if (isNotConnected(move, turn)) return false;
         }
@@ -271,11 +268,9 @@ public class Grid {
         if (tiles.size() == 1) {
             if (tileToCompare.isSameColor(tiles.get(0)) && tileToCompare.isSameShape(tiles.get(0))) {
                 return false;
-            }
-            else if (tileToCompare.isSameColor(tiles.get(0)) && !tileToCompare.isSameShape(tiles.get(0))) {
+            } else if (tileToCompare.isSameColor(tiles.get(0)) && !tileToCompare.isSameShape(tiles.get(0))) {
                 return true;
-            }
-            else if (!tileToCompare.isSameColor(tiles.get(0)) && tileToCompare.isSameShape(tiles.get(0))) {
+            } else if (!tileToCompare.isSameColor(tiles.get(0)) && tileToCompare.isSameShape(tiles.get(0))) {
                 return true;
             }
         }
@@ -314,6 +309,7 @@ public class Grid {
         return true;
     }
 
+
     /**
      * @return 0 if horizontal, 1 if vertical, -1 if 1 tile, -2 if no tiles, -100 if invalid(null)
      */
@@ -331,7 +327,7 @@ public class Grid {
         Move move2 = turn.get(1);
         if (move1.getCoordinate().getRow() == move2.getCoordinate().getRow()) return HORIZONTAL;
         if (move1.getCoordinate().getColumn() == move2.getCoordinate().getColumn()) return VERTICAL;
-
+        //completely invalid move
         return INVALID;
     }
 
@@ -348,11 +344,9 @@ public class Grid {
         if (tiles.size() == 1) {
             if (tileToCompare.isSameColor(tiles.get(0)) && tileToCompare.isSameShape(tiles.get(0))) {
                 return false;
-            }
-            else if (tileToCompare.isSameColor(tiles.get(0)) && !tileToCompare.isSameShape(tiles.get(0))) {
+            } else if (tileToCompare.isSameColor(tiles.get(0)) && !tileToCompare.isSameShape(tiles.get(0))) {
                 return true;
-            }
-            else if (!tileToCompare.isSameColor(tiles.get(0)) && tileToCompare.isSameShape(tiles.get(0))) {
+            } else if (!tileToCompare.isSameColor(tiles.get(0)) && tileToCompare.isSameShape(tiles.get(0))) {
                 return true;
             }
         }
@@ -386,7 +380,6 @@ public class Grid {
         }
         return true;
     }
-
 
     /**
      * Adds the Move to the board. The Tile in move will be placed on the
@@ -576,3 +569,4 @@ public class Grid {
     }
 
 }
+

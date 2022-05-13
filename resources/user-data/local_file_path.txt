@@ -1,0 +1,1 @@
+/home/seif/Git/integration-project-qwirkle/.user_data.txt

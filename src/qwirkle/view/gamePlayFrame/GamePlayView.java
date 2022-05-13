@@ -27,7 +27,6 @@ public class GamePlayView extends BorderPane {
     private Label playerScore;
     private HBox rightBox;
     private HBox hbScore;
-    private ListView<ListView<Rectangle>> playedTiles;
     private TileNode emptyTile;
     private GridPane grid;
     private HBox hbMAIN;
@@ -54,7 +53,6 @@ public class GamePlayView extends BorderPane {
     private HBox hbmenu;
     private Image background;
     private Label gameStatus;
-    private Group disableGroup;
 
     //GameOver
     private Label label;
@@ -92,7 +90,7 @@ public class GamePlayView extends BorderPane {
         hbScore = new HBox();
 
 //        playedTiles = new LinkedList<>();
-        emptyTile = new TileNode();
+        emptyTile = new TileNode(50);
         grid = new GridPane();
         vb2 = new VBox();
         //Right
@@ -118,7 +116,6 @@ public class GamePlayView extends BorderPane {
         vbBottom = new VBox(20);
         hbmenu = new HBox(0.5);
         background = new Image("/images/tiles3D_min.png");
-        disableGroup = new Group(undo, submit, exchangeTiles, grid, deck, deckSpot1, deckSpot2, deckSpot3, deckSpot4, deckSpot5, deckSpot6);
 
         //GameOver
         label = new Label();
@@ -289,8 +286,6 @@ public class GamePlayView extends BorderPane {
         vBox.setAlignment(Pos.CENTER);
         vBox.setStyle("-fx-border-radius: 5");
         vBox.setPadding(new Insets(50, 0, 0, 0));
-
-
     }
 
      void makeTransparent() {
@@ -312,52 +307,16 @@ public class GamePlayView extends BorderPane {
         return submit;
     }
 
-    Group getDisableGroup() {
-        return disableGroup;
-    }
-
     Button getRules() {
         return rules;
-    }
-
-    public Label getGameStatus() {
-        return gameStatus;
     }
 
     Button getQuit() {
         return quit;
     }
 
-    Rectangle getDeckSpot1() {
-        return deckSpot1;
-    }
-
-    Rectangle getDeckSpot2() {
-        return deckSpot2;
-    }
-
-    Rectangle getDeckSpot3() {
-        return deckSpot3;
-    }
-
-    Rectangle getDeckSpot4() {
-        return deckSpot4;
-    }
-
-    Rectangle getDeckSpot5() {
-        return deckSpot5;
-    }
-
-    Rectangle getDeckSpot6() {
-        return deckSpot6;
-    }
-
     Label getTime() {
         return time;
-    }
-
-    TilePane getDeck() {
-        return deck;
     }
 
     Label getTilesLeft() {

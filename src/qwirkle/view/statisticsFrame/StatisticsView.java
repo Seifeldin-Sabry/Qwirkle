@@ -6,7 +6,6 @@ import javafx.application.Platform;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.geometry.Side;
-import javafx.scene.chart.AreaChart;
 import javafx.scene.chart.LineChart;
 import javafx.scene.chart.NumberAxis;
 import javafx.scene.chart.XYChart;
@@ -33,7 +32,6 @@ public class StatisticsView extends BorderPane {
     //Game-Session Statistics
     private LineChart durationLastGameSession;
     private XYChart.Series seriesDurationLastGameSessionPlayer;
-    private XYChart.Series seriesDurationLastGameSessionComputer;
     private NumberAxis yAxisTime;
     private NumberAxis xAxisTurnNo;
 
@@ -44,16 +42,11 @@ public class StatisticsView extends BorderPane {
     private NumberAxis xAxisTurnNo2;
 
     //Game Statistics
-//    private PieChart mostPlayedTilesByColor;
-//    private PieChart mostPlayedTilesByShape;
-
 
     private TabPane tabPane1;
     private TabPane tabPane2;
     private Tab durationPerTurnLastGameSessionTab;
     private Tab pointPerTurnLastGameSessionTab;
-    private Tab tileByColorTab;
-    private Tab tileByShapeTab;
 
     private Tab durationPerSessionTab;
 
@@ -64,26 +57,25 @@ public class StatisticsView extends BorderPane {
     //duration perSession
     private LineChart durationPerSession;
     private NumberAxis yAxisDuration;
-    private NumberAxis xAxisGameNo;
+    private NumberAxis xAxisGameNo1;
     private XYChart.Series seriesDurationPerGameSession;
 
     //player and computer score persession
-    private AreaChart bestScorePerSession;
+    private LineChart bestScorePerSession;
     private NumberAxis yAxisScore;
-    private NumberAxis xAxisGameNo2;
+    private NumberAxis xAxisGameNo3;
     private XYChart.Series seriesBestScorePlayer;
     private XYChart.Series seriesBestScoreComputerAI;
     private XYChart.Series seriesBestScoreComputerEASY;
 
-    //average score perturn per session
+
+    //average score per turn per session
     private LineChart averageScorePerSession;
     private NumberAxis yAxisAverageScore;
-    private NumberAxis xAxisGameNo3;
+    private NumberAxis xAxisGameNo2;
     private XYChart.Series seriesAverageScorePlayer;
     private XYChart.Series seriesAverageScoreComputerAI;
     private XYChart.Series seriesAverageScoreComputerEASY;
-
-
 
     public StatisticsView() {
         initialiseNodes();
@@ -97,7 +89,6 @@ public class StatisticsView extends BorderPane {
         back = new Button("Back");
         back.getStyleClass().add("stat-backBtn");
         playerName = Database.getInstance().getLastPlayerName();
-
 
         //LineChartS GAMESESSION
         seriesDurationLastGameSessionPlayer = new XYChart.Series<>();
@@ -137,10 +128,10 @@ public class StatisticsView extends BorderPane {
 
         yAxisDuration = new NumberAxis();
         yAxisDuration.setLabel("Time (seconds)");
-        xAxisGameNo = new NumberAxis();
-        xAxisGameNo.setLabel("Last 50 games");
-        xAxisGameNo.setTickUnit(1);
-        durationPerSession = new LineChart(xAxisGameNo, yAxisDuration);
+        xAxisGameNo1 = new NumberAxis();
+        xAxisGameNo1.setLabel("Last 50 games");
+        xAxisGameNo1.setTickUnit(1);
+        durationPerSession = new LineChart(xAxisGameNo1, yAxisDuration);
         durationPerSession.setTitle("Duration per session");
         durationPerSession.setLegendVisible(true);
         durationPerSession.setCreateSymbols(true);
@@ -173,17 +164,17 @@ public class StatisticsView extends BorderPane {
         //LineChartS OVERALL Best Score Per Session
         seriesBestScorePlayer = new XYChart.Series<>();
         seriesBestScorePlayer.setName("Player");
-        seriesBestScoreComputerEASY = new XYChart.Series<>();
-        seriesBestScoreComputerEASY.setName("Computer Easy");
         seriesBestScoreComputerAI = new XYChart.Series<>();
         seriesBestScoreComputerAI.setName("Computer AI");
+        seriesBestScoreComputerEASY = new XYChart.Series<>();
+        seriesBestScoreComputerEASY.setName("Computer EASY");
 
         yAxisScore = new NumberAxis();
         yAxisScore.setLabel("Score");
         xAxisGameNo3 = new NumberAxis();
         xAxisGameNo3.setLabel("Last 50 games");
         xAxisGameNo3.setTickUnit(1);
-        bestScorePerSession = new AreaChart(xAxisGameNo3, yAxisScore);
+        bestScorePerSession = new LineChart(xAxisGameNo3, yAxisScore);
         bestScorePerSession.setTitle("Highest score in a turn per session");
         bestScorePerSession.setVerticalGridLinesVisible(false);
         bestScorePerSession.setHorizontalGridLinesVisible(false);
@@ -208,8 +199,6 @@ public class StatisticsView extends BorderPane {
 
         bestScorePerSessionTab = new Tab("Best Score");
         bestScorePerSessionTab.setContent(bestScorePerSession);
-
-
 
         tabPane1.getTabs().addAll(pointPerTurnLastGameSessionTab, durationPerTurnLastGameSessionTab);
         tabPane1.getSelectionModel().select(pointPerTurnLastGameSessionTab);
@@ -258,9 +247,9 @@ public class StatisticsView extends BorderPane {
         upperButtons.setStyle("-fx-opacity: 0;");
         Image background = new Image("images/tiles3D_line_op1.png");
         BackgroundImage bgImage = new BackgroundImage(background, BackgroundRepeat.NO_REPEAT, BackgroundRepeat.NO_REPEAT,
-                                                      new BackgroundPosition(Side.LEFT, 0, false, Side.BOTTOM, 0,
-                                                                             false), new BackgroundSize(100, 100, true,
-                                                                                                        true, false, true));
+                new BackgroundPosition(Side.LEFT, 0, false, Side.BOTTOM, 0,
+                        false), new BackgroundSize(100, 100, true,
+                true, false, true));
         setBackground(new Background(bgImage));
         tabPane1.getTabs().get(0).getStyleClass().add("first-tab");
         tabPane2.getTabs().get(0).getStyleClass().add("first-tab");
@@ -269,6 +258,7 @@ public class StatisticsView extends BorderPane {
 
     }
 
+    //Resize the tab length with delay to let auto-alignment do its magic when tab-labels are set "aligned-center" with css
     private void fixTabsAlignment() {
         Platform.runLater(() -> {
             try {
@@ -308,14 +298,6 @@ public class StatisticsView extends BorderPane {
         timeline.play();
     }
 
-    public Tab getBestScorePerSessionTab() {
-        return bestScorePerSessionTab;
-    }
-
-    Tab getDurationPerTurnLastGameSessionTab() {
-        return durationPerTurnLastGameSessionTab;
-    }
-
     TabPane getTabPane2() {
         return tabPane2;
     }
@@ -344,7 +326,7 @@ public class StatisticsView extends BorderPane {
     }
 
 
-    AreaChart getBestScorePerSession() {
+    LineChart getBestScorePerSession() {
         return bestScorePerSession;
     }
 
@@ -372,6 +354,13 @@ public class StatisticsView extends BorderPane {
         return seriesAverageScoreComputerAI;
     }
 
+    XYChart.Series getSeriesAverageScoreComputerEASY() {
+        return seriesAverageScoreComputerEASY;
+    }
+
+    XYChart.Series getSeriesBestScoreComputerEASY() {
+        return seriesBestScoreComputerEASY;
+    }
 
     Button getBack() {
         return back;
@@ -387,10 +376,6 @@ public class StatisticsView extends BorderPane {
         return seriesDurationLastGameSessionPlayer;
     }
 
-    XYChart.Series getSeriesDurationLastGameSessionComputer() {
-        return seriesDurationLastGameSessionComputer;
-    }
-
     LineChart getPointsPerTurnLastGameSession() {
         return pointsPerTurnLastGameSession;
     }
@@ -403,53 +388,25 @@ public class StatisticsView extends BorderPane {
         return seriesPointsPerTurnLastGameSessionComputer;
     }
 
-    public XYChart.Series getSeriesBestScoreComputerEASY() {
-        return seriesBestScoreComputerEASY;
-    }
     //Axis getters
 
-
-    public NumberAxis getyAxisTime() {
-        return yAxisTime;
-    }
-
-    public NumberAxis getxAxisTurnNo() {
+    NumberAxis getxAxisTurnNo() {
         return xAxisTurnNo;
     }
 
-    public NumberAxis getyAxisPoints() {
-        return yAxisPoints;
-    }
-
-    public NumberAxis getxAxisTurnNo2() {
+    NumberAxis getxAxisTurnNo2() {
         return xAxisTurnNo2;
     }
 
-    public NumberAxis getyAxisDuration() {
-        return yAxisDuration;
+    NumberAxis getxAxisGameNo1() {
+        return xAxisGameNo1;
     }
 
-    public NumberAxis getxAxisGameNo() {
-        return xAxisGameNo;
-    }
-
-    public NumberAxis getyAxisScore() {
-        return yAxisScore;
-    }
-
-    public NumberAxis getxAxisGameNo2() {
+    NumberAxis getxAxisGameNo2() {
         return xAxisGameNo2;
     }
 
-    public NumberAxis getyAxisAverageScore() {
-        return yAxisAverageScore;
-    }
-
-    public NumberAxis getxAxisGameNo3() {
+    NumberAxis getxAxisGameNo3() {
         return xAxisGameNo3;
-    }
-
-    public XYChart.Series getSeriesAverageScoreComputerEASY() {
-        return seriesAverageScoreComputerEASY;
     }
 }

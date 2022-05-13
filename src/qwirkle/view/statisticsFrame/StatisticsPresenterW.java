@@ -10,7 +10,7 @@ import qwirkle.view.welcomeFrame.WelcomePresenter;
 import qwirkle.view.welcomeFrame.WelcomeView;
 
 import java.util.List;
-
+//Statistics view Presenter. It uses the HoveredNode class to present the y-axis values of each chart on node mouseOver
 public class StatisticsPresenterW {
     private final StatisticsView view;
     private final Database database;
@@ -28,29 +28,29 @@ public class StatisticsPresenterW {
     }
 
     private void updateStyle() {
-        view.getxAxisGameNo().setUpperBound(view.getSeriesDurationPerGameSession().getData().size());
+        view.getxAxisGameNo1().setUpperBound(view.getSeriesDurationPerGameSession().getData().size());
         view.getxAxisGameNo3().setUpperBound(view.getSeriesBestScorePlayer().getData().size());
         view.getxAxisGameNo2().setUpperBound(view.getSeriesAverageScorePlayer().getData().size());
         view.getxAxisTurnNo().setUpperBound(view.getSeriesDurationLastGameSessionPlayer().getData().size());
         view.getxAxisTurnNo2().setUpperBound(view.getSeriesPointsPerTurnLastGameSessionPlayer().getData().size());
-
-        view.getxAxisGameNo().setAutoRanging(false);
+        view.getxAxisGameNo1().setAutoRanging(false);
         view.getxAxisGameNo2().setAutoRanging(false);
         view.getxAxisGameNo3().setAutoRanging(false);
         view.getxAxisTurnNo().setAutoRanging(false);
         view.getxAxisTurnNo2().setAutoRanging(false);
         view.getSeriesPointsPerTurnLastGameSessionComputer().setName("Computer " + Database.getInstance().getLastComputerMode());
-        view.getSeriesPointsPerTurnLastGameSessionComputer().getNode().getStyleClass().add("computer-label");
-        view.getSeriesBestScoreComputerAI().getNode().getStyleClass().addAll("computer-axis-line");
         view.getSeriesPointsPerTurnLastGameSessionComputer().getNode().getStyleClass().addAll("computer-axis-line");
-        view.getSeriesAverageScoreComputerAI().getNode().getStyleClass().addAll("computer-axis-line");
+        view.getSeriesBestScoreComputerAI().getNode().getStyleClass().addAll("computerAI-axis-line");
+        view.getSeriesBestScoreComputerEASY().getNode().getStyleClass().addAll("computerEASY-axis-line");
+        view.getSeriesAverageScoreComputerAI().getNode().getStyleClass().addAll("computerAI-axis-line");
+        view.getSeriesAverageScoreComputerEASY().getNode().getStyleClass().addAll("computerEASY-axis-line");
     }
 
     private void addEventHandler(Stage stage) {
         view.getBack().setOnAction(event -> setBack(stage));
         tabButtons();
     }
-
+    //Buttons conditional styling imitating tab labels behaviour
     private void tabButtons() {
         view.getLastGameButton().setOnAction(event -> {
             view.getTabPane1().setPrefHeight(700);
@@ -67,7 +67,7 @@ public class StatisticsPresenterW {
             view.getTabPane2().requestFocus();
         });
     }
-
+    //Back to WelcomeView
     private void setBack(Stage stage) {
         WelcomeView welcomeView = new WelcomeView();
         new WelcomePresenter(stage, welcomeView);
@@ -81,20 +81,23 @@ public class StatisticsPresenterW {
         loadAvgPointsPerSession();
         loadBestPointsPerSession();
     }
-
+    //Load data from the database to fill the Series for each tab separately
     private void loadBestPointsPerSession() {
         ObservableList<XYChart.Data> data = FXCollections.observableArrayList();
         data.add(new XYChart.Data<>(0, 0));
         data.addAll(mouseOverChart(database.getBestPointsPerSessionComputer(Computer.LevelOfDifficulty.AI)));
         view.getSeriesBestScoreComputerAI().getData().addAll(data);
         data.clear();
-        data.addAll(mouseOverChart(database.getBestPointsPerSessionComputer(Computer.LevelOfDifficulty.EASY)));
         data.add(new XYChart.Data<>(0, 0));
+        data.addAll(mouseOverChart(database.getBestPointsPerSessionComputer(Computer.LevelOfDifficulty.EASY)));
         view.getSeriesBestScoreComputerEASY().getData().addAll(data);
         data.clear();
+        data.add(new XYChart.Data<>(0, 0));
         data.addAll(mouseOverChart(database.getBestPointsPerSessionPlayer()));
         view.getSeriesBestScorePlayer().getData().addAll(data);
-        view.getBestScorePerSession().getData().addAll(List.of(view.getSeriesBestScorePlayer(), view.getSeriesBestScoreComputerAI(), view.getSeriesBestScoreComputerEASY()));
+        view.getBestScorePerSession().getData().addAll(List.of(view.getSeriesBestScorePlayer()
+                , view.getSeriesBestScoreComputerAI()
+                , view.getSeriesBestScoreComputerEASY()));
     }
 
     private void loadAvgPointsPerSession() {
@@ -104,9 +107,15 @@ public class StatisticsPresenterW {
         view.getSeriesAverageScoreComputerAI().getData().addAll(data);
         data.clear();
         data.add(new XYChart.Data<>(0, 0));
+        data.addAll(mouseOverChart(database.getAvgPointsPerSessionComputer(Computer.LevelOfDifficulty.EASY)));
+        view.getSeriesAverageScoreComputerEASY().getData().addAll(data);
+        data.clear();
+        data.add(new XYChart.Data<>(0, 0));
         data.addAll(mouseOverChart(database.getAvgPointsPerSessionPlayer()));
         view.getSeriesAverageScorePlayer().getData().addAll(data);
-        view.getAverageScorePerSession().getData().addAll(List.of(view.getSeriesAverageScorePlayer(), view.getSeriesAverageScoreComputerAI(), view.getSeriesAverageScoreComputerEASY()));
+        view.getAverageScorePerSession().getData().addAll(List.of(view.getSeriesAverageScorePlayer()
+                , view.getSeriesAverageScoreComputerAI()
+                , view.getSeriesAverageScoreComputerEASY()));
     }
 
     private void loadDurationPerSession() {
@@ -137,8 +146,9 @@ public class StatisticsPresenterW {
         view.getSeriesPointsPerTurnLastGameSessionPlayer().getData().addAll(data);
         view.getPointsPerTurnLastGameSession().getData().addAll(List.of(view.getSeriesPointsPerTurnLastGameSessionPlayer()
                 , view.getSeriesPointsPerTurnLastGameSessionComputer()));
+        view.getSeriesPointsPerTurnLastGameSessionComputer().getNode().getStyleClass().addAll(".computer-axis-line");
     }
-
+    //Using the HoveredNode helper-class to present the y-axis values on each tab content.
     private ObservableList<XYChart.Data<Integer, Integer>> mouseOverChart(ObservableList<XYChart.Data> series) {
         final ObservableList<XYChart.Data<Integer, Integer>> dataset = FXCollections.observableArrayList();
         int i = 0;

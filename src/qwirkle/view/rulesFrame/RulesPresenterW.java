@@ -11,14 +11,12 @@ public class RulesPresenterW {
         this.view = view;
         addEventHandler(stage);
     }
+    //Back to WelcomeView
     private void addEventHandler(Stage stage){
-        view.getBack().setOnAction(event -> setBack(stage));
-    }
-
-    private void setBack(Stage stage){
-        WelcomeView welcomeView = new WelcomeView();
-        new WelcomePresenter(stage, welcomeView);
-//        view.getScene().getStylesheets().add("/style/style.css");
-        view.getScene().setRoot(welcomeView);
+        view.getBack().setOnAction(event -> {
+            WelcomeView welcomeView = new WelcomeView();
+            new WelcomePresenter(stage, welcomeView);
+            view.getScene().setRoot(welcomeView);
+        });
     }
 }

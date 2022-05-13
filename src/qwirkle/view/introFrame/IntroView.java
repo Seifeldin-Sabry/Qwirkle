@@ -30,7 +30,6 @@ public class IntroView extends BorderPane {
         logo.setFitWidth(900);
         logo.setPreserveRatio(true);
         logo.setStyle("-fx-effect: dropshadow( gaussian , rgba(0,0,0,0.7) , 10,0,10,10 );");
-//        setAlignment(credits, Pos.BASELINE_CENTER);
         credits.setTextAlignment(TextAlignment.CENTER);
         credits.setTranslateY(logo.getY()-50);
         credits.setStyle("-fx-font-family: 'American Typewriter'; -fx-font-size: 22; -fx-text-fill: #ffffff;" +

@@ -11,11 +11,10 @@ public class RulesPresenterGP {
         this.gamePlayView = gamePlayView;
         addEventHandler();
     }
+
+    //Back to GamePlayView
     private void addEventHandler(){
-        view.getBack().setOnAction(event -> setBack());
+        view.getBack().setOnAction(event -> this.view.getScene().setRoot(gamePlayView));
     }
 
-    private void setBack(){
-        this.view.getScene().setRoot(gamePlayView);
-    }
 }
