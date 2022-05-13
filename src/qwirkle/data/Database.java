@@ -655,7 +655,7 @@ public class Database {
         return data;
     }
 
-    public ObservableList<XYChart.Data> getAvgPointsPerSessionComputer() {
+    public ObservableList<XYChart.Data> getAvgPointsPerSessionComputer(Computer.LevelOfDifficulty levelOfDifficulty) {
         this.connection = setConnection();
         PreparedStatement ptsmt = null;
         Statement stmt = null;
@@ -668,11 +668,13 @@ public class Database {
                     JOIN int_playersession ip on int_turn.playersession_id = ip.playersession_id
                     JOIN int_player i on i.player_id = ip.player_id
                     WHERE player_name in ('Computer')
+                    AND difficulty = ?
                     group by game_id
                     order by game_id DESC
                     LIMIT 50
                     """;
             ptsmt = connection.prepareStatement(sql);
+            ptsmt.setString(1, levelOfDifficulty.toString());
             rs = ptsmt.executeQuery();
             while (rs.next()) {
                 data.add(new XYChart.Data<>(rs.getInt("game_id"), rs.getInt("points")));
