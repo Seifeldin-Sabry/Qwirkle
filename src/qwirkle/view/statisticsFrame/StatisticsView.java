@@ -29,7 +29,7 @@ public class StatisticsView extends BorderPane {
     private String playerName;
 
 
-    //Game-Session Statistics
+    //Last-Session Statistics
     private LineChart durationLastGameSession;
     private XYChart.Series seriesDurationLastGameSessionPlayer;
     private NumberAxis yAxisTime;
@@ -41,7 +41,7 @@ public class StatisticsView extends BorderPane {
     private NumberAxis yAxisPoints;
     private NumberAxis xAxisTurnNo2;
 
-    //Game Statistics
+    //All Sessions Statistics
 
     private TabPane tabPane1;
     private TabPane tabPane2;
@@ -129,7 +129,7 @@ public class StatisticsView extends BorderPane {
         yAxisDuration = new NumberAxis();
         yAxisDuration.setLabel("Time (seconds)");
         xAxisGameNo1 = new NumberAxis();
-        xAxisGameNo1.setLabel("Last 50 games");
+        xAxisGameNo1.setLabel("Last 30 games");
         xAxisGameNo1.setTickUnit(1);
         durationPerSession = new LineChart(xAxisGameNo1, yAxisDuration);
         durationPerSession.setTitle("Duration per session");
@@ -151,7 +151,7 @@ public class StatisticsView extends BorderPane {
         yAxisAverageScore = new NumberAxis();
         yAxisAverageScore.setLabel("Score");
         xAxisGameNo2 = new NumberAxis();
-        xAxisGameNo2.setLabel("Last 50 games");
+        xAxisGameNo2.setLabel("Last 30 games");
         xAxisGameNo2.setTickUnit(1);
         averageScorePerSession = new LineChart(xAxisGameNo2, yAxisAverageScore);
         averageScorePerSession.setTitle("Average score per session");
@@ -172,7 +172,7 @@ public class StatisticsView extends BorderPane {
         yAxisScore = new NumberAxis();
         yAxisScore.setLabel("Score");
         xAxisGameNo3 = new NumberAxis();
-        xAxisGameNo3.setLabel("Last 50 games");
+        xAxisGameNo3.setLabel("Last 30 games");
         xAxisGameNo3.setTickUnit(1);
         bestScorePerSession = new LineChart(xAxisGameNo3, yAxisScore);
         bestScorePerSession.setTitle("Highest score in a turn per session");

@@ -59,14 +59,6 @@ public class PlayerSession implements List<Turn>{
         return turnsPlayed;
     }
 
-    public void addTurn(Turn turn){
-        turnsPlayed.add(turn);
-    }
-
-    public void addTurn(){
-        turnsPlayed.add(new Turn());
-    }
-
     public int getTotalScore(){
         OptionalInt score = turnsPlayed.stream().mapToInt(Turn::getPoints).reduce(Integer::sum);
         try {

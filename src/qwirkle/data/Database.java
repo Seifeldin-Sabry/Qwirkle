@@ -353,58 +353,6 @@ public class Database {
     }
 
 
-    public ObservableList<XYChart.Data> getDurationPerTurnLastGameSessionComputer() {
-        this.connection = setConnection();
-        PreparedStatement ptsmt = null;
-        Statement stmt = null;
-        ResultSet rs = null;
-        ObservableList<XYChart.Data> data = FXCollections.observableArrayList();
-        try {
-            stmt = connection.createStatement();
-            String sql = """
-                    SELECT game_id
-                    FROM int_gamesession
-                    ORDER BY game_id DESC
-                    LIMIT 1
-                    """;
-            rs = stmt.executeQuery(sql);
-            if (rs.next()) {
-                sql = """
-                        SELECT turn_no, time_spent, player_name
-                        FROM int_turn
-                        JOIN int_playersession ip on int_turn.playersession_id = ip.playersession_id
-                        JOIN int_player i on i.player_id = ip.player_id
-                        WHERE player_name in ('Computer')
-                        AND game_id = (SELECT max(game_id) from int_gamesession)
-                        ORDER BY turn_no
-                        """;
-                ptsmt = connection.prepareStatement(sql);
-//                ptsmt.setInt(1, gameId);
-                rs = ptsmt.executeQuery();
-                while (rs.next()) {
-                    data.add(new XYChart.Data<>(rs.getInt("turn_no"), rs.getInt("time_spent")));
-                }
-            }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } finally {
-            if (connection != null) {
-                closeConnectionQuietly(connection);
-            }
-            if (stmt != null) {
-                closeStatementQuietly(stmt);
-            }
-            if (rs != null) {
-                closeResultSetQuietly(rs);
-            }
-            if (ptsmt != null) {
-                closePreparedStatementQuietly(ptsmt);
-            }
-        }
-        return data;
-    }
-
-
     public ObservableList<XYChart.Data> getDurationPerTurnLastGameSessionPlayer() {
         this.connection = setConnection();
         PreparedStatement ptsmt = null;
@@ -570,15 +518,19 @@ public class Database {
         ObservableList<XYChart.Data> data = FXCollections.observableArrayList();
         try {
             String sql = """
-                    SELECT max(points) as points, game_id
+                    SELECT max(CASE
+                    WHEN difficulty = ?
+                    THEN points
+                    ELSE 0
+                    END
+                    ) as points, game_id
                     FROM int_turn
                     JOIN int_playersession ip on int_turn.playersession_id = ip.playersession_id
                     JOIN int_player i on i.player_id = ip.player_id
                     WHERE player_name in ('Computer')
-                    AND difficulty = ?
                     group by game_id
                     order by game_id DESC
-                    LIMIT 50
+                    LIMIT 30
                     """;
             ptsmt = connection.prepareStatement(sql);
             ptsmt.setString(1, levelOfDifficulty.toString());
@@ -586,7 +538,6 @@ public class Database {
             while (rs.next()) {
                 data.add(new XYChart.Data<>(rs.getInt("game_id"), rs.getInt("points")));
             }
-
         } catch (SQLException e) {
             e.printStackTrace();
         } finally {
@@ -622,7 +573,7 @@ public class Database {
                     WHERE player_name not in ('Computer')
                     group by game_id
                     order by game_id DESC
-                    LIMIT 50
+                    LIMIT 30
                     """;
             ptsmt = connection.prepareStatement(sql);
             rs = ptsmt.executeQuery();
@@ -658,15 +609,19 @@ public class Database {
         ObservableList<XYChart.Data> data = FXCollections.observableArrayList();
         try {
             String sql = """
-                    SELECT avg(points) as points, game_id
+                    SELECT avg(CASE
+                    WHEN difficulty = ?
+                    THEN points
+                    ELSE 0
+                    END
+                    ) as points, game_id
                     FROM int_turn
                     JOIN int_playersession ip on int_turn.playersession_id = ip.playersession_id
                     JOIN int_player i on i.player_id = ip.player_id
                     WHERE player_name in ('Computer')
-                    AND difficulty = ?
                     group by game_id
                     order by game_id DESC
-                    LIMIT 50
+                    LIMIT 30
                     """;
             ptsmt = connection.prepareStatement(sql);
             ptsmt.setString(1, levelOfDifficulty.toString());
@@ -710,7 +665,7 @@ public class Database {
                     WHERE player_name not in ('Computer')
                     group by game_id
                     order by game_id DESC
-                    LIMIT 50
+                    LIMIT 30
                     """;
             ptsmt = connection.prepareStatement(sql);
             rs = ptsmt.executeQuery();
@@ -749,7 +704,7 @@ public class Database {
                     SELECT game_duration as duration, game_id
                     FROM int_gamesession
                     order by game_id DESC
-                    LIMIT 50
+                    LIMIT 30
                     """;
             ptsmt = connection.prepareStatement(sql);
             rs = ptsmt.executeQuery();

@@ -3,6 +3,7 @@ package qwirkle.view.statisticsFrame;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.chart.XYChart;
+import javafx.scene.shape.Rectangle;
 import qwirkle.data.Database;
 import qwirkle.model.computer.Computer;
 import qwirkle.view.gamePlayFrame.GamePlayView;
@@ -40,9 +41,9 @@ public class StatisticsPresenterGO {
         view.getxAxisTurnNo().setAutoRanging(false);
         view.getxAxisTurnNo2().setAutoRanging(false);
         view.getSeriesPointsPerTurnLastGameSessionComputer().setName("Computer " + Database.getInstance().getLastComputerMode());
+        view.getSeriesPointsPerTurnLastGameSessionComputer().getNode().getStyleClass().addAll("computer-axis-line");
         view.getSeriesBestScoreComputerAI().getNode().getStyleClass().addAll("computerAI-axis-line");
         view.getSeriesBestScoreComputerEASY().getNode().getStyleClass().addAll("computerEASY-axis-line");
-        view.getSeriesPointsPerTurnLastGameSessionComputer().getNode().getStyleClass().addAll("computer-axis-line");
         view.getSeriesAverageScoreComputerAI().getNode().getStyleClass().addAll("computerAI-axis-line");
         view.getSeriesAverageScoreComputerEASY().getNode().getStyleClass().addAll(".computerEASY-axis-line");
     }
@@ -155,8 +156,17 @@ public class StatisticsPresenterGO {
         int i = 0;
         while (i < series.size()) {
             final XYChart.Data<Integer, Integer> data = new XYChart.Data<>(i + 1, Integer.parseInt(series.get(i).getYValue().toString()));
-            data.setNode(new HoveredNode((int) series.get(i).getYValue()));
-            dataset.add(data);
+            //Filling y-axis data with 0. Used for all sessions data to assist in indexing of sessions of both AI and EASY mode compared to Player's data
+            if (Integer.parseInt(series.get(i).getYValue().toString()) == 0) {
+                Rectangle rectangle = new Rectangle(0, 0);
+                //Assigning invisible node to a series data prevents it from showing in a chart (used on 0 y-axis values)
+                rectangle.setVisible(false);
+                data.setNode(rectangle);
+            } else {
+                HoveredNode node = new HoveredNode((int) series.get(i).getYValue());
+                data.setNode(node);
+                dataset.add(data);
+            }
             i++;
         }
         return dataset;

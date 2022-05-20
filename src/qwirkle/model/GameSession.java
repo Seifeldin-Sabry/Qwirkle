@@ -14,7 +14,6 @@ public class GameSession {
     private final PlayerSession playerHumanSession;
     private final PlayerSession playerComputerSession;
     private final Timestamp startTime;
-    private Timestamp endTime;
     private long gameDuration;
     private final Grid grid;
     private final Bag bag;
@@ -87,8 +86,6 @@ public class GameSession {
     public boolean isGameOver() {
         return getBag().getAmountOfTilesLeft() == 0 && getActivePlayerSession().getPlayer().getDeck().getTilesInDeck().size() == 0;
     }
-
-
 
     public void setEndTime() {
         Timestamp endTime = new Timestamp(System.currentTimeMillis());
@@ -163,6 +160,5 @@ public class GameSession {
         }
         if (!isTilesInDataBase) getBag().getDbTiles().forEach(Tile::save);
     }
-
 
 }
