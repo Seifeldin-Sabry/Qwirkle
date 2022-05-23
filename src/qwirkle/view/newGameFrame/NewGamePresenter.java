@@ -3,7 +3,6 @@ package qwirkle.view.newGameFrame;
 import javafx.event.ActionEvent;
 import javafx.geometry.Pos;
 import javafx.stage.Stage;
-import qwirkle.Main;
 import qwirkle.model.GameSession;
 import qwirkle.model.computer.Computer;
 import qwirkle.view.gamePlayFrame.GamePlayPresenter;
@@ -14,12 +13,6 @@ import qwirkle.view.rulesFrame.RulesPresenterNG;
 import qwirkle.view.rulesFrame.RulesView;
 import qwirkle.view.welcomeFrame.WelcomePresenter;
 import qwirkle.view.welcomeFrame.WelcomeView;
-
-import java.io.*;
-import java.util.LinkedList;
-import java.util.Scanner;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 //From this class the difficulty level of the computer and the chosen user name are passed to the GamePlayPresenter
 public class NewGamePresenter {
@@ -67,57 +60,8 @@ public class NewGamePresenter {
             if (view.getPlaceholder().getText().length() > 1 && view.getPlaceholder().getText().length() < 12) {
                 restoreNodes();
                 name = view.getPlaceholder().getText();
-                saveName(stage);
             }
         });
-    }
-    //Saves the name in the local file if the user chooses a custom name
-    private void saveName(Stage stage) {
-        try {
-            //Get the filepath of the saved file
-            Scanner scanner = new Scanner(new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/user-data/local_file_path.txt"))));
-            String savedFilePath = scanner.nextLine();
-            String toAppend;
-            //Default "Player 1" name gets excluded
-            if (name != null && !name.equals("Player 1")) {
-                toAppend = name;
-            } else toAppend = "";
-            //Save the name on a new line under credentials and at the end of the file under previous chosen names
-            FileWriter fileWriter = new FileWriter(savedFilePath, true);
-            PrintWriter writer = new PrintWriter(fileWriter);
-            writer.println(toAppend);
-            writer.close();
-            fileWriter.close();
-            scanner.close();
-        } catch (IOException ex) {
-            String text = """
-                    There was an error while
-                        saving your name.
-                        Please try again""";
-            PopupView view = new PopupView();
-            new PopupPresenter(stage, view, text, 660, 300, 2);
-            Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-
-        }
-    }
-    //It retrieves the last chosen userName from the local file if set
-    private String getSavedName() throws FileNotFoundException {
-        LinkedList<String> text = new LinkedList<>();
-        //Get the link of the saved file
-        Scanner scanner = new Scanner(new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/user-data/local_file_path.txt"))));
-        String source = scanner.nextLine();
-        Scanner scanner1 = new Scanner(new File(source));
-        while (scanner1.hasNext()) {
-            text.add(scanner1.nextLine());
-        }
-        scanner.close();
-        scanner1.close();
-        //First 2 lines contain login username/password
-        if (text.size() > 3) {
-            //From the third line and below the last chosen name is returned
-            return text.getLast();
-        }
-        return null;
     }
 
     private void setBackToWelcomeView(Stage stage) {
@@ -196,19 +140,6 @@ public class NewGamePresenter {
     }
 
     private void updateView(Stage stage) {
-        try {
-            //Retrieve the last chosen name from the local file if ever set
-            if (getSavedName() != null) {
-                name = getSavedName();
-                view.getRadioHPF1().setText(getSavedName());
-            } else {
-                name = view.getRadioHPF1().getText();
-            }
-        } catch (FileNotFoundException ex) {
-            String text = "No saved name found";
-            PopupView view = new PopupView();
-            new PopupPresenter(stage, view, text, 660, 300, 2);
-        }
         if (isPlayerStarting) {
             view.getGroup1().selectToggle(view.getRadioHPF1());
         } else view.getGroup1().selectToggle(view.getRadioHPF2());
