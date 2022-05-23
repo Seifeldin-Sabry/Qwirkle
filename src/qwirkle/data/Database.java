@@ -37,59 +37,24 @@ public class Database {
 
 
     public void setUsername(String text) {
-        if (getSavedCredentials() != null && getSavedCredentials().size() > 0) {
-            username = getSavedCredentials().getFirst();
-        } else {
-            username = text;
-        }
+        username = text;
     }
 
 
     public void setPassword(String text) {
-        if (getSavedCredentials() != null && getSavedCredentials().size() > 0) {
-            password = getSavedCredentials().getLast();
-        } else {
             password = text;
-        }
     }
 
 
     public String getUserName() {
-        if (getSavedCredentials() != null && getSavedCredentials().size() > 0) {
-            username = getSavedCredentials().getFirst();
-        }
         return username;
     }
 
     public String getPassword() {
-        if (getSavedCredentials() != null && getSavedCredentials().size() > 0) {
-            password = getSavedCredentials().getLast();
-        }
         return password;
     }
 
-    //function to make a read credentials from a file
 
-    public LinkedList<String> getSavedCredentials() {
-        LinkedList<String> credentials = new LinkedList<>();
-        try {
-            Scanner scanner = new Scanner(new BufferedReader(new InputStreamReader(getClass().getResourceAsStream("/user-data/local_file_path.txt"))));
-            String savedFilePath = scanner.nextLine();
-            Scanner scanner1 = new Scanner(new File(savedFilePath));
-            for (int i = 0; i < 2; i ++) {
-                String text = scanner1.nextLine().substring(10);
-                credentials.add(text);
-            }
-            scanner.close();
-            scanner1.close();
-        } catch (FileNotFoundException ignored) {
-        }
-        if (credentials.size() > 1) {
-            credentials.subList(0, 2);
-            return credentials;
-        }
-        return null;
-    }
 
 
     /**
@@ -379,7 +344,6 @@ public class Database {
                         ORDER BY turn_no
                         """;
                 ptsmt = connection.prepareStatement(sql);
-//                ptsmt.setInt(1, gameId);
                 rs = ptsmt.executeQuery();
                 while (rs.next()) {
                     data.add(new XYChart.Data<>(rs.getInt("turn_no"), rs.getInt("time_spent")));

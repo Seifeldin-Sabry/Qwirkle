@@ -52,13 +52,12 @@ public class Main extends Application {
         KeyFrame keyFrame = new KeyFrame(Duration.seconds(3),
                 event -> {
                     //Returns false when there are no pgAdmin credentials saved. It returns false only the first time running the application
-                    if (!Database.getInstance().createDatabase()) {
+                    if (!Database.getInstance().logIn()) {
                         loginStage.show();
                         intro.close();
                         //Returns true after the pgAdmin credentials get stored locally
-                    } else if (loginPresenter.isSaved()) {
+                    } else  {
                         timeline.setDelay(Duration.seconds(0.5));
-                        Database.getInstance().logIn();
                         primaryStage.show();
                         welcomePresenter.addWindowEventHandlers(primaryStage); //It contains a WindowEvent that gets passed to all the rest of the scenes
                         loginStage.close();
