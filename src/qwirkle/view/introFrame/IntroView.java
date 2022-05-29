@@ -22,7 +22,7 @@ public class IntroView extends BorderPane {
 
     private void initialiseNodes() {
         logo = new ImageView(new Image("/images/logoMAX.png"));
-        credits = new Label("Developed by Seifeldin Sabry, Sakis Stefanidis, Nathan Hagos - ACS101 - Group14 © 2022");
+        credits = new Label("Developed by Seif Sabry, Sakis Stefanidis, Nathan Hagos - ACS101 - Group14 © 2022");
         vbox = new VBox();
     }
 
