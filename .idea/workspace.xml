@@ -105,7 +105,21 @@
       <recent name="$PROJECT_DIR$/JavaFunctionalCode" />
     </key>
   </component>
-  <component name="RunManager" selected="Application.qwirkle.Main">
+  <component name="RunManager" selected="Application.Main">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="qwirkle.Main" />
+      <module name="Integration 1.2 - Qwirkle" />
+      <option name="VM_PARAMETERS" value="--module-path &quot;$USER_HOME$/Documents/lib/javafx-sdk-17.0.2/lib&quot; --add-modules javafx.controls,javafx.fxml" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="qwirkle.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="Runner" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="appName.Runner" />
       <module name="JavaFunctionalCode" />
@@ -139,20 +153,6 @@
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="appName.model.*" />
-          <option name="ENABLED" value="true" />
-        </pattern>
-      </extension>
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration name="qwirkle.Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="qwirkle.Main" />
-      <module name="Integration 1.2 - Qwirkle" />
-      <option name="VM_PARAMETERS" value="--module-path &quot;$PROJECT_DIR$/../lib/javafx-sdk-17.0.2/lib&quot; --add-modules javafx.controls,javafx.fxml" />
-      <extension name="coverage">
-        <pattern>
-          <option name="PATTERN" value="qwirkle.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -304,13 +304,13 @@
     <list>
       <item itemvalue="Application.qwirkle.view.statisticsFrame.LineChartWithHover" />
       <item itemvalue="Application.Test" />
-      <item itemvalue="Application.qwirkle.Main" />
+      <item itemvalue="Application.Main" />
       <item itemvalue="Application.Runner" />
       <item itemvalue="Application.Tester" />
     </list>
     <recent_temporary>
       <list>
-        <item itemvalue="Application.qwirkle.Main" />
+        <item itemvalue="Application.Main" />
         <item itemvalue="Application.qwirkle.view.statisticsFrame.LineChartWithHover" />
         <item itemvalue="Application.Test" />
         <item itemvalue="Application.Tester" />
