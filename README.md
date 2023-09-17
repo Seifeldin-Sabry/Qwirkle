@@ -10,7 +10,7 @@ Team Members: Seifeldin, Sakis and Nathan
     - JavaFX Library (SDK): if not go to [gluonhq](https://gluonhq.com/products/javafx/) and download V18.0.1 for your operating system
     - Postgres Database: follow the instructions until 4:14 in [this video](https://www.youtube.com/watch?v=Girj-TtS60I&t=20s)
   
-You can run this command if you have the .jar
+You can run this command if you have the .jar <br>
 `java --module-path /path/to/javafx/lib --add-modules javafx.controls,javafx.fxml -jar qwirkle.jar`
 
 ### Extract and Include the JavaFX library in Intellij
